@@ -88,6 +88,7 @@ func (hs *HTTPServer) LoginView(c *models.ReqContext) {
 
 		if redirectTo, _ := url.QueryUnescape(c.GetCookie("redirect_to")); len(redirectTo) > 0 {
 			if err := hs.validateRedirectTo(redirectTo); err != nil {
+				log.Debug("Ignored invalid redirect_to cookie value: %v", redirectTo)
 				viewData.Settings["loginError"] = err.Error()
 				c.HTML(200, getViewIndex(), viewData)
 				middleware.DeleteCookie(c.Resp, "redirect_to", hs.cookieOptionsFromCfg)
