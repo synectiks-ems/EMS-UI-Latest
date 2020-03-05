@@ -54,6 +54,7 @@ import * as barGaugePanel from 'app/plugins/panel/bargauge/module';
 import * as logsPanel from 'app/plugins/panel/logs/module';
 import * as newsPanel from 'app/plugins/panel/news/module';
 import * as homeLinksPanel from 'app/plugins/panel/homelinks/module';
+import * as analyticsPanel from 'app/plugins/panel/analytics/module';
 
 const builtInPlugins: any = {
   'app/plugins/datasource/graphite/module': graphitePlugin,
@@ -94,6 +95,7 @@ const builtInPlugins: any = {
   'app/plugins/panel/bargauge/module': barGaugePanel,
   'app/plugins/panel/logs/module': logsPanel,
   'app/plugins/panel/homelinks/module': homeLinksPanel,
+  'app/plugins/panel/analytics/module': analyticsPanel,
 };
 
 export default builtInPlugins;
