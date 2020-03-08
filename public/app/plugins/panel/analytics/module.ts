@@ -7,7 +7,7 @@ class AnalyticsCtrl extends MetricsPanelCtrl {
   static templateUrl = './partials/module.html';
   panelDefaults = {
     totalDataSets: 1,
-    dataSetInfo: [],
+    dataSetInfo: [] as any[],
     chartTitle: '',
     xAxisLabel: 'X axis',
     yAxisLabel: 'Y axis',
@@ -51,7 +51,7 @@ class AnalyticsCtrl extends MetricsPanelCtrl {
     return Math.floor(Math.random() * 100);
   }
 
-  constructor($scope, $injector) {
+  constructor($scope: any, $injector: any) {
     super($scope, $injector);
     this.isLoading = false;
     _.defaults(this.panel, this.panelDefaults);
@@ -99,8 +99,8 @@ class AnalyticsCtrl extends MetricsPanelCtrl {
     }
   }
 
-  link(scope, elem, attrs, ctrl: AnalyticsCtrl) {
-    function renderPanel(renderData) {
+  link(scope: any, elem: any, attrs: any, ctrl: AnalyticsCtrl) {
+    function renderPanel(renderData: any) {
       const canvas = elem.find('canvas')[0];
       const ctx = canvas.getContext('2d');
       if (!ctrl.isLoading) {

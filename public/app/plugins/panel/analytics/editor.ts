@@ -7,7 +7,7 @@ export class AnalyticsEditorCtrl {
   xAxisLabel: any;
   yAxisLabel: any;
   /** @ngInject */
-  constructor($scope) {
+  constructor($scope: any) {
     $scope.editor = this;
     this.panelCtrl = $scope.ctrl;
     this.panel = this.panelCtrl.panel;
@@ -57,7 +57,7 @@ export class AnalyticsEditorCtrl {
 }
 
 /** @ngInject */
-export function analyticsEditor($q, uiSegmentSrv) {
+export function analyticsEditor($q: any, uiSegmentSrv: any) {
   'use strict';
   return {
     restrict: 'E',

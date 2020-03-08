@@ -1,0 +1,33 @@
+.dashboard-list-container {
+  margin-top: 51px;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  padding: 1rem;
+
+  .aside-container {
+    width: 20%;
+    transition: width 0.5s;
+    padding: 0px !important;
+    text-align: center;
+
+    .dashboard-nav-item {
+      opacity: 1;
+      transition: opacity 0.5s;
+      padding: 15px;
+
+      .tab-title {
+        font-size: 15px;
+      }
+    }
+    .active {
+      background-color: #3697ef;
+      color: white;
+    }
+  }
+}

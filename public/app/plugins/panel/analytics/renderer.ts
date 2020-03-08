@@ -14,16 +14,16 @@ export class AnalyticsRenderer {
     'November',
     'December',
   ];
-  constructor(private panel) {
+  constructor(private panel: any) {
     // this.initConfig();
   }
   randomScalingFactor() {
     return Math.floor(Math.random() * 100);
   }
   config = {};
-  chart = null;
+  chart: any = null;
 
-  initConfig(responseData) {
+  initConfig(responseData: any) {
     const dataSets = this.createDataSet(responseData);
     this.config = {
       type: 'line',
@@ -66,7 +66,7 @@ export class AnalyticsRenderer {
     };
   }
 
-  createDataSet(responseData) {
+  createDataSet(responseData: any) {
     if (!responseData) {
       return {};
     }
@@ -91,7 +91,7 @@ export class AnalyticsRenderer {
     return retData;
   }
 
-  createChart(isLoading, responseData, ctx) {
+  createChart(isLoading: any, responseData: any, ctx: any) {
     if (isLoading) {
       // retHtml +=
       //     '<div class="badge-conainer badge-data-loading query-transaction--loading">Your data is loading....</div>';
