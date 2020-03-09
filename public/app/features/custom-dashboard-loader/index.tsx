@@ -103,7 +103,7 @@ export class CustomDashboardLoader extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    const { dashboard, editview, urlEdit, urlFullscreen, urlPanelId, urlUid, urlSlug } = this.props;
+    const { dashboard, editview, urlEdit, urlFullscreen, urlPanelId, urlUid } = this.props;
 
     if (!dashboard) {
       return;

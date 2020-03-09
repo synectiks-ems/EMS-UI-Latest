@@ -11,6 +11,7 @@ export interface Props {
 export interface State {
   activeDash: any;
   dashboardList: any[];
+  collapsed: boolean;
 }
 
 class DashboardList extends React.Component<Props, State> {
@@ -19,6 +20,7 @@ class DashboardList extends React.Component<Props, State> {
     this.state = {
       activeDash: -1,
       dashboardList: [],
+      collapsed: false,
     };
   }
 
@@ -78,12 +80,24 @@ class DashboardList extends React.Component<Props, State> {
     });
   };
 
+  collapseAside = (e: any) => {
+    e.preventDefault();
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
+
   render() {
-    const { dashboardList } = this.state;
+    const { dashboardList, collapsed } = this.state;
     return (
       <React.Fragment>
         <div className="dashboard-list-container">
-          <aside className="aside-container dashboard-settings__aside"> {this.createAside(dashboardList)} </aside>
+          <aside className={`aside-container dashboard-settings__aside ${collapsed ? 'collapse' : ''}`}>
+            <a onClick={this.collapseAside} className="aside-a collapse-button text-left">
+              <i className="fa fa-bars"></i>
+            </a>
+            {this.createAside(dashboardList)}
+          </aside>
           <div className="dashboard-settings__content"> {this.createDashboard(dashboardList)} </div>
         </div>
       </React.Fragment>

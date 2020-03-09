@@ -29,5 +29,18 @@
       background-color: #3697ef;
       color: white;
     }
+    .collapse-button {
+      width: 50px;
+      z-index: 111;
+      text-align: left;
+      margin-top: 4px;
+    }
+  }
+
+  .collapse {
+    width: 0px;
+    .dashboard-nav-item {
+      opacity: 0;
+    }
   }
 }
