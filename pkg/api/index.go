@@ -320,6 +320,15 @@ func (hs *HTTPServer) setIndexViewData(c *models.ReqContext) (*dtos.IndexViewDat
 			Icon:        "gicon gicon-apikeys",
 			Url:         setting.AppSubUrl + "/org/apikeys",
 		})
+
+		configNodes = append(configNodes, &dtos.NavLink{
+			Text:         "Dashboard List",
+			HideFromTabs: true,
+			SubTitle:     "Manage all dashboards",
+			Id:           "custom-dashboards",
+			Icon:         "gicon gicon-dashboard",
+			Url:          setting.AppSubUrl + "/dashboardlist",
+		})
 	}
 
 	data.NavTree = append(data.NavTree, &dtos.NavLink{
