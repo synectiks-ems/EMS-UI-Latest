@@ -44,3 +44,34 @@
     }
   }
 }
+
+.nav-tabs {
+  border-bottom: 0px !important;
+  padding-left: 0px !important;
+  > li {
+    margin-bottom: -1px;
+    float: left;
+    > a {
+      padding: 0rem 0rem 0rem 0rem;
+      /* margin-right: 0.5rem; */
+      line-height: 1.5;
+      border: 0px solid transparent;
+      position: relative;
+      margin: 10px 10px !important;
+      left: 15px;
+    }
+  }
+}
+.nav-tabs {
+  border-bottom: 1px solid #767980;
+  padding-left: 10px;
+  margin: 0 0 10px 0;
+}
+
+.nav-link.active {
+  border-bottom: 4px solid #1486c7;
+  color: #1486c7;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+}
