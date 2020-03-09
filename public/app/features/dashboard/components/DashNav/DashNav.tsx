@@ -26,6 +26,7 @@ export interface OwnProps {
   $injector: any;
   updateLocation: typeof updateLocation;
   onAddPanel: () => void;
+  dontRenderTitle?: boolean;
 }
 
 export interface StateProps {
@@ -147,14 +148,14 @@ export class DashNav extends PureComponent<Props> {
   }
 
   render() {
-    const { dashboard, onAddPanel, location } = this.props;
+    const { dashboard, onAddPanel, location, dontRenderTitle } = this.props;
     const { canStar, canSave, canShare, showSettings, isStarred } = dashboard.meta;
     const { snapshot } = dashboard;
     const snapshotUrl = snapshot && snapshot.originalUrl;
     return (
       <div className="navbar">
         {this.isInFullscreenOrSettings && this.renderBackButton()}
-        {this.renderDashboardTitleSearchButton()}
+        {!dontRenderTitle && this.renderDashboardTitleSearchButton()}
 
         {this.playlistSrv.isPlaying && (
           <div className="navbar-buttons navbar-buttons--playlist">

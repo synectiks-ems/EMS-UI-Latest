@@ -307,6 +307,7 @@ export class CustomDashboardLoader extends PureComponent<Props, State> {
           editview={editview}
           $injector={$injector}
           onAddPanel={this.onAddPanel}
+          dontRenderTitle={true}
         />
         <div className="scroll-canvas scroll-canvas--dashboard">
           <CustomScrollbar
