@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import _ from 'lodash';
 import TopSectionItem from './TopSectionItem';
 import config from '../../config';
+import TopMenuPlugins from './TopMenuPlugins';
 
 const TopSection: FC<any> = () => {
   const navTree = _.cloneDeep(config.bootData.navTree);
@@ -10,8 +11,9 @@ const TopSection: FC<any> = () => {
   return (
     <div className="sidemenu__top">
       {mainLinks.map((link, index) => {
-        return <TopSectionItem link={link} key={`${link.id}-${index}`} />;
+        return link.id.indexOf('plugin-page') === -1 && <TopSectionItem link={link} key={`${link.id}-${index}`} />;
       })}
+      <TopMenuPlugins links={mainLinks} />
     </div>
   );
 };

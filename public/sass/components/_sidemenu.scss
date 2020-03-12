@@ -300,3 +300,40 @@ li.sidemenu-org-switcher {
     }
   }
 }
+
+/********************* Plugin container *****************************/
+
+.sidemenu-plugin-container {
+  width: 450px;
+  height: 225px;
+  padding: 20px;
+  .search-box-container {
+    margin-bottom: 20px;
+  }
+  .plugin-item {
+    width: 25%;
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 5px;
+    img {
+      width: 40px;
+      height: 40px;
+    }
+    .icon-circle {
+      width: initial !important;
+      height: initial !important;
+    }
+    .plugin-name {
+      font-size: 13px;
+      line-height: initial !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: black !important;
+      margin-top: 5px;
+    }
+  }
+  .plugin-item:hover {
+    background-color: white;
+  }
+}
