@@ -199,20 +199,20 @@ li.sidemenu-org-switcher {
 
 .sidemenu__logo {
   display: block;
-  padding: 6px 14px 6px 9px;
+  // padding: 6px 14px 6px 9px;
   min-height: $navbarHeight;
   position: relative;
   height: $navbarHeight - 1px;
 
   &:hover {
-    background: $navbarButtonBackgroundHighlight;
+    // background: $navbarButtonBackgroundHighlight;
   }
 
   img {
-    width: 30px;
+    // width: 30px;
     position: relative;
-    top: 5px;
-    left: 4px;
+    // top: 5px;
+    // left: 4px;
   }
 }
 

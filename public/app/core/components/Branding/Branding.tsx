@@ -32,7 +32,7 @@ export const MenuLogo: FC<BrandComponentProps> = ({ className }) => {
   return <img className={className} src="public/img/grafana_icon.svg" alt="Grafana" />;
 };
 
-export const AppTitle = 'Grafana';
+export const AppTitle = 'Brighton Cromwell';
 
 export class Branding {
   static LoginLogo = LoginLogo;
