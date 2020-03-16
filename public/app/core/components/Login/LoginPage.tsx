@@ -9,14 +9,16 @@ import LoginCtrl from './LoginCtrl';
 import { LoginForm } from './LoginForm';
 import { ChangePassword } from './ChangePassword';
 import { Branding } from 'app/core/components/Branding/Branding';
-import { Footer } from 'app/core/components/Footer/Footer';
+// import { Footer } from 'app/core/components/Footer/Footer';
 
 export const LoginPage: FC = () => {
   return (
     <Branding.LoginBackground className="login container">
       <div className="login-content">
         <div className="login-branding">
-          <Branding.LoginLogo className="login-logo" />
+          {/* <Branding.LoginLogo className="login-logo" /> */}
+          <img src="public/img/brighton_cromwell_logo.png" className="login-logo" />
+          <h2>Brighton Cromwell</h2>
         </div>
         <LoginCtrl>
           {({
@@ -63,7 +65,7 @@ export const LoginPage: FC = () => {
 
         <div className="clearfix" />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </Branding.LoginBackground>
   );
 };

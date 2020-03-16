@@ -18,6 +18,8 @@ import { CoreEvents, StoreState } from 'app/types';
 import { ShareModal } from 'app/features/dashboard/components/ShareModal';
 import { SaveDashboardModalProxy } from 'app/features/dashboard/components/SaveDashboard/SaveDashboardModalProxy';
 
+// import BottomSection from '../../../../core/components/sidemenu/BottomSection';
+
 export interface OwnProps {
   dashboard: DashboardModel;
   editview: string;
@@ -153,121 +155,155 @@ export class DashNav extends PureComponent<Props> {
     const { snapshot } = dashboard;
     const snapshotUrl = snapshot && snapshot.originalUrl;
     return (
-      <div className="navbar">
-        {this.isInFullscreenOrSettings && this.renderBackButton()}
-        {!dontRenderTitle && this.renderDashboardTitleSearchButton()}
-
-        {this.playlistSrv.isPlaying && (
-          <div className="navbar-buttons navbar-buttons--playlist">
-            <DashNavButton
-              tooltip="Go to previous dashboard"
-              classSuffix="tight"
-              icon="fa fa-step-backward"
-              onClick={this.onPlaylistPrev}
-            />
-            <DashNavButton
-              tooltip="Stop playlist"
-              classSuffix="tight"
-              icon="fa fa-stop"
-              onClick={this.onPlaylistStop}
-            />
-            <DashNavButton
-              tooltip="Go to next dashboard"
-              classSuffix="tight"
-              icon="fa fa-forward"
-              onClick={this.onPlaylistNext}
-            />
-          </div>
-        )}
-
-        <div className="navbar-buttons navbar-buttons--actions">
-          {canSave && (
-            <DashNavButton
-              tooltip="Add panel"
-              classSuffix="add-panel"
-              icon="gicon gicon-add-panel"
-              onClick={onAddPanel}
-            />
-          )}
-
-          {canStar && (
-            <DashNavButton
-              tooltip="Mark as favorite"
-              classSuffix="star"
-              icon={`${isStarred ? 'fa fa-star' : 'fa fa-star-o'}`}
-              onClick={this.onStarDashboard}
-            />
-          )}
-
-          {canShare && (
-            <ModalsController>
-              {({ showModal, hideModal }) => (
-                <DashNavButton
-                  tooltip="Share dashboard"
-                  classSuffix="share"
-                  icon="fa fa-share-square-o"
-                  onClick={() => {
-                    showModal(ShareModal, {
-                      dashboard,
-                      onDismiss: hideModal,
-                    });
+      <div>
+        <div className="page-nav" style={{ width: '100%', background: 'white', height: '51px', marginBottom: '5px' }}>
+          <div className="dash-nav" style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div></div>
+            <div className="search-name p-1 text-center" style={{ paddingTop: '10px' }}>
+              <label className="gf-form--has-input-icon mr-auto">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="gf-form-input"
+                  onClick={this.onDahboardNameClick}
+                  style={{
+                    width: '30vw',
+                    height: '30px',
+                    backgroundColor: '#edebe9',
+                    borderRadius: '5px',
                   }}
                 />
-              )}
-            </ModalsController>
-          )}
-
-          {canSave && (
-            <ModalsController>
-              {({ showModal, hideModal }) => (
-                <DashNavButton
-                  tooltip="Save dashboard"
-                  classSuffix="save"
-                  icon="fa fa-save"
-                  onClick={() => {
-                    showModal(SaveDashboardModalProxy, {
-                      dashboard,
-                      onDismiss: hideModal,
-                    });
-                  }}
-                />
-              )}
-            </ModalsController>
-          )}
-
-          {snapshotUrl && (
-            <DashNavButton
-              tooltip="Open original dashboard"
-              classSuffix="snapshot-origin"
-              icon="gicon gicon-link"
-              href={snapshotUrl}
-            />
-          )}
-
-          {showSettings && (
-            <DashNavButton
-              tooltip="Dashboard settings"
-              classSuffix="settings"
-              icon="gicon gicon-cog"
-              onClick={this.onOpenSettings}
-            />
-          )}
-        </div>
-
-        <div className="navbar-buttons navbar-buttons--tv">
-          <DashNavButton
-            tooltip="Cycle view mode"
-            classSuffix="tv"
-            icon="fa fa-desktop"
-            onClick={this.onToggleTVMode}
-          />
-        </div>
-
-        {!dashboard.timepicker.hidden && (
-          <div className="navbar-buttons">
-            <DashNavTimeControls dashboard={dashboard} location={location} updateLocation={updateLocation} />
+                {/* <input type="text" className="gf-form-input search-width" placeholder="Search"> */}
+                <i className="gf-form-input-icon fa fa-search"></i>
+              </label>
+            </div>
+            <div className="white-color p-r-1" style={{ display: 'flex', alignItems: 'center' }}>
+              <a href="/profile" className="sidemenu-link">
+                <span className="icon-circle sidemenu-icon">
+                  <img src="/public/img/user_profile.png" />
+                </span>
+              </a>
+              {/* <i className="gf-form-input-icon fa fa-cog" style={{ fontSize: '20px', marginRight: '10px' }}></i> */}
+            </div>
           </div>
-        )}
+        </div>
+
+        <div className="navbar" style={{ paddingLeft: '10px' }}>
+          {this.isInFullscreenOrSettings && this.renderBackButton()}
+          {!dontRenderTitle && this.renderDashboardTitleSearchButton()}
+
+          {this.playlistSrv.isPlaying && (
+            <div className="navbar-buttons navbar-buttons--playlist">
+              <DashNavButton
+                tooltip="Go to previous dashboard"
+                classSuffix="tight"
+                icon="fa fa-step-backward"
+                onClick={this.onPlaylistPrev}
+              />
+              <DashNavButton
+                tooltip="Stop playlist"
+                classSuffix="tight"
+                icon="fa fa-stop"
+                onClick={this.onPlaylistStop}
+              />
+              <DashNavButton
+                tooltip="Go to next dashboard"
+                classSuffix="tight"
+                icon="fa fa-forward"
+                onClick={this.onPlaylistNext}
+              />
+            </div>
+          )}
+
+          <div className="navbar-buttons navbar-buttons--actions">
+            {canSave && (
+              <DashNavButton
+                tooltip="Add panel"
+                classSuffix="add-panel"
+                icon="gicon gicon-add-panel"
+                onClick={onAddPanel}
+              />
+            )}
+
+            {canStar && (
+              <DashNavButton
+                tooltip="Mark as favorite"
+                classSuffix="star"
+                icon={`${isStarred ? 'fa fa-star' : 'fa fa-star-o'}`}
+                onClick={this.onStarDashboard}
+              />
+            )}
+
+            {canShare && (
+              <ModalsController>
+                {({ showModal, hideModal }) => (
+                  <DashNavButton
+                    tooltip="Share dashboard"
+                    classSuffix="share"
+                    icon="fa fa-share-square-o"
+                    onClick={() => {
+                      showModal(ShareModal, {
+                        dashboard,
+                        onDismiss: hideModal,
+                      });
+                    }}
+                  />
+                )}
+              </ModalsController>
+            )}
+
+            {canSave && (
+              <ModalsController>
+                {({ showModal, hideModal }) => (
+                  <DashNavButton
+                    tooltip="Save dashboard"
+                    classSuffix="save"
+                    icon="fa fa-save"
+                    onClick={() => {
+                      showModal(SaveDashboardModalProxy, {
+                        dashboard,
+                        onDismiss: hideModal,
+                      });
+                    }}
+                  />
+                )}
+              </ModalsController>
+            )}
+
+            {snapshotUrl && (
+              <DashNavButton
+                tooltip="Open original dashboard"
+                classSuffix="snapshot-origin"
+                icon="gicon gicon-link"
+                href={snapshotUrl}
+              />
+            )}
+
+            {showSettings && (
+              <DashNavButton
+                tooltip="Dashboard settings"
+                classSuffix="settings"
+                icon="gicon gicon-cog"
+                onClick={this.onOpenSettings}
+              />
+            )}
+          </div>
+
+          <div className="navbar-buttons navbar-buttons--tv">
+            <DashNavButton
+              tooltip="Cycle view mode"
+              classSuffix="tv"
+              icon="fa fa-desktop"
+              onClick={this.onToggleTVMode}
+            />
+          </div>
+
+          {!dashboard.timepicker.hidden && (
+            <div className="navbar-buttons">
+              <DashNavTimeControls dashboard={dashboard} location={location} updateLocation={updateLocation} />
+            </div>
+          )}
+        </div>
       </div>
     );
   }

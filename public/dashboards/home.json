@@ -2,7 +2,7 @@
   "links": [],
   "panels": [
     {
-      "content": "<div class=\"dashboard-header\">\n  <span>Welcome to Grafana</span>\n</div>",
+      "content": "<div class=\"dashboard-header\">\n  <span>Welcome to Brighton Cromwell</span>\n</div>",
       "datasource": null,
       "editable": true,
       "gridPos": {
@@ -25,7 +25,7 @@
       "folderId": 0,
       "gridPos": {
         "h": 15,
-        "w": 11,
+        "w": 24,
         "x": 0,
         "y": 4
       },
@@ -41,36 +41,6 @@
       "tags": [],
       "title": "Dashboards",
       "type": "dashlist"
-    },
-    {
-      "datasource": null,
-      "gridPos": {
-        "h": 15,
-        "w": 8,
-        "x": 11,
-        "y": 4
-      },
-      "id": 4,
-      "links": [],
-      "options": {
-        "feedUrl": "https://grafana.com/blog/news.xml"
-      },
-      "title": "Latest from the blog",
-      "type": "news"
-    },
-    {
-      "datasource": null,
-      "gridPos": {
-        "h": 15,
-        "w": 5,
-        "x": 19,
-        "y": 4
-      },
-      "id": 123124,
-      "links": [],
-      "options": {},
-      "title": "Useful links",
-      "type": "homelinks"
     }
   ],
   "schemaVersion": 22,
