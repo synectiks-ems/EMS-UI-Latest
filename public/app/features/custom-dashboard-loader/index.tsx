@@ -11,7 +11,7 @@ import { Branding } from 'app/core/components/Branding/Branding';
 
 // Components
 import { DashboardGrid } from '../dashboard/dashgrid/DashboardGrid';
-import { DashNav } from '../dashboard/components/DashNav';
+import { DashNavNew } from '../dashboard/components/DashNav';
 import { SubMenu } from '../dashboard/components/SubMenu';
 import { DashboardSettings } from '../dashboard/components/DashboardSettings';
 import { PanelEditor } from '../dashboard/components/PanelEditor/PanelEditor';
@@ -300,7 +300,7 @@ export class CustomDashboardLoader extends PureComponent<Props, State> {
 
     return (
       <div className={classes}>
-        <DashNav
+        <DashNavNew
           dashboard={dashboard}
           isEditing={isEditing}
           isFullscreen={isFullscreen}

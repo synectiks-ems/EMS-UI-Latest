@@ -37,7 +37,7 @@ export interface StateProps {
 
 type Props = StateProps & OwnProps;
 
-export class DashNav extends PureComponent<Props> {
+export class DashNavNew extends PureComponent<Props> {
   playlistSrv: PlaylistSrv;
 
   constructor(props: Props) {
@@ -156,38 +156,6 @@ export class DashNav extends PureComponent<Props> {
     const snapshotUrl = snapshot && snapshot.originalUrl;
     return (
       <div>
-        <div className="page-nav" style={{ width: '100%', background: 'white', height: '51px', marginBottom: '5px' }}>
-          <div className="dash-nav" style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div></div>
-            <div className="search-name p-1 text-center" style={{ paddingTop: '10px' }}>
-              <label className="gf-form--has-input-icon mr-auto">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="gf-form-input"
-                  onClick={this.onDahboardNameClick}
-                  style={{
-                    width: '30vw',
-                    height: '30px',
-                    backgroundColor: '#edebe9',
-                    borderRadius: '5px',
-                  }}
-                />
-                {/* <input type="text" className="gf-form-input search-width" placeholder="Search"> */}
-                <i className="gf-form-input-icon fa fa-search"></i>
-              </label>
-            </div>
-            <div className="white-color p-r-1" style={{ display: 'flex', alignItems: 'center' }}>
-              <a href="/profile" className="sidemenu-link">
-                <span className="icon-circle sidemenu-icon">
-                  <img src="/public/img/user_profile.png" />
-                </span>
-              </a>
-              {/* <i className="gf-form-input-icon fa fa-cog" style={{ fontSize: '20px', marginRight: '10px' }}></i> */}
-            </div>
-          </div>
-        </div>
-
         <div className="navbar" style={{ paddingLeft: '10px', height: '50px' }}>
           {this.isInFullscreenOrSettings && this.renderBackButton()}
           {!dontRenderTitle && this.renderDashboardTitleSearchButton()}
@@ -317,4 +285,4 @@ const mapDispatchToProps = {
   updateLocation,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashNav);
+export default connect(mapStateToProps, mapDispatchToProps)(DashNavNew);

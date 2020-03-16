@@ -17,7 +17,7 @@ export class SideMenu extends PureComponent {
     return [
       <a href={homeUrl} className="sidemenu__logo" key="logo">
         {/* <Branding.MenuLogo /> */}
-        <img src="public/img/brighton_logo1.png" />
+        <img src="public/img/brighton_cromwell_logo.png" />
       </a>,
       <div className="sidemenu__logo_small_breakpoint" onClick={this.toggleSideMenuSmallBreakpoint} key="hamburger">
         <i className="fa fa-bars" />

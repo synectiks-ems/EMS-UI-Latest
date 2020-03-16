@@ -1,2 +1,3 @@
 import DashNav from './DashNav';
-export { DashNav };
+import DashNavNew from './DashNavNew';
+export { DashNav, DashNavNew };
