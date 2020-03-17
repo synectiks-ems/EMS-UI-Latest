@@ -108,10 +108,17 @@ class DashboardList extends React.Component<Props, State> {
     });
   };
 
+  setLocalData = (e: any) => {
+    console.log('check active tab 1:', this.state.activeTab);
+    localStorage.setItem('activeTab', this.state.activeTab);
+  };
+
   toggleTab = (activeTab: any) => {
     this.setState({
       activeTab: activeTab,
     });
+    console.log('check acitve tab:', activeTab);
+    localStorage.setItem('activeTab', activeTab);
   };
 
   createNavigationTabs = (list: any) => {
