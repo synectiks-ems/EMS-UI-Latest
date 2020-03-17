@@ -30,13 +30,24 @@ class DashboardList extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    const activeDash = localStorage.getItem('activeDash');
+    const activeTab: any = localStorage.getItem('activeTab');
     backendSrv.search({ limit: 20 }).then((result: any) => {
       const retData = this.manipulateData(result);
+      if (activeDash) {
+        const keys = Object.keys(retData);
+        let key = keys[0];
+        if (activeTab) {
+          key = keys[activeTab];
+        }
+        if (retData[key]) {
+          retData[key].activeDash = parseInt(activeDash, 10);
+        }
+      }
       this.setState({
         dashboardList: retData,
       });
     });
-    const activeTab = this.props.location.query.activeTab;
     if (activeTab) {
       this.setState({
         activeTab: parseInt(activeTab, 10),
@@ -52,7 +63,7 @@ class DashboardList extends React.Component<Props, State> {
         retData[dash.folderId] = retData[dash.folderId] || { dashboards: [] };
         retData[dash.folderId].title = dash.folderTitle;
         if (retData[dash.folderId].dashboards.length === 0) {
-          retData[dash.folderId].activeDash = dash.id;
+          retData[dash.folderId].activeDash = 0;
         }
         retData[dash.folderId].dashboards.push(dash);
       }
@@ -67,7 +78,7 @@ class DashboardList extends React.Component<Props, State> {
       if (dashboard.type === 'dash-db') {
         retData.push(
           <div key={dashboard.id}>
-            {activeDash === dashboard.id && (
+            {activeDash === i && (
               <CustomDashboardLoader
                 $scope={this.props.$scope}
                 $injector={this.props.$injector}
@@ -90,10 +101,8 @@ class DashboardList extends React.Component<Props, State> {
       if (dashboard.type === 'dash-db') {
         retData.push(
           <a
-            className={`dashboard-nav-item dashboard-settings__nav-item ${
-              folder.activeDash === dashboard.id ? 'active' : ''
-            }`}
-            onClick={e => this.activeDashboard(dashboard.id, key)}
+            className={`dashboard-nav-item dashboard-settings__nav-item ${folder.activeDash === i ? 'active' : ''}`}
+            onClick={e => this.activeDashboard(i, key)}
           >
             <div className="tab-title">{dashboard.title}</div>
           </a>
@@ -109,6 +118,7 @@ class DashboardList extends React.Component<Props, State> {
     this.setState({
       dashboardList,
     });
+    localStorage.setItem('activeDash', id);
   };
 
   collapseAside = (e: any) => {
@@ -122,13 +132,12 @@ class DashboardList extends React.Component<Props, State> {
     this.setState({
       activeTab: activeTab,
     });
-    this.props.updateLocation({
-      query: {
-        activeTab: activeTab,
-      },
-      partial: true,
-      replace: true,
-    });
+    localStorage.setItem('activeTab', activeTab);
+    const { dashboardList } = this.state;
+    const keys = Object.keys(dashboardList);
+    if (keys[activeTab] && dashboardList[keys[activeTab]]) {
+      localStorage.setItem('activeDash', dashboardList[keys[activeTab]].activeDash);
+    }
   };
 
   createNavigationTabs = (list: any) => {
