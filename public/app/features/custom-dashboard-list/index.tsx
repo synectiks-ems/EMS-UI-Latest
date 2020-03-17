@@ -4,10 +4,14 @@ import { connect } from 'react-redux';
 import CustomDashboardLoader from '../custom-dashboard-loader';
 import { backendSrv } from 'app/core/services/backend_srv';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import { updateLocation } from 'app/core/actions';
+
 // Services & Utils
 export interface Props {
   $scope: any;
   $injector: any;
+  updateLocation: typeof updateLocation;
+  location: any;
 }
 export interface State {
   dashboardList: any;
@@ -32,6 +36,12 @@ class DashboardList extends React.Component<Props, State> {
         dashboardList: retData,
       });
     });
+    const activeTab = this.props.location.query.activeTab;
+    if (activeTab) {
+      this.setState({
+        activeTab: parseInt(activeTab, 10),
+      });
+    }
   }
 
   manipulateData(result: any) {
@@ -108,17 +118,17 @@ class DashboardList extends React.Component<Props, State> {
     });
   };
 
-  setLocalData = (e: any) => {
-    console.log('check active tab 1:', this.state.activeTab);
-    localStorage.setItem('activeTab', this.state.activeTab);
-  };
-
   toggleTab = (activeTab: any) => {
     this.setState({
       activeTab: activeTab,
     });
-    console.log('check acitve tab:', activeTab);
-    localStorage.setItem('activeTab', activeTab);
+    this.props.updateLocation({
+      query: {
+        activeTab: activeTab,
+      },
+      partial: true,
+      replace: true,
+    });
   };
 
   createNavigationTabs = (list: any) => {
@@ -181,6 +191,8 @@ class DashboardList extends React.Component<Props, State> {
 
 export const mapStateToProps = (state: any) => state;
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  updateLocation,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardList);
