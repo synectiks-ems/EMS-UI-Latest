@@ -32,7 +32,7 @@ class DashboardList extends React.Component<Props, State> {
   componentDidMount() {
     const activeDash = localStorage.getItem('activeDash');
     const activeTab: any = localStorage.getItem('activeTab');
-    backendSrv.search({ limit: 20 }).then((result: any) => {
+    backendSrv.search({}).then((result: any) => {
       const retData = this.manipulateData(result);
       if (activeDash) {
         const keys = Object.keys(retData);
