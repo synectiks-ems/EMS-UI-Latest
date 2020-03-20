@@ -142,26 +142,65 @@ export class GettingStarted extends PureComponent<PanelProps, State> {
     }
 
     return (
-      <div className="progress-tracker-container">
-        <button className="progress-tracker-close-btn" onClick={this.dismiss}>
-          <i className="fa fa-remove" />
-        </button>
-        <div className="progress-tracker">
-          {this.steps.map((step, index) => {
-            return (
-              <div key={index} className={step.done ? 'progress-step completed' : 'progress-step active'}>
-                <a className="progress-link" href={step.href} target={step.target} title={step.note}>
-                  <span className="progress-marker">
-                    <i className={step.icon} />
-                  </span>
-                  <span className="progress-text">{step.title}</span>
-                </a>
-                <a className="btn-small progress-step-cta" href={step.href} target={step.target}>
-                  {step.cta}
-                </a>
-              </div>
-            );
-          })}
+      // <div className="progress-tracker-container">
+      //   <button className="progress-tracker-close-btn" onClick={this.dismiss}>
+      //     <i className="fa fa-remove" />
+      //   </button>
+      //   <div className="progress-tracker">
+      //     {this.steps.map((step, index) => {
+      //       return (
+      //         <div key={index} className={step.done ? 'progress-step completed' : 'progress-step active'}>
+      //           <a className="progress-link" href={step.href} target={step.target} title={step.note}>
+      //             <span className="progress-marker">
+      //               <i className={step.icon} />
+      //             </span>
+      //             <span className="progress-text">{step.title}</span>
+      //           </a>
+      //           <a className="btn-small progress-step-cta" href={step.href} target={step.target}>
+      //             {step.cta}
+      //           </a>
+      //         </div>
+      //       );
+      //     })}
+      //   </div>
+      // </div>
+      // <div style={{ background: 'red' }}>Hello</div>
+      <div style={{ backgroundColor: 'White', marginTop: '19px', paddingTop: '10px' }}>
+        <h1 className="gs-h1">Monitor your applications and infrastructure</h1>
+        <p className="gs-h1">
+          Get full stack visibility, find and fix problems, optimize your performance, and understand customer behavior
+          all in one place.
+        </p>
+        <div className="d-flex-home">
+          <div className="w-20">
+            <img className="w-20" src="/public/img/icon1.png" alt="" />
+            <h3 className="color-b gs-pt-1">Performance Management</h3>
+            <p className="color-b">
+              Metrics are numerical values available from AWS Resources helping you understand the health, operation &
+              performance of your systems.
+            </p>
+            <a href="/dashboardlist" className="btn btn-secondary text-dec color-w gs-mb1">
+              Explore SLA
+            </a>
+          </div>
+          <div className="w-20 gs-m-center-obj">
+            <img className="w-20" src="/public/img/icon2.png" alt="" />
+            <h3 className="color-b gs-pt-1">Logs Management</h3>
+            <p className="color-b">
+              Logs are activity logs, diagnostic logs and telemetry from monitoring solutions; Analytics queries help
+              with troubleshooting & visualizations.
+            </p>
+            <a className="btn btn-secondary text-dec color-w gs-mb1">Manage Logs</a>
+          </div>
+          <div className="w-20">
+            <img className="w-20" src="/public/img/icon3.png" alt="" />
+            <h3 className="color-b gs-pt-1">Alert Management</h3>
+            <p className="color-b">
+              Alerts notify you of critical conditions and potentially take corrective automated actions based on
+              triggers from metrics or logs.
+            </p>
+            <a className="btn btn-secondary text-dec color-w gs-mb1">Manage Alerts</a>
+          </div>
         </div>
       </div>
     );

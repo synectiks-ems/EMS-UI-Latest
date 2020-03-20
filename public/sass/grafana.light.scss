@@ -1,3 +1,46 @@
 @import 'variables.generated';
 @import 'variables.light.generated';
 @import 'grafana';
+
+// Getting Started page
+
+.gs-h1 {
+  text-align: center;
+  width: 50vw;
+  display: block;
+  margin: 0 auto;
+  padding-bottom: 10px;
+  color: #000;
+}
+.text-dec {
+  text-decoration: none;
+}
+.color-w {
+  color: white;
+}
+.gs-mb1 {
+  margin-bottom: 10px;
+}
+.color-b {
+  color: black;
+}
+.gs-pt-1 {
+  padding-top: 10px;
+}
+.gs-m-center-obj {
+  margin: 0 5rem;
+}
+.w-20 {
+  width: 20vw;
+}
+
+.d-flex-home {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding-bottom: 10px;
+}
+#chge_icon-color > button {
+  background: white;
+  border: 1px solid white;
+}

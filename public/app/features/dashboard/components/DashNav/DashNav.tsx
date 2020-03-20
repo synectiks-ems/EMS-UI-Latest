@@ -104,15 +104,15 @@ export class DashNav extends PureComponent<Props> {
   };
 
   renderDashboardTitleSearchButton() {
-    const { dashboard } = this.props;
+    // const { dashboard } = this.props;
 
-    const folderTitle = dashboard.meta.folderTitle;
-    const haveFolder = dashboard.meta.folderId > 0;
+    // const folderTitle = dashboard.meta.folderTitle;
+    // const haveFolder = dashboard.meta.folderId > 0;
 
     return (
       <>
         <div>
-          <div className="navbar-page-btn">
+          {/* <div className="navbar-page-btn">
             {!this.isInFullscreenOrSettings && <i className="gicon gicon-dashboard" />}
             {haveFolder && (
               <>
@@ -125,7 +125,7 @@ export class DashNav extends PureComponent<Props> {
             <a onClick={this.onDahboardNameClick}>
               {dashboard.title} <i className="fa fa-caret-down navbar-page-btn__search" />
             </a>
-          </div>
+          </div> */}
         </div>
         {this.isSettings && <span className="navbar-settings-title">&nbsp;/ Settings</span>}
         <div className="navbar__spacer" />
@@ -178,6 +178,143 @@ export class DashNav extends PureComponent<Props> {
               </label>
             </div>
             <div className="white-color p-r-1" style={{ display: 'flex', alignItems: 'center' }}>
+              <div
+                className="navbar"
+                style={{ paddingLeft: '10px', height: '51px', background: 'white', boxShadow: 'none', border: 'none' }}
+              >
+                {this.isInFullscreenOrSettings && this.renderBackButton()}
+                {!dontRenderTitle && this.renderDashboardTitleSearchButton()}
+
+                {this.playlistSrv.isPlaying && (
+                  <div className="navbar-buttons navbar-buttons--playlist">
+                    <DashNavButton
+                      tooltip="Go to previous dashboard"
+                      classSuffix="tight"
+                      icon="fa fa-step-backward"
+                      onClick={this.onPlaylistPrev}
+                    />
+                    <DashNavButton
+                      tooltip="Stop playlist"
+                      classSuffix="tight"
+                      icon="fa fa-stop"
+                      onClick={this.onPlaylistStop}
+                    />
+                    <DashNavButton
+                      tooltip="Go to next dashboard"
+                      classSuffix="tight"
+                      icon="fa fa-forward"
+                      onClick={this.onPlaylistNext}
+                    />
+                  </div>
+                )}
+
+                <div id="chge_icon-color" className="navbar-buttons navbar-buttons--actions">
+                  {canSave && (
+                    <DashNavButton
+                      tooltip="Add panel"
+                      classSuffix="add-panel"
+                      icon="gicon gicon-add-panel"
+                      onClick={onAddPanel}
+                    />
+                  )}
+
+                  {canStar && (
+                    <DashNavButton
+                      tooltip="Mark as favorite"
+                      classSuffix="star"
+                      icon={`${isStarred ? 'fa fa-star' : 'fa fa-star-o'}`}
+                      onClick={this.onStarDashboard}
+                    />
+                  )}
+
+                  {canShare && (
+                    <ModalsController>
+                      {({ showModal, hideModal }) => (
+                        <DashNavButton
+                          tooltip="Share dashboard"
+                          classSuffix="share"
+                          icon="fa fa-share-square-o"
+                          onClick={() => {
+                            showModal(ShareModal, {
+                              dashboard,
+                              onDismiss: hideModal,
+                            });
+                          }}
+                        />
+                      )}
+                    </ModalsController>
+                  )}
+
+                  {canSave && (
+                    <ModalsController>
+                      {({ showModal, hideModal }) => (
+                        <DashNavButton
+                          tooltip="Save dashboard"
+                          classSuffix="save"
+                          icon="fa fa-save"
+                          onClick={() => {
+                            showModal(SaveDashboardModalProxy, {
+                              dashboard,
+                              onDismiss: hideModal,
+                            });
+                          }}
+                        />
+                      )}
+                    </ModalsController>
+                  )}
+
+                  {snapshotUrl && (
+                    <DashNavButton
+                      tooltip="Open original dashboard"
+                      classSuffix="snapshot-origin"
+                      icon="gicon gicon-link"
+                      href={snapshotUrl}
+                    />
+                  )}
+
+                  {showSettings && (
+                    <DashNavButton
+                      tooltip="Dashboard settings"
+                      classSuffix="settings"
+                      icon="gicon gicon-cog"
+                      onClick={this.onOpenSettings}
+                    />
+                  )}
+                </div>
+
+                {/* <div className="navbar-buttons navbar-buttons--tv">
+            <DashNavButton
+              tooltip="Cycle view mode"
+              classSuffix="tv"
+              icon="fa fa-desktop"
+              onClick={this.onToggleTVMode}
+            />
+          </div> */}
+
+                {!dashboard.timepicker.hidden && (
+                  <div className="navbar-buttons">
+                    <DashNavTimeControls dashboard={dashboard} location={location} updateLocation={updateLocation} />
+                  </div>
+                )}
+              </div>
+              {/* <div id="chge_icon-color">
+                {showSettings && (
+                  <DashNavButton
+                    tooltip="Dashboard settings"
+                    classSuffix="settings"
+                    icon="gicon gicon-cog"
+                    onClick={this.onOpenSettings}
+                  />
+                )}
+              </div> */}
+              {/* <div id="chge_icon-color">
+                <DashNavButton
+                  tooltip="Cycle view mode"
+                  classSuffix="tv"
+                  icon="fa fa-desktop"
+                  onClick={this.onToggleTVMode}
+                />
+              </div> */}
               <a href="/profile" className="sidemenu-link">
                 <span className="icon-circle sidemenu-icon">
                   <img src="/public/img/user_profile.png" />
@@ -186,123 +323,6 @@ export class DashNav extends PureComponent<Props> {
               {/* <i className="gf-form-input-icon fa fa-cog" style={{ fontSize: '20px', marginRight: '10px' }}></i> */}
             </div>
           </div>
-        </div>
-
-        <div className="navbar" style={{ paddingLeft: '10px', height: '50px' }}>
-          {this.isInFullscreenOrSettings && this.renderBackButton()}
-          {!dontRenderTitle && this.renderDashboardTitleSearchButton()}
-
-          {this.playlistSrv.isPlaying && (
-            <div className="navbar-buttons navbar-buttons--playlist">
-              <DashNavButton
-                tooltip="Go to previous dashboard"
-                classSuffix="tight"
-                icon="fa fa-step-backward"
-                onClick={this.onPlaylistPrev}
-              />
-              <DashNavButton
-                tooltip="Stop playlist"
-                classSuffix="tight"
-                icon="fa fa-stop"
-                onClick={this.onPlaylistStop}
-              />
-              <DashNavButton
-                tooltip="Go to next dashboard"
-                classSuffix="tight"
-                icon="fa fa-forward"
-                onClick={this.onPlaylistNext}
-              />
-            </div>
-          )}
-
-          <div className="navbar-buttons navbar-buttons--actions">
-            {canSave && (
-              <DashNavButton
-                tooltip="Add panel"
-                classSuffix="add-panel"
-                icon="gicon gicon-add-panel"
-                onClick={onAddPanel}
-              />
-            )}
-
-            {canStar && (
-              <DashNavButton
-                tooltip="Mark as favorite"
-                classSuffix="star"
-                icon={`${isStarred ? 'fa fa-star' : 'fa fa-star-o'}`}
-                onClick={this.onStarDashboard}
-              />
-            )}
-
-            {canShare && (
-              <ModalsController>
-                {({ showModal, hideModal }) => (
-                  <DashNavButton
-                    tooltip="Share dashboard"
-                    classSuffix="share"
-                    icon="fa fa-share-square-o"
-                    onClick={() => {
-                      showModal(ShareModal, {
-                        dashboard,
-                        onDismiss: hideModal,
-                      });
-                    }}
-                  />
-                )}
-              </ModalsController>
-            )}
-
-            {canSave && (
-              <ModalsController>
-                {({ showModal, hideModal }) => (
-                  <DashNavButton
-                    tooltip="Save dashboard"
-                    classSuffix="save"
-                    icon="fa fa-save"
-                    onClick={() => {
-                      showModal(SaveDashboardModalProxy, {
-                        dashboard,
-                        onDismiss: hideModal,
-                      });
-                    }}
-                  />
-                )}
-              </ModalsController>
-            )}
-
-            {snapshotUrl && (
-              <DashNavButton
-                tooltip="Open original dashboard"
-                classSuffix="snapshot-origin"
-                icon="gicon gicon-link"
-                href={snapshotUrl}
-              />
-            )}
-
-            {showSettings && (
-              <DashNavButton
-                tooltip="Dashboard settings"
-                classSuffix="settings"
-                icon="gicon gicon-cog"
-                onClick={this.onOpenSettings}
-              />
-            )}
-          </div>
-
-          <div className="navbar-buttons navbar-buttons--tv">
-            <DashNavButton
-              tooltip="Cycle view mode"
-              classSuffix="tv"
-              icon="fa fa-desktop"
-              onClick={this.onToggleTVMode}
-            />
-          </div>
-
-          {!dashboard.timepicker.hidden && (
-            <div className="navbar-buttons">
-              <DashNavTimeControls dashboard={dashboard} location={location} updateLocation={updateLocation} />
-            </div>
-          )}
         </div>
       </div>
     );

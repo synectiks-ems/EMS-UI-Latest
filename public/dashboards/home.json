@@ -2,11 +2,11 @@
   "links": [],
   "panels": [
     {
-      "content": "<div class=\"dashboard-header\">\n  <span>Welcome to Brighton Cromwell</span>\n</div>",
+      "content": "<div></div>",
       "datasource": null,
       "editable": true,
       "gridPos": {
-        "h": 2,
+        "h": 0,
         "w": 24,
         "x": 0,
         "y": 0
@@ -19,28 +19,6 @@
       "title": "",
       "transparent": true,
       "type": "text"
-    },
-    {
-      "datasource": null,
-      "folderId": 0,
-      "gridPos": {
-        "h": 15,
-        "w": 24,
-        "x": 0,
-        "y": 4
-      },
-      "headings": true,
-      "id": 3,
-      "limit": 30,
-      "links": [],
-      "options": {},
-      "query": "",
-      "recent": true,
-      "search": false,
-      "starred": true,
-      "tags": [],
-      "title": "Dashboards",
-      "type": "dashlist"
     }
   ],
   "schemaVersion": 22,
