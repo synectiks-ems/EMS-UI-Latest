@@ -29,14 +29,7 @@ $mobile-menu-breakpoint: md;
     position: absolute;
     top: 51px;
     height: calc(100% - 51px);
-    transition: width 1s;
-  }
-}
-
-// new look changes
-.wide-side-menu {
-  .sidemenu {
-    width: 240px !important;
+    transition: width 0.5s;
   }
 }
 
@@ -349,6 +342,128 @@ li.sidemenu-org-switcher {
     background-color: $plugin-item-hover;
     .plugin-name {
       color: $plugin-item-font-color-hover !important;
+    }
+  }
+}
+
+/************************* new look css *****************************/
+
+.sidemenu{
+  background-color: #F5F8FC !important;
+  .sidemenu-search-container{
+    padding-top: 11px;
+    height: 48px;
+    width: 240px;
+    .gf-form--has-input-icon{
+      margin-left: 10px;
+      margin-right: 0px;
+      .sidemenu-search-box{
+        width: 173px;
+        height: 30px;
+        background-color: #FFFFFF;
+        margin-right: 20px;
+        border-color: #8392A7;
+      }
+      ::-webkit-input-placeholder { /* Edge */
+        color: #8998AC;
+      }
+      
+      :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #8998AC;
+      }
+      
+      ::placeholder {
+        color: #8998AC;
+      }
+      i{
+        color: #8392A7;
+      }
+    }
+    .side-menu-toggle{
+      display: inline-block;
+      color: #8998AC;
+      cursor: pointer;
+    }
+  }
+  .open-menu, .close-menu{
+    transition: width 0.5s, opacity 0.5s;
+    position: absolute;
+    top: 0px;
+  }
+  .open-menu{
+    width: 0px;
+    opacity: 0;
+    .menu-item{
+      padding: 14px 0px 14px 33px;
+      display: flex;
+    }
+  }
+  .close-menu{
+    // display: block;
+    width: 100%;
+    opacity: 1;
+    .sidemenu-search-container{
+      width: 100%;
+      .side-menu-toggle{
+        padding-left: 19px;
+        padding-top: 7px;
+      }
+    }
+    .menu-item{
+      padding: 14px 0px 14px 12px;
+    }
+  }
+  .menu-item{
+    &.active,&:hover{
+      background-color: #F0F3F7;
+    }
+    .menu-item-image{
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background-size: contain;
+    }
+    .menu-item-text{
+      display: inline-block;
+      padding-left: 10px;
+      color: #3B4859;
+    }
+    .overview{
+      background-image:url("../img/monitor-icons/overview.svg");
+    }
+    .activity-log{
+      background-image:url("../img/monitor-icons/activity-log.svg");
+    }
+    .alerts{
+      background-image:url("../img/monitor-icons/alerts.svg");
+    }
+    .metrics{
+      background-image:url("../img/monitor-icons/metrics.svg");
+    }
+    .logs{
+      background-image:url("../img/monitor-icons/logs.svg");
+    }
+    .service-health{
+      background-image:url("../img/monitor-icons/service-health.svg");
+    }
+    .workbooks{
+      background-image:url("../img/monitor-icons/workbooks.svg");
+    }
+  }
+}
+
+.wide-side-menu {
+  .sidemenu {
+    width: 240px !important;
+    .open-menu{
+      display: block;
+      width: 100%;
+      opacity: 1;
+    }
+    .close-menu{
+      display: none;
+      width: 0px;
+      opacity: 0;
     }
   }
 }
