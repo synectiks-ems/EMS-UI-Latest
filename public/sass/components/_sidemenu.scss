@@ -29,7 +29,7 @@ $mobile-menu-breakpoint: md;
     position: absolute;
     top: 51px;
     height: calc(100% - 51px);
-    transition: width 0.5s;
+    transition: width 0.3s;
   }
 }
 
@@ -386,20 +386,20 @@ li.sidemenu-org-switcher {
     }
   }
   .open-menu, .close-menu{
-    transition: width 0.5s, opacity 0.5s;
+    transition: width 0.3s, opacity 0.3s;
     position: absolute;
     top: 0px;
+    background: #F5F8FC !important;
   }
   .open-menu{
     width: 0px;
     opacity: 0;
-    .menu-item{
-      padding: 14px 0px 14px 33px;
-      display: flex;
+    .menu-item,.menu-item-header{
+      display: none;
     }
   }
   .close-menu{
-    // display: block;
+    display: block;
     width: 100%;
     opacity: 1;
     .sidemenu-search-container{
@@ -411,6 +411,12 @@ li.sidemenu-org-switcher {
     }
     .menu-item{
       padding: 14px 0px 14px 12px;
+      display: block;
+    }
+    .menu-item-header{
+      height: 48px;
+      width: 100%;
+      display: block;
     }
   }
   .menu-item{
@@ -449,6 +455,21 @@ li.sidemenu-org-switcher {
     .workbooks{
       background-image:url("../img/monitor-icons/workbooks.svg");
     }
+    .applications{
+      background-image:url("../img/monitor-icons/applications.svg");
+    }
+    .virtual-machines{
+      background-image:url("../img/monitor-icons/virtual-machines.svg");
+    }
+    .networks{
+      background-image:url("../img/monitor-icons/networks.svg");
+    }
+    .jobs{
+      background-image:url("../img/monitor-icons/jobs.svg");
+    }
+    .diagnostic-settings{
+      background-image:url("../img/monitor-icons/diagnostic-settings.svg");
+    }
   }
 }
 
@@ -456,14 +477,26 @@ li.sidemenu-org-switcher {
   .sidemenu {
     width: 240px !important;
     .open-menu{
-      display: block;
       width: 100%;
       opacity: 1;
+      .menu-item{
+        padding: 14px 0px 14px 33px;
+        display: flex;
+      }
+      .menu-item-header{
+        background-color: #FFFFFF;
+        padding: 14px 0px 14px 20px;
+        color: #3B4859;
+        font-size: 14px;
+        display: block;
+      }
     }
     .close-menu{
-      display: none;
       width: 0px;
       opacity: 0;
+      .menu-item,.menu-item-header{
+        display: none;
+      }
     }
   }
 }

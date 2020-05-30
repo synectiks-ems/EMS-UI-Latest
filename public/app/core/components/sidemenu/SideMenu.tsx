@@ -52,8 +52,35 @@ export class SideMenu extends PureComponent {
       cssClass: 'workbooks',
     },
   ];
-  insights: any = [];
-  settings: any = [];
+  insights: any = [
+    {
+      link: '',
+      text: 'Applications',
+      cssClass: 'applications',
+    },
+    {
+      link: '',
+      text: 'Virtual Machines',
+      cssClass: 'virtual-machines',
+    },
+    {
+      link: '',
+      text: 'Networks (preview)',
+      cssClass: 'networks',
+    },
+    {
+      link: '',
+      text: 'Jobs',
+      cssClass: 'jobs',
+    },
+  ];
+  settings: any = [
+    {
+      link: '',
+      text: 'Diagnostic Settings',
+      cssClass: 'diagnostic-settings',
+    },
+  ];
 
   onClickToggleMenu = (e: any) => {
     //This is patch to toggle the menu
@@ -112,6 +139,10 @@ export class SideMenu extends PureComponent {
             </div>
           </div>
           {this.createOpenMenu(this.mainMenu)}
+          <div className="menu-item-header">INSIGHTS</div>
+          {this.createOpenMenu(this.insights)}
+          <div className="menu-item-header">SETTINGS</div>
+          {this.createOpenMenu(this.settings)}
         </div>
         <div className="close-menu">
           <div className="sidemenu-search-container">
@@ -120,6 +151,10 @@ export class SideMenu extends PureComponent {
             </div>
           </div>
           {this.createCloseMenu(this.mainMenu)}
+          <div className="menu-item-header"></div>
+          {this.createCloseMenu(this.insights)}
+          <div className="menu-item-header"></div>
+          {this.createCloseMenu(this.settings)}
         </div>
       </div>,
     ];
