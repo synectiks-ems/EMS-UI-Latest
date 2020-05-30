@@ -348,6 +348,14 @@ li.sidemenu-org-switcher {
 
 /************************* new look css *****************************/
 
+body{
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+input, button, select, textarea{
+  font-family: 'Montserrat', sans-serif !important;
+}
+
 .sidemenu{
   background-color: #F5F8FC !important;
   .sidemenu-search-container{
