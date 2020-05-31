@@ -1,0 +1,50 @@
+/******************** Css for new look ******************/
+
+.top-nav-bar{
+    width: 100%;
+    background: white;
+    height: 51px;
+    display: flex;
+    .logo-container{
+        width: 240px;
+        .logo{
+            background-image:url("../img/monitor-icons/synectiks.png");
+            width: 150px;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-left: 45px;
+        }
+    }
+    .search-box-container{
+        padding-top: 8px;
+        height: 48px;
+        width: calc(100% - 520px);
+        .gf-form--has-input-icon{
+            margin-right: 0px;
+            width: 100%;
+        }
+        .search-box{
+            background-color: #FFFFFF;
+            margin-right: 20px;
+            border-color: #8392A7;
+        }
+    }
+    .icon-container{
+        display: flex;
+        width: 240px;
+        align-items: center;
+        justify-content: space-around;
+        margin: 0px 20px;
+        .icon{
+            cursor: pointer;
+            font-size: 20px !important;
+            color: #8392a7;
+            margin-left: 15px;
+            &:hover{
+                color:#606977;
+            }
+        }
+    }
+}
