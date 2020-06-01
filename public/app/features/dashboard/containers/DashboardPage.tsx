@@ -11,7 +11,8 @@ import { Branding } from 'app/core/components/Branding/Branding';
 
 // Components
 import { DashboardGrid } from '../dashgrid/DashboardGrid';
-import { DashNav } from '../components/DashNav';
+// import { DashNav } from '../components/DashNav';
+import { CustomNavigationBar } from '../components/CustomNav';
 import { SubMenu } from '../components/SubMenu';
 import { DashboardSettings } from '../components/DashboardSettings';
 import { PanelEditor } from '../components/PanelEditor/PanelEditor';
@@ -257,7 +258,7 @@ export class DashboardPage extends PureComponent<Props, State> {
     const {
       dashboard,
       editview,
-      $injector,
+      // $injector,
       isInitSlow,
       initError,
       inspectPanelId,
@@ -294,15 +295,8 @@ export class DashboardPage extends PureComponent<Props, State> {
 
     return (
       <div className={classes}>
-        <DashNav
-          dashboard={dashboard}
-          isEditing={isEditing}
-          isFullscreen={isFullscreen}
-          editview={editview}
-          $injector={$injector}
-          onAddPanel={this.onAddPanel}
-        />
-        <div className="scroll-canvas scroll-canvas--dashboard">
+        <CustomNavigationBar />
+        <div className="scroll-canvas scroll-canvas--dashboard monitor-main-body">
           <CustomScrollbar
             autoHeightMin="100%"
             setScrollTop={this.setScrollTop}

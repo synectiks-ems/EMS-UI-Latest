@@ -1,0 +1,62 @@
+body, .main-view{
+    background: #f9fafc;
+}
+
+.overview-container {
+    color: #3b4859;
+    padding: 36px 50px;
+    background-color: #f9fafc !important;
+
+    .overview-item-container {
+        margin-bottom: 30px;
+
+        .item-image {
+            min-width: 200px;
+            width: 100%;
+            background: white;
+            height: 200px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 12px -5px #3b4859;
+        }
+
+        .item-header {
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px 0px;
+            color: #3b4859;
+        }
+
+        .item-description {
+            font-size: 12px;
+            color: #8998ac;
+        }
+    }
+
+    .overview-header {
+        font-size: 27px;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .overview-description {
+        font-size: 13px;
+        text-align: center;
+        margin-bottom: 50px;
+        color: #97a4b5;
+    }
+
+    .alert-blue-button{
+        background: #3b7cff;
+        color: white;
+        border: none;
+        padding: 7px 11px;
+        border-radius: 4px;
+        margin-right: 10px;
+        display: inline-block;
+        min-width: 120px;
+    }
+    
+    .alert-blue-button:hover{
+        background: #0f5efd !important;
+    }
+}

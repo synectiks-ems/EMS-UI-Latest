@@ -63,10 +63,6 @@
 
   &--dashboard {
     height: calc(100% - 56px);
-    // new look changes
-    margin-left: 60px;
-    width: calc(100% - 60px);
-    transition: width 0.3s, margin 0.3s;
   }
 
   > div {
@@ -175,8 +171,14 @@
 /********************************** New look css **********************************/
 
 .wide-side-menu{
-  .scroll-canvas--dashboard{
+  .monitor-main-body{
     margin-left: 240px;
     width: calc(100% - 240px);
   }
+}
+
+.monitor-main-body{
+  margin-left: 60px;
+  width: calc(100% - 60px);
+  transition: width 0.3s, margin 0.3s;
 }
