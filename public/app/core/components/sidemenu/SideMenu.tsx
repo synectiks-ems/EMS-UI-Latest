@@ -9,18 +9,28 @@ import { CoreEvents } from 'app/types';
 
 // const homeUrl = config.appSubUrl || '/';
 
-export class SideMenu extends PureComponent {
+export class SideMenu extends PureComponent<any, any> {
   toggleSideMenuSmallBreakpoint = () => {
     appEvents.emit(CoreEvents.toggleSidemenuMobile);
   };
   constructor(props: any) {
     super(props);
+    this.state = {
+      activeMenuLink: '',
+    };
   }
+
+  componentDidUpdate(state: any, props: any) {
+    const pathName = location.pathname;
+    console.log(pathName);
+  }
+
   mainMenu: any = [
     {
       link: '/',
       text: 'Overview',
       cssClass: 'overview',
+      activeLink: '/',
     },
     {
       link: '',
@@ -31,6 +41,7 @@ export class SideMenu extends PureComponent {
       link: '/plugins/xformation-alertmanager-ui-plugin/page/monitoralerts',
       text: 'Alerts',
       cssClass: 'alerts',
+      activeLink: 'plugins/xformation-alertmanager-ui-plugin',
     },
     {
       link: '',
@@ -92,12 +103,23 @@ export class SideMenu extends PureComponent {
     }
   };
 
+  onClickLink = (e: any, menuItem: any) => {
+    this.setState({
+      activeMenuLink: menuItem.activeLink,
+    });
+  };
+
   createOpenMenu = (menuItems: any) => {
     const retItem: any = [];
+    const { activeMenuLink } = this.state;
     for (let i = 0; i < menuItems.length; i++) {
       const menuItem = menuItems[i];
       retItem.push(
-        <a href={menuItem.link} className="menu-item">
+        <a
+          href={menuItem.link}
+          className={`menu-item ${activeMenuLink === menuItem.activeLink ? 'active' : ''}`}
+          onClick={(e: any) => this.onClickLink(e, menuItem)}
+        >
           <div className={`menu-item-image ${menuItem.cssClass}`}></div>
           <div className="menu-item-text">{menuItem.text}</div>
         </a>

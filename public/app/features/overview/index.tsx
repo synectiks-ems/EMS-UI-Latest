@@ -81,7 +81,12 @@ class Overview extends React.Component<any, any> {
                     Alerts notify you of critical conditions and potentially take corrective automated actions based on
                     triggers from metrics or logs.
                   </div>
-                  <button className="alert-blue-button m-t-2">Manage Alert</button>
+                  <a
+                    className="alert-blue-button m-t-2"
+                    href="/plugins/xformation-alertmanager-ui-plugin/page/monitoralerts"
+                  >
+                    Manage Alert
+                  </a>
                 </a>
               </div>
             </div>
