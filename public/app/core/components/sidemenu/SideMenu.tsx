@@ -28,7 +28,7 @@ export class SideMenu extends PureComponent {
       cssClass: 'activity-log',
     },
     {
-      link: '/plugins/xformation-alertmanager-ui-plugin/page/allalerts',
+      link: '/plugins/xformation-alertmanager-ui-plugin/page/monitoralerts',
       text: 'Alerts',
       cssClass: 'alerts',
     },
