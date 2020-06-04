@@ -3,6 +3,7 @@ import { QueryEditor as StackdriverQueryEditor } from 'app/plugins/datasource/st
 import { AnnotationQueryEditor as StackdriverAnnotationQueryEditor } from 'app/plugins/datasource/stackdriver/components/AnnotationQueryEditor';
 import { AnnotationQueryEditor as CloudWatchAnnotationQueryEditor } from 'app/plugins/datasource/cloudwatch/components/AnnotationQueryEditor';
 import PageHeader from './components/PageHeader/PageHeader';
+import { CustomNavigationBar } from './components/CustomNav';
 import EmptyListCTA from './components/EmptyListCTA/EmptyListCTA';
 import { TagFilter } from './components/TagFilter/TagFilter';
 import { SideMenu } from './components/sidemenu/SideMenu';
@@ -36,6 +37,7 @@ export function registerAngularDirectives() {
   react2AngularDirective('functionEditor', FunctionEditor, ['func', 'onRemove', 'onMoveLeft', 'onMoveRight']);
   react2AngularDirective('appNotificationsList', AppNotificationList, []);
   react2AngularDirective('pageHeader', PageHeader, ['model', 'noTabs']);
+  react2AngularDirective('customNav', CustomNavigationBar, []);
   react2AngularDirective('emptyListCta', EmptyListCTA, [
     'title',
     'buttonIcon',

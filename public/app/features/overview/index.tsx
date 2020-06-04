@@ -1,17 +1,52 @@
 // Libraries
 import React from 'react';
-import { CustomNavigationBar } from '../dashboard/components/CustomNav';
+import { CustomNavigationBar } from 'app/core/components/CustomNav';
 
 class Overview extends React.Component<any, any> {
+  breadCrumbs: any = [
+    {
+      label: 'Home',
+      route: '',
+    },
+    {
+      label: 'Monitor | Alerts',
+      isCurrentPage: true,
+    },
+  ];
   constructor(props: any) {
     super(props);
   }
 
   render() {
+    const breadCrumbs = this.breadCrumbs;
+    const pageTitle = 'MONITOR | OVERVIEW';
     return (
       <React.Fragment>
         <CustomNavigationBar />
-        <div className="scroll-canvas scroll-canvas--dashboard monitor-main-body">
+        <div className="scroll-canvas--dashboard monitor-main-body">
+          <div className="breadcrumbs-container">
+            {pageTitle && <div className="page-title">{pageTitle}</div>}
+            <div className="breadcrumbs">
+              {breadCrumbs.map((breadcrumb: any, index: any) => {
+                if (breadcrumb.isCurrentPage) {
+                  return (
+                    <span key={index} className="current-page">
+                      {breadcrumb.label}
+                    </span>
+                  );
+                } else {
+                  return (
+                    <React.Fragment key={index}>
+                      <a className="breadcrumbs-link">{breadcrumb.label}</a>
+                      <span className="separator">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<i className="fa fa-chevron-right"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                      </span>
+                    </React.Fragment>
+                  );
+                }
+              })}
+            </div>
+          </div>
           <div className="container overview-container">
             <div className="overview-header">Monitor your applications and infrastructure</div>
             <div className="overview-description">

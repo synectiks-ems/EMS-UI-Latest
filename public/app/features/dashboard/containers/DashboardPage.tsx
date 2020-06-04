@@ -12,7 +12,7 @@ import { Branding } from 'app/core/components/Branding/Branding';
 // Components
 import { DashboardGrid } from '../dashgrid/DashboardGrid';
 // import { DashNav } from '../components/DashNav';
-import { CustomNavigationBar } from '../components/CustomNav';
+import { CustomNavigationBar } from 'app/core/components/CustomNav';
 import { SubMenu } from '../components/SubMenu';
 import { DashboardSettings } from '../components/DashboardSettings';
 import { PanelEditor } from '../components/PanelEditor/PanelEditor';

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+// import { Link } from 'react-router-dom';
 import appEvents from '../../app_events';
 // import TopSection from './TopSection';
 // import BottomSection from './BottomSection';
@@ -17,7 +18,7 @@ export class SideMenu extends PureComponent {
   }
   mainMenu: any = [
     {
-      link: '',
+      link: '/',
       text: 'Overview',
       cssClass: 'overview',
     },
@@ -27,7 +28,7 @@ export class SideMenu extends PureComponent {
       cssClass: 'activity-log',
     },
     {
-      link: '',
+      link: '/plugins/xformation-alertmanager-ui-plugin/page/allalerts',
       text: 'Alerts',
       cssClass: 'alerts',
     },
@@ -96,7 +97,7 @@ export class SideMenu extends PureComponent {
     for (let i = 0; i < menuItems.length; i++) {
       const menuItem = menuItems[i];
       retItem.push(
-        <a className="menu-item">
+        <a href={menuItem.link} className="menu-item">
           <div className={`menu-item-image ${menuItem.cssClass}`}></div>
           <div className="menu-item-text">{menuItem.text}</div>
         </a>

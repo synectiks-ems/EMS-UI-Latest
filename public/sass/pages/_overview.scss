@@ -61,3 +61,25 @@ body, .main-view{
         background: #0f5efd !important;
     }
 }
+
+.breadcrumbs-container{
+    background-color: #eff2f7;
+    padding: 10px 20px;
+    .page-title{
+        color: #3b4859;
+        display: inline-block;
+    }
+    .breadcrumbs{
+        display: inline-block;
+        float: right;
+    }
+    a.breadcrumbs-link {
+        color: #89898a !important;
+    }
+    .current-page{
+        color: #2a9ce7 !important;
+    }
+    .separator{
+        color: #89898a;
+    }
+}

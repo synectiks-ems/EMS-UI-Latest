@@ -42,5 +42,3 @@ export class CustomNavigationBar extends PureComponent<any> {
     );
   }
 }
-
-export default CustomNavigationBar;
