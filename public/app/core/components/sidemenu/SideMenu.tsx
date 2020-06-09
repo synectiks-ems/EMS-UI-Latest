@@ -20,9 +20,55 @@ export class SideMenu extends PureComponent<any, any> {
     };
   }
 
-  componentDidUpdate(state: any, props: any) {
+  handleLocationChange = () => {
     const pathName = location.pathname;
-    console.log(pathName);
+    // let isActive = false;
+    const totalItem = this.mainMenu.length;
+    if (pathName === '/') {
+      this.setState({
+        activeMenuLink: '/',
+      });
+      return;
+    }
+    for (let i = 0; i < totalItem; i++) {
+      const item = this.mainMenu[i];
+      if (pathName.indexOf(item.activeLink) !== -1 && item.activeLink !== '/') {
+        this.setState({
+          activeMenuLink: item.activeLink,
+        });
+        // isActive = true;
+        break;
+      }
+    }
+  };
+
+  componentDidMount() {
+    const that = this;
+    window.addEventListener('locationchange', () => {
+      that.handleLocationChange();
+    });
+
+    history.pushState = (f =>
+      function pushState(this: any) {
+        var ret = f.apply(this, arguments);
+        window.dispatchEvent(new Event('pushstate'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+      })(history.pushState);
+
+    history.replaceState = (f =>
+      function replaceState(this: any) {
+        var ret = f.apply(this, arguments);
+        window.dispatchEvent(new Event('replacestate'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+      })(history.replaceState);
+
+    window.addEventListener('popstate', () => {
+      window.dispatchEvent(new Event('locationchange'));
+    });
+
+    this.handleLocationChange();
   }
 
   mainMenu: any = [
