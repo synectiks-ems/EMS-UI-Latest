@@ -25,11 +25,6 @@ $mobile-menu-breakpoint: md;
     // box-shadow: $side-menu-shadow;
     // position: relative;
     z-index: $zindex-sidemenu;
-    // new look changes
-    position: absolute;
-    top: 51px;
-    height: calc(100% - 51px);
-    transition: width 0.3s;
   }
 }
 
@@ -359,6 +354,10 @@ input, button, select, textarea{
 .sidemenu{
   background-color: #F5F8FC !important;
   box-shadow: -4px 6px 8px 0px #3b4859;
+  position: absolute !important;
+  top: 51px !important;
+  height: calc(100% - 51px) !important;
+  transition: width 0.3s !important;
   .sidemenu-search-container{
     padding-top: 11px;
     height: 48px;
