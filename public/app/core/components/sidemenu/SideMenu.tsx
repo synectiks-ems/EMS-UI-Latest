@@ -176,12 +176,17 @@ export class SideMenu extends PureComponent<any, any> {
 
   createCloseMenu = (menuItems: any) => {
     const retItem: any = [];
+    const { activeMenuLink } = this.state;
     for (let i = 0; i < menuItems.length; i++) {
       const menuItem = menuItems[i];
       retItem.push(
-        <div className="menu-item">
+        <a
+          href={menuItem.link}
+          className={`menu-item ${activeMenuLink === menuItem.activeLink ? 'active' : ''}`}
+          onClick={(e: any) => this.onClickLink(e, menuItem)}
+        >
           <div className={`menu-item-image ${menuItem.cssClass}`}></div>
-        </div>
+        </a>
       );
     }
     return retItem;
