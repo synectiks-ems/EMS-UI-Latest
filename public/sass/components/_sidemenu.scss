@@ -498,6 +498,25 @@ input, button, select, textarea{
         font-size: 14px;
         display: block;
       }
+      .item{
+        position: relative;
+        .sub-menu{
+          display: none;
+          position: absolute;
+          left: 100%;
+          top: 0px;
+          background-color: #F5F8FC !important;
+          width: 200px;
+          list-style: none;
+          box-shadow: 3px 0px 6px -3px #3b4859;
+          li{
+            display: block;
+          }
+        }
+        &:hover .sub-menu{
+          display: block;
+        }
+      }
     }
     .close-menu{
       width: 0px;

@@ -17,6 +17,7 @@ export class SideMenu extends PureComponent<any, any> {
     super(props);
     this.state = {
       activeMenuLink: '',
+      activeSubMenuLink: '',
     };
   }
 
@@ -36,6 +37,17 @@ export class SideMenu extends PureComponent<any, any> {
         this.setState({
           activeMenuLink: item.activeLink,
         });
+        if (item.subMenu && item.subMenu.length > 0) {
+          for (let j = 0; j < item.subMenu.length; j++) {
+            const sMenu = item.subMenu[j];
+            if (pathName.indexOf(sMenu.activeSLink) !== -1) {
+              this.setState({
+                activeSubMenuLink: sMenu.activeSLink,
+              });
+              break;
+            }
+          }
+        }
         // isActive = true;
         break;
       }
@@ -88,6 +100,22 @@ export class SideMenu extends PureComponent<any, any> {
       text: 'Alerts',
       cssClass: 'alerts',
       activeLink: 'plugins/xformation-alertmanager-ui-plugin',
+      subMenu: [
+        {
+          link: '/plugins/xformation-alertmanager-ui-plugin/page/monitoralerts',
+          text: 'Dashboard',
+          cssClass: 'alerts',
+          activeSLink: 'plugins/xformation-alertmanager-ui-plugin/page/monitoralerts',
+          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
+        },
+        {
+          link: '/plugins/xformation-alertmanager-ui-plugin/page/alertrulebuilder',
+          text: 'New Alert Rule',
+          cssClass: 'alerts',
+          activeSLink: 'plugins/xformation-alertmanager-ui-plugin/page/alertrulebuilder',
+          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
+        },
+      ],
     },
     {
       link: '',
@@ -152,23 +180,51 @@ export class SideMenu extends PureComponent<any, any> {
   onClickLink = (e: any, menuItem: any) => {
     this.setState({
       activeMenuLink: menuItem.activeLink,
+      activeSubMenuLink: menuItem.activeLink,
+    });
+  };
+
+  onClickSubLink = (e: any, sMenuItem: any) => {
+    this.setState({
+      activeMenuLink: sMenuItem.activeLink,
+      activeSubMenuLink: sMenuItem.activeSLink,
     });
   };
 
   createOpenMenu = (menuItems: any) => {
     const retItem: any = [];
-    const { activeMenuLink } = this.state;
+    const { activeMenuLink, activeSubMenuLink } = this.state;
     for (let i = 0; i < menuItems.length; i++) {
       const menuItem = menuItems[i];
+      const subMenuItems = [];
+      if (menuItem.subMenu && menuItem.subMenu.length > 0) {
+        for (let j = 0; j < menuItem.subMenu.length; j++) {
+          subMenuItems.push(
+            <li>
+              <a
+                className={`menu-item ${activeSubMenuLink === menuItem.subMenu[j].activeSLink ? 'active' : ''}`}
+                href={menuItem.subMenu[j].link}
+                onClick={(e: any) => this.onClickSubLink(e, menuItem.subMenu[j])}
+              >
+                <div className={`menu-item-image ${menuItem.subMenu[j].cssClass}`}></div>
+                <div className="menu-item-text">{menuItem.subMenu[j].text}</div>
+              </a>
+            </li>
+          );
+        }
+      }
       retItem.push(
-        <a
-          href={menuItem.link}
-          className={`menu-item ${activeMenuLink === menuItem.activeLink ? 'active' : ''}`}
-          onClick={(e: any) => this.onClickLink(e, menuItem)}
-        >
-          <div className={`menu-item-image ${menuItem.cssClass}`}></div>
-          <div className="menu-item-text">{menuItem.text}</div>
-        </a>
+        <li className="item">
+          <a
+            href={menuItem.link}
+            className={`menu-item ${activeMenuLink === menuItem.activeLink ? 'active' : ''}`}
+            onClick={(e: any) => this.onClickLink(e, menuItem)}
+          >
+            <div className={`menu-item-image ${menuItem.cssClass}`}></div>
+            <div className="menu-item-text">{menuItem.text}</div>
+          </a>
+          {subMenuItems.length > 0 && <ul className="sub-menu">{subMenuItems}</ul>}
+        </li>
       );
     }
     return retItem;
@@ -212,11 +268,11 @@ export class SideMenu extends PureComponent<any, any> {
               <i className="fa fa-arrow-left left-arrow"></i>
             </div>
           </div>
-          {this.createOpenMenu(this.mainMenu)}
+          <ul>{this.createOpenMenu(this.mainMenu)}</ul>
           <div className="menu-item-header">INSIGHTS</div>
-          {this.createOpenMenu(this.insights)}
+          <ul>{this.createOpenMenu(this.insights)}</ul>
           <div className="menu-item-header">SETTINGS</div>
-          {this.createOpenMenu(this.settings)}
+          <ul>{this.createOpenMenu(this.settings)}</ul>
         </div>
         <div className="close-menu">
           <div className="sidemenu-search-container">
