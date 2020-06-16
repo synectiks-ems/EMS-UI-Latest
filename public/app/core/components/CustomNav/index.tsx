@@ -28,9 +28,9 @@ export class CustomNavigationBar extends PureComponent<any> {
           <div className="icon">
             <i className="fa fa-folder"></i>
           </div>
-          <div className="icon">
+          <a className="icon" href="/plugins">
             <i className="fa fa-cog"></i>
-          </div>
+          </a>
           <div className="icon">
             <i className="fa fa-bell"></i>
           </div>
