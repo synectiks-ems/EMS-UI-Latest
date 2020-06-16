@@ -232,17 +232,38 @@ export class SideMenu extends PureComponent<any, any> {
 
   createCloseMenu = (menuItems: any) => {
     const retItem: any = [];
-    const { activeMenuLink } = this.state;
+    const { activeMenuLink, activeSubMenuLink } = this.state;
     for (let i = 0; i < menuItems.length; i++) {
       const menuItem = menuItems[i];
+      const subMenuItems = [];
+      if (menuItem.subMenu && menuItem.subMenu.length > 0) {
+        for (let j = 0; j < menuItem.subMenu.length; j++) {
+          subMenuItems.push(
+            <li>
+              <a
+                className={`menu-item ${activeSubMenuLink === menuItem.subMenu[j].activeSLink ? 'active' : ''}`}
+                href={menuItem.subMenu[j].link}
+                onClick={(e: any) => this.onClickSubLink(e, menuItem.subMenu[j])}
+              >
+                <div className={`menu-item-image ${menuItem.subMenu[j].cssClass}`}></div>
+                <div className="menu-item-text">{menuItem.subMenu[j].text}</div>
+              </a>
+            </li>
+          );
+        }
+      }
       retItem.push(
-        <a
-          href={menuItem.link}
-          className={`menu-item ${activeMenuLink === menuItem.activeLink ? 'active' : ''}`}
-          onClick={(e: any) => this.onClickLink(e, menuItem)}
-        >
-          <div className={`menu-item-image ${menuItem.cssClass}`}></div>
-        </a>
+        <li className="item">
+          <a
+            href={menuItem.link}
+            className={`menu-item ${activeMenuLink === menuItem.activeLink ? 'active' : ''}`}
+            onClick={(e: any) => this.onClickLink(e, menuItem)}
+          >
+            <div className={`menu-item-image ${menuItem.cssClass}`}></div>
+            <div className="menu-item-text">{menuItem.text}</div>
+          </a>
+          {subMenuItems.length > 0 && <ul className="sub-menu">{subMenuItems}</ul>}
+        </li>
       );
     }
     return retItem;
@@ -280,11 +301,11 @@ export class SideMenu extends PureComponent<any, any> {
               <i className="fa fa-arrow-right right-arrow"></i>
             </div>
           </div>
-          {this.createCloseMenu(this.mainMenu)}
+          <ul>{this.createCloseMenu(this.mainMenu)}</ul>
           <div className="menu-item-header"></div>
-          {this.createCloseMenu(this.insights)}
+          <ul>{this.createCloseMenu(this.insights)}</ul>
           <div className="menu-item-header"></div>
-          {this.createCloseMenu(this.settings)}
+          <ul>{this.createCloseMenu(this.settings)}</ul>
         </div>
       </div>,
     ];

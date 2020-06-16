@@ -203,10 +203,9 @@ li.sidemenu-org-switcher {
   min-height: $navbarHeight;
   position: relative;
   height: $navbarHeight - 1px;
-
-  &:hover {
-    // background: $navbarButtonBackgroundHighlight;
-  }
+  // &:hover {
+  //   background: $navbarButtonBackgroundHighlight;
+  // }
 
   img {
     width: 30px;
@@ -343,140 +342,188 @@ li.sidemenu-org-switcher {
 
 /************************* new look css *****************************/
 
-body{
+body {
   font-family: 'Montserrat', sans-serif !important;
 }
 
-input, button, select, textarea{
+input,
+button,
+select,
+textarea {
   font-family: 'Montserrat', sans-serif !important;
 }
 
-.sidemenu{
-  background-color: #F5F8FC !important;
+.sidemenu {
+  background-color: #f5f8fc !important;
   box-shadow: -4px 6px 8px 0px #3b4859;
   position: absolute !important;
   top: 51px !important;
   height: calc(100% - 51px) !important;
   transition: width 0.3s !important;
-  .sidemenu-search-container{
+  .sidemenu-search-container {
     padding-top: 11px;
     height: 48px;
     width: 240px;
-    .gf-form--has-input-icon{
+    .gf-form--has-input-icon {
       margin-left: 10px;
       margin-right: 0px;
-      .sidemenu-search-box{
+      .sidemenu-search-box {
         width: 173px;
         height: 30px;
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         margin-right: 20px;
-        border-color: #8392A7;
+        border-color: #8392a7;
       }
-      ::-webkit-input-placeholder { /* Edge */
-        color: #8998AC;
+      ::-webkit-input-placeholder {
+        /* Edge */
+        color: #8998ac;
       }
-      
-      :-ms-input-placeholder { /* Internet Explorer 10-11 */
-        color: #8998AC;
+
+      :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: #8998ac;
       }
-      
+
       ::placeholder {
-        color: #8998AC;
+        color: #8998ac;
       }
-      i{
-        color: #8392A7;
+      i {
+        color: #8392a7;
       }
     }
-    .side-menu-toggle{
+    .side-menu-toggle {
       display: inline-block;
-      color: #8998AC;
+      color: #8998ac;
       cursor: pointer;
     }
   }
-  .open-menu, .close-menu{
+  .open-menu,
+  .close-menu {
     transition: width 0.3s, opacity 0.3s;
     position: absolute;
     top: 0px;
-    background: #F5F8FC !important;
+    background: #f5f8fc !important;
   }
-  .open-menu{
+  .open-menu {
     width: 0px;
     opacity: 0;
-    .menu-item,.menu-item-header{
+    display: none;
+    .menu-item,
+    .menu-item-header {
       display: none;
     }
   }
-  .close-menu{
+  .close-menu {
     display: block;
     width: 100%;
     opacity: 1;
-    .sidemenu-search-container{
+    .sidemenu-search-container {
       width: 100%;
-      .side-menu-toggle{
+      .side-menu-toggle {
         padding-left: 19px;
         padding-top: 7px;
       }
     }
-    .menu-item{
+    .menu-item {
       padding: 14px 0px 14px 12px;
       display: block;
     }
-    .menu-item-header{
-      height: 48px;
+    .menu-item-header {
+      height: auto;
       width: 100%;
       display: block;
     }
-  }
-  .menu-item{
-    &.active,&:hover{
-      background-color: #F0F3F7;
+    .menu-item-text {
+      display: none !important;
     }
-    .menu-item-image{
+    .item {
+      position: relative;
+      .sub-menu {
+        display: none;
+        position: absolute;
+        left: 100%;
+        top: 0px;
+        background-color: #f0f3f7;
+        padding: 10px 0;
+        width: 170px;
+        list-style: none;
+        li {
+          display: block;
+          padding: 0 0 5px 0;
+          a {
+            display: block;
+            color: #3b4859;
+            font-size: 13px;
+            padding: 5px 15px;
+            i {
+              color: #3b7cff;
+              display: inline-block;
+              padding-right: 5px;
+            }
+            .menu-item-text {
+              display: inline-block !important;
+            }
+          }
+        }
+      }
+      &:hover .sub-menu {
+        display: block;
+      }
+    }
+  }
+  .menu-item {
+    &.active,
+    &:hover {
+      background-color: #f0f3f7;
+    }
+    .menu-item-image {
       display: inline-block;
       width: 20px;
       height: 20px;
       background-size: contain;
+      vertical-align: top;
     }
-    .menu-item-text{
+    .menu-item-text {
       display: inline-block;
       padding-left: 10px;
-      color: #3B4859;
+      color: #3b4859;
+      vertical-align: top;
     }
-    .overview{
-      background-image:url("../img/monitor-icons/overview.svg");
+    .overview {
+      background-image: url('../img/monitor-icons/overview.svg');
     }
-    .activity-log{
-      background-image:url("../img/monitor-icons/activity-log.svg");
+    .activity-log {
+      background-image: url('../img/monitor-icons/activity-log.svg');
     }
-    .alerts{
-      background-image:url("../img/monitor-icons/alerts.svg");
+    .alerts {
+      background-image: url('../img/monitor-icons/alerts.svg');
     }
-    .metrics{
-      background-image:url("../img/monitor-icons/metrics.svg");
+    .metrics {
+      background-image: url('../img/monitor-icons/metrics.svg');
     }
-    .logs{
-      background-image:url("../img/monitor-icons/logs.svg");
+    .logs {
+      background-image: url('../img/monitor-icons/logs.svg');
     }
-    .service-health{
-      background-image:url("../img/monitor-icons/service-health.svg");
+    .service-health {
+      background-image: url('../img/monitor-icons/service-health.svg');
     }
-    .workbooks{
-      background-image:url("../img/monitor-icons/workbooks.svg");
+    .workbooks {
+      background-image: url('../img/monitor-icons/workbooks.svg');
     }
-    .applications{
-      background-image:url("../img/monitor-icons/applications.svg");
+    .applications {
+      background-image: url('../img/monitor-icons/applications.svg');
     }
-    .virtual-machines{
-      background-image:url("../img/monitor-icons/virtual-machines.svg");
+    .virtual-machines {
+      background-image: url('../img/monitor-icons/virtual-machines.svg');
     }
-    .networks{
-      background-image:url("../img/monitor-icons/networks.svg");
+    .networks {
+      background-image: url('../img/monitor-icons/networks.svg');
     }
-    .jobs{
-      background-image:url("../img/monitor-icons/jobs.svg");
+    .jobs {
+      background-image: url('../img/monitor-icons/jobs.svg');
     }
-    .diagnostic-settings{
-      background-image:url("../img/monitor-icons/diagnostic-settings.svg");
+    .diagnostic-settings {
+      background-image: url('../img/monitor-icons/diagnostic-settings.svg');
     }
   }
 }
@@ -484,44 +531,58 @@ input, button, select, textarea{
 .wide-side-menu {
   .sidemenu {
     width: 240px !important;
-    .open-menu{
+    .open-menu {
       width: 100%;
       opacity: 1;
-      .menu-item{
+      display: block;
+      .menu-item {
         padding: 14px 0px 14px 33px;
         display: flex;
       }
-      .menu-item-header{
-        background-color: #FFFFFF;
+      .menu-item-header {
+        background-color: #ffffff;
         padding: 14px 0px 14px 20px;
-        color: #3B4859;
+        color: #3b4859;
         font-size: 14px;
         display: block;
       }
-      .item{
+      .item {
         position: relative;
-        .sub-menu{
+        .sub-menu {
           display: none;
           position: absolute;
           left: 100%;
           top: 0px;
-          background-color: #F5F8FC !important;
-          width: 200px;
+          background-color: #f0f3f7;
+          padding: 10px 0;
+          width: 170px;
           list-style: none;
-          box-shadow: 3px 0px 6px -3px #3b4859;
-          li{
+          li {
             display: block;
+            padding: 0 0 5px 0;
+            a {
+              display: block;
+              color: #3b4859;
+              font-size: 13px;
+              padding: 5px 15px;
+              i {
+                color: #3b7cff;
+                display: inline-block;
+                padding-right: 5px;
+              }
+            }
           }
         }
-        &:hover .sub-menu{
+        &:hover .sub-menu {
           display: block;
         }
       }
     }
-    .close-menu{
+    .close-menu {
       width: 0px;
       opacity: 0;
-      .menu-item,.menu-item-header{
+      .menu-item,
+      .menu-item-header {
         display: none;
       }
     }
