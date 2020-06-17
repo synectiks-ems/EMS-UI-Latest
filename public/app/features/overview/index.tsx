@@ -39,7 +39,7 @@ class Overview extends React.Component<any, any> {
                     <React.Fragment key={index}>
                       <a className="breadcrumbs-link">{breadcrumb.label}</a>
                       <span className="separator">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<i className="fa fa-chevron-right"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i className="fa fa-chevron-right"></i>
                       </span>
                     </React.Fragment>
                   );
