@@ -23,16 +23,15 @@ export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locati
   const importDashboardPage = () =>
     SafeDynamicImport(import(/* webpackChunkName: "DashboardPage" */ '../features/dashboard/containers/DashboardPage'));
 
-  const overviewPage = () => SafeDynamicImport(import(/* webpackChunkName: "DashboardPage" */ '../features/overview'));
-
   $routeProvider
     .when('/', {
       template: '<react-container />',
       //@ts-ignore
       pageClass: 'page-dashboard',
+      routeInfo: DashboardRouteInfo.Home,
       reloadOnSearch: false,
       resolve: {
-        component: overviewPage,
+        component: importDashboardPage,
       },
     })
     .when('/d/:uid/:slug', {
@@ -42,15 +41,6 @@ export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locati
       reloadOnSearch: false,
       resolve: {
         component: importDashboardPage,
-      },
-    })
-    .when('/dashboardlist', {
-      template: '<react-container />',
-      pageClass: 'page-dashboard',
-      reloadOnSearch: false,
-      resolve: {
-        component: () =>
-          SafeDynamicImport(import(/* webpackChunkName: "DataSourcesListPage"*/ 'app/features/custom-dashboard-list')),
       },
     })
     .when('/d/:uid', {
