@@ -1,18 +1,17 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import angular, { ILocationService, IScope } from 'angular';
-import { e2e } from '@grafana/e2e';
+import { selectors } from '@grafana/e2e-selectors';
 
 import { appEvents, contextSrv, coreModule } from 'app/core/core';
 import { DashboardModel } from '../../state/DashboardModel';
-import config from 'app/core/config';
+import { getConfig } from 'app/core/config';
 import { backendSrv } from 'app/core/services/backend_srv';
 import { DashboardSrv } from '../../services/DashboardSrv';
 import { CoreEvents } from 'app/types';
 import { GrafanaRootScope } from 'app/routes/GrafanaCtrl';
-import { AppEvents } from '@grafana/data';
+import { AppEvents, locationUtil, TimeZone } from '@grafana/data';
 import { promiseToDigest } from '../../../../core/utils/promiseToDigest';
-import locationUtil from 'app/core/utils/location_util';
 
 export class SettingsCtrl {
   dashboard: DashboardModel;
@@ -25,7 +24,7 @@ export class SettingsCtrl {
   canDelete: boolean;
   sections: any[];
   hasUnsavedFolderChange: boolean;
-  selectors: typeof e2e.pages.Dashboard.Settings.General.selectors;
+  selectors: typeof selectors.pages.Dashboard.Settings.General;
 
   /** @ngInject */
   constructor(
@@ -59,7 +58,7 @@ export class SettingsCtrl {
 
     appEvents.on(CoreEvents.dashboardSaved, this.onPostSave.bind(this), $scope);
 
-    this.selectors = e2e.pages.Dashboard.Settings.General.selectors;
+    this.selectors = selectors.pages.Dashboard.Settings.General;
   }
 
   buildSectionList() {
@@ -69,22 +68,22 @@ export class SettingsCtrl {
       this.sections.push({
         title: 'General',
         id: 'settings',
-        icon: 'gicon gicon-preferences',
+        icon: 'sliders-v-alt',
       });
       this.sections.push({
         title: 'Annotations',
         id: 'annotations',
-        icon: 'gicon gicon-annotation',
+        icon: 'comment-alt',
       });
       this.sections.push({
         title: 'Variables',
         id: 'templating',
-        icon: 'gicon gicon-variable',
+        icon: 'calculator-alt',
       });
       this.sections.push({
         title: 'Links',
         id: 'links',
-        icon: 'gicon gicon-link',
+        icon: 'link',
       });
     }
 
@@ -92,7 +91,7 @@ export class SettingsCtrl {
       this.sections.push({
         title: 'Versions',
         id: 'versions',
-        icon: 'fa fa-fw fa-history',
+        icon: 'history',
       });
     }
 
@@ -100,14 +99,14 @@ export class SettingsCtrl {
       this.sections.push({
         title: 'Permissions',
         id: 'permissions',
-        icon: 'fa fa-fw fa-lock',
+        icon: 'lock',
       });
     }
 
     if (this.dashboard.meta.canMakeEditable) {
       this.sections.push({
         title: 'General',
-        icon: 'gicon gicon-preferences',
+        icon: 'sliders-v-alt',
         id: 'make_editable',
       });
     }
@@ -115,7 +114,7 @@ export class SettingsCtrl {
     this.sections.push({
       title: 'JSON Model',
       id: 'dashboard_json',
-      icon: 'gicon gicon-json',
+      icon: 'arrow',
     });
 
     const params = this.$location.search();
@@ -123,7 +122,7 @@ export class SettingsCtrl {
 
     for (const section of this.sections) {
       const sectionParams = _.defaults({ editview: section.id }, params);
-      section.url = config.appSubUrl + url + '?' + $.param(sectionParams);
+      section.url = getConfig().appSubUrl + url + '?' + $.param(sectionParams);
     }
   }
 
@@ -143,7 +142,7 @@ export class SettingsCtrl {
       this.sections.unshift({
         title: 'Not found',
         id: '404',
-        icon: 'fa fa-fw fa-warning',
+        icon: 'exclamation-triangle',
       });
       this.viewId = '404';
     }
@@ -199,7 +198,7 @@ export class SettingsCtrl {
           File path: ${this.dashboard.meta.provisionedExternalId}
         `,
         text2htmlBind: true,
-        icon: 'fa-trash',
+        icon: 'trash-alt',
         noText: 'OK',
       });
       return;
@@ -218,7 +217,7 @@ export class SettingsCtrl {
       title: 'Delete',
       text: 'Do you want to delete this dashboard?',
       text2: text2,
-      icon: 'fa-trash',
+      icon: 'trash-alt',
       confirmText: confirmText,
       yesText: 'Delete',
       onConfirm: () => {
@@ -253,6 +252,22 @@ export class SettingsCtrl {
 
   getDashboard = () => {
     return this.dashboard;
+  };
+
+  onRefreshIntervalChange = (intervals: string[]) => {
+    this.dashboard.timepicker.refresh_intervals = intervals;
+  };
+
+  onNowDelayChange = (nowDelay: string) => {
+    this.dashboard.timepicker.nowDelay = nowDelay;
+  };
+
+  onHideTimePickerChange = (hide: boolean) => {
+    this.dashboard.timepicker.hidden = hide;
+  };
+
+  onTimeZoneChange = (timeZone: TimeZone) => {
+    this.dashboard.timezone = timeZone;
   };
 }
 

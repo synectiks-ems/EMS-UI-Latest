@@ -1,4 +1,3 @@
-import omitBy from 'lodash/omitBy';
 import { from, merge, MonoTypeOperatorFunction, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, filter, map, mergeMap, retryWhen, share, takeUntil, tap, throwIfEmpty } from 'rxjs/operators';
 import { fromFetch } from 'rxjs/fetch';
@@ -7,13 +6,13 @@ import { AppEvents } from '@grafana/data';
 
 import appEvents from 'app/core/app_events';
 import config from 'app/core/config';
-import { DashboardModel } from 'app/features/dashboard/state/DashboardModel';
-import { DashboardSearchHit } from 'app/types/search';
-import { CoreEvents, DashboardDTO, FolderInfo } from 'app/types';
-import { ContextSrv, contextSrv } from './context_srv';
+import { DataSourceResponse } from 'app/types/events';
+import { DashboardSearchHit } from 'app/features/search/types';
+import { CoreEvents, DashboardDTO, FolderInfo, DashboardDataDTO } from 'app/types';
 import { coreModule } from 'app/core/core_module';
+import { ContextSrv, contextSrv } from './context_srv';
 import { Emitter } from '../utils/emitter';
-import { DataSourceResponse } from '../../types/events';
+import { parseInitFromOptions, parseUrlFromOptions } from '../utils/fetch';
 
 export interface DatasourceRequestOptions {
   retry?: number;
@@ -54,17 +53,7 @@ enum CancellationType {
   dataSourceRequest,
 }
 
-function serializeParams(data: Record<string, any>): string {
-  return Object.keys(data)
-    .map(key => {
-      const value = data[key];
-      if (Array.isArray(value)) {
-        return value.map(arrayValue => `${encodeURIComponent(key)}=${encodeURIComponent(arrayValue)}`).join('&');
-      }
-      return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-    })
-    .join('&');
-}
+const CANCEL_ALL_REQUESTS_REQUEST_ID = 'cancel_all_requests_request_id';
 
 export interface BackendSrvDependencies {
   fromFetch: (input: string | Request, init?: RequestInit) => Observable<Response>;
@@ -195,6 +184,10 @@ export class BackendSrv implements BackendService {
     this.inFlightRequests.next(requestId);
   }
 
+  cancelAllInFlightRequests() {
+    this.inFlightRequests.next(CANCEL_ALL_REQUESTS_REQUEST_ID);
+  }
+
   async datasourceRequest(options: BackendSrvRequest): Promise<any> {
     // A requestId is provided by the datasource as a unique identifier for a
     // particular query. Every observable below has a takeUntil that subscribes to this.inFlightRequests and
@@ -272,11 +265,11 @@ export class BackendSrv implements BackendService {
   }
 
   saveDashboard(
-    dash: DashboardModel,
+    dashboard: DashboardDataDTO,
     { message = '', folderId, overwrite = false }: { message?: string; folderId?: number; overwrite?: boolean } = {}
   ) {
     return this.post('/api/dashboards/db/', {
-      dashboard: dash,
+      dashboard,
       folderId,
       overwrite,
       message,
@@ -331,13 +324,12 @@ export class BackendSrv implements BackendService {
 
   private async moveDashboard(uid: string, toFolder: FolderInfo) {
     const fullDash: DashboardDTO = await this.getDashboardByUid(uid);
-    const model = new DashboardModel(fullDash.dashboard, fullDash.meta);
 
     if ((!fullDash.meta.folderId && toFolder.id === 0) || fullDash.meta.folderId === toFolder.id) {
       return { alreadyInFolder: true };
     }
 
-    const clone = model.getSaveModelClone();
+    const clone = fullDash.dashboard;
     const options = {
       folderId: toFolder.id,
       overwrite: false,
@@ -459,7 +451,7 @@ export class BackendSrv implements BackendService {
           url,
           type,
           redirected,
-          request: { url, ...init },
+          config: options,
         };
         return fetchResponse;
       }),
@@ -542,12 +534,18 @@ export class BackendSrv implements BackendService {
         this.inFlightRequests.pipe(
           filter(requestId => {
             let cancelRequest = false;
+
             if (options && options.requestId && options.requestId === requestId) {
               // when a new requestId is started it will be published to inFlightRequests
               // if a previous long running request that hasn't finished yet has the same requestId
               // we need to cancel that request
               cancelRequest = true;
             }
+
+            if (requestId === CANCEL_ALL_REQUESTS_REQUEST_ID) {
+              cancelRequest = true;
+            }
+
             return cancelRequest;
           })
         )
@@ -567,7 +565,7 @@ export class BackendSrv implements BackendService {
             data: [],
             status: this.HTTP_REQUEST_CANCELED,
             statusText: 'Request was aborted',
-            request: { url: parseUrlFromOptions(options), ...parseInitFromOptions(options) },
+            config: options,
           });
         }
 
@@ -580,36 +578,3 @@ coreModule.factory('backendSrv', () => backendSrv);
 // Used for testing and things that really need BackendSrv
 export const backendSrv = new BackendSrv();
 export const getBackendSrv = (): BackendSrv => backendSrv;
-
-export const parseUrlFromOptions = (options: BackendSrvRequest): string => {
-  const cleanParams = omitBy(options.params, v => v === undefined || (v && v.length === 0));
-  const serializedParams = serializeParams(cleanParams);
-  return options.params && serializedParams.length ? `${options.url}?${serializedParams}` : options.url;
-};
-
-export const parseInitFromOptions = (options: BackendSrvRequest): RequestInit => {
-  const method = options.method;
-  const headers = {
-    'Content-Type': 'application/json',
-    Accept: 'application/json, text/plain, */*',
-    ...options.headers,
-  };
-  const body = parseBody({ ...options, headers });
-  return {
-    method,
-    headers,
-    body,
-  };
-};
-
-const parseBody = (options: BackendSrvRequest) => {
-  if (!options.data || typeof options.data === 'string') {
-    return options.data;
-  }
-
-  if (options.headers['Content-Type'] === 'application/json') {
-    return JSON.stringify(options.data);
-  }
-
-  return new URLSearchParams(options.data);
-};

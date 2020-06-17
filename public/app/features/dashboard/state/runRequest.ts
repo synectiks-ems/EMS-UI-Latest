@@ -18,8 +18,10 @@ import {
   DataFrame,
   guessFieldTypes,
 } from '@grafana/data';
-import { getAnalyticsProcessor } from './analyticsProcessor';
+import { toDataQueryError } from '@grafana/runtime';
+import { emitDataRequestEvent } from './analyticsProcessor';
 import { ExpressionDatasourceID, expressionDatasource } from 'app/features/expressions/ExpressionDatasource';
+import { ExpressionQuery } from 'app/features/expressions/types';
 
 type MapOfResponsePackets = { [str: string]: DataQueryResponse };
 
@@ -117,10 +119,10 @@ export function runRequest(datasource: DataSourceApi, request: DataQueryRequest)
       of({
         ...state.panelData,
         state: LoadingState.Error,
-        error: processQueryError(err),
+        error: toDataQueryError(err),
       })
     ),
-    tap(getAnalyticsProcessor(datasource)),
+    tap(emitDataRequestEvent(datasource)),
     // finalize is triggered when subscriber unsubscribes
     // This makes sure any still running network requests are cancelled
     finalize(cancelNetworkRequestsOnUnsubscribe(request)),
@@ -144,37 +146,13 @@ export function callQueryMethod(datasource: DataSourceApi, request: DataQueryReq
   // If any query has an expression, use the expression endpoint
   for (const target of request.targets) {
     if (target.datasource === ExpressionDatasourceID) {
-      return expressionDatasource.query(request);
+      return expressionDatasource.query(request as DataQueryRequest<ExpressionQuery>);
     }
   }
 
   // Otherwise it is a standard datasource request
   const returnVal = datasource.query(request);
   return from(returnVal);
-}
-
-export function processQueryError(err: any): DataQueryError {
-  const error = (err || {}) as DataQueryError;
-
-  if (!error.message) {
-    if (typeof err === 'string' || err instanceof String) {
-      return { message: err } as DataQueryError;
-    }
-
-    let message = 'Query error';
-    if (error.message) {
-      message = error.message;
-    } else if (error.data && error.data.message) {
-      message = error.data.message;
-    } else if (error.data && error.data.error) {
-      message = error.data.error;
-    } else if (error.status) {
-      message = `Query error: ${error.status} ${error.statusText}`;
-    }
-    error.message = message;
-  }
-
-  return error;
 }
 
 /**
@@ -192,9 +170,9 @@ export function getProcessedDataFrames(results?: DataQueryResponseData[]): DataF
   for (const result of results) {
     const dataFrame = guessFieldTypes(toDataFrame(result));
 
-    // clear out any cached calcs
+    // clear out the cached info
     for (const field of dataFrame.fields) {
-      field.calcs = null;
+      field.state = null;
     }
 
     dataFrames.push(dataFrame);
@@ -216,8 +194,13 @@ export function preProcessPanelData(data: PanelData, lastResult: PanelData): Pan
   }
 
   // Make sure the data frames are properly formatted
+  const STARTTIME = performance.now();
+  const processedDataFrames = getProcessedDataFrames(series);
+  const STOPTIME = performance.now();
+
   return {
     ...data,
-    series: getProcessedDataFrames(series),
+    series: processedDataFrames,
+    timings: { dataProcessingTime: STOPTIME - STARTTIME },
   };
 }

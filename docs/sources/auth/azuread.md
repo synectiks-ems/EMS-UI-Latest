@@ -12,6 +12,8 @@ weight = 3
 
 # Azure AD OAuth2 authentication
 
+> Only available in Grafana v6.7+
+
 The Azure AD authentication provides the possibility to use an Azure Active Directory tenant as an identity provider for Grafana. By using Azure AD Application Roles it is also possible to assign Users and Groups to Grafana roles from the Azure Portal.
 
 ## Create the Azure AD application
@@ -28,8 +30,8 @@ To enable the Azure AD OAuth2 you must register your application with Azure AD.
 1. Click the name of the new application to open the application details page.
 
 1. Click **Endpoints**.
-   - Note down the **OAuth 2.0 authorization endpoint (v2)**, this will be the auth url.
-   - Note down the **OAuth 2.0 token endpoint (v2)**, this will be the token url.
+   - Note down the **OAuth 2.0 authorization endpoint (v2)**, this will be the auth URL.
+   - Note down the **OAuth 2.0 token endpoint (v2)**, this will be the token URL.
 
 1. Close the Endpoints page to come back to the application details page.
 
@@ -90,7 +92,7 @@ To enable the Azure AD OAuth2 you must register your application with Azure AD.
 
 1. Click on **Users and groups** and add Users/Groups to the Grafana roles by using **Add User**.
 
-## Enable Azure AD Oauth in Grafana
+## Enable Azure AD OAuth in Grafana
 
 1. Add the following to the [Grafana configuration file]({{< relref "../installation/configuration.md#config-file-locations" >}}):
 
@@ -120,6 +122,12 @@ only give access to members of the group `example` which has Id `8bab1c86-8fba-3
 allowed_groups = 8bab1c86-8fba-33e5-2089-1d1c80ec267d
 ```
 
+You'll need to ensure that you've [enabled group attributes](https://docs.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-fed-group-claims#configure-the-azure-ad-application-registration-for-group-attributes) in your Azure AD Application Registration manifest file (Azure Portal -> Azure Active Directory -> Application Registrations -> Select Application -> Manifest)
+
+```json
+"groupMembershipClaims": "ApplicationGroup"
+```
+
 The `allowed_domains` option limits access to the users belonging to the specific domains. Domains should be separated by space or comma.
 
 ```ini
@@ -131,7 +139,7 @@ allowed_domains = mycompany.com mycompany.org
 >  Only available in Grafana Enterprise v6.7+
 
 With Team Sync you can map your Azure AD groups to teams in Grafana so that your users will automatically be added to
-the correct teams. 
+the correct teams.
 
 Azure AD groups can be referenced by group Object Id, like `8bab1c86-8fba-33e5-2089-1d1c80ec267d`.
 

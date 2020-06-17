@@ -8,16 +8,24 @@ import { SaveDashboardModalProps } from './types';
 import { SaveDashboardAsButton } from './SaveDashboardButton';
 
 interface SaveDashboardErrorProxyProps {
+  /** original dashboard */
   dashboard: DashboardModel;
+  /** dashboard save model with applied modifications, i.e. title */
+  dashboardSaveModel: any;
   error: any;
   onDismiss: () => void;
 }
 
-export const SaveDashboardErrorProxy: React.FC<SaveDashboardErrorProxyProps> = ({ dashboard, error, onDismiss }) => {
+export const SaveDashboardErrorProxy: React.FC<SaveDashboardErrorProxyProps> = ({
+  dashboard,
+  dashboardSaveModel,
+  error,
+  onDismiss,
+}) => {
   const { onDashboardSave } = useDashboardSave(dashboard);
 
   useEffect(() => {
-    if (error.data) {
+    if (error.data && isHandledError(error.data.status)) {
       error.isHandled = true;
     }
   }, []);
@@ -35,7 +43,7 @@ export const SaveDashboardErrorProxy: React.FC<SaveDashboardErrorProxyProps> = (
           }
           confirmText="Save & Overwrite"
           onConfirm={async () => {
-            await onDashboardSave(dashboard.getSaveModelClone(), { overwrite: true }, dashboard);
+            await onDashboardSave(dashboardSaveModel, { overwrite: true }, dashboard);
             onDismiss();
           }}
           onDismiss={onDismiss}
@@ -53,7 +61,7 @@ export const SaveDashboardErrorProxy: React.FC<SaveDashboardErrorProxyProps> = (
           }
           confirmText="Save & Overwrite"
           onConfirm={async () => {
-            await onDashboardSave(dashboard.getSaveModelClone(), { overwrite: true }, dashboard);
+            await onDashboardSave(dashboardSaveModel, { overwrite: true }, dashboard);
             onDismiss();
           }}
           onDismiss={onDismiss}
@@ -81,7 +89,7 @@ const ConfirmPluginDashboardSaveModal: React.FC<SaveDashboardModalProps> = ({ on
         <HorizontalGroup justify="center">
           <SaveDashboardAsButton dashboard={dashboard} onSaveSuccess={onDismiss} />
           <Button
-            variant="danger"
+            variant="destructive"
             onClick={async () => {
               await onDashboardSave(dashboard.getSaveModelClone(), { overwrite: true }, dashboard);
               onDismiss();
@@ -89,13 +97,25 @@ const ConfirmPluginDashboardSaveModal: React.FC<SaveDashboardModalProps> = ({ on
           >
             Overwrite
           </Button>
-          <Button variant="inverse" onClick={onDismiss}>
+          <Button variant="secondary" onClick={onDismiss}>
             Cancel
           </Button>
         </HorizontalGroup>
       </div>
     </Modal>
   );
+};
+
+const isHandledError = (errorStatus: string) => {
+  switch (errorStatus) {
+    case 'version-mismatch':
+    case 'name-exists':
+    case 'plugin-dashboard':
+      return true;
+
+    default:
+      return false;
+  }
 };
 
 const getConfirmPluginDashboardSaveModalStyles = stylesFactory((theme: GrafanaTheme) => ({

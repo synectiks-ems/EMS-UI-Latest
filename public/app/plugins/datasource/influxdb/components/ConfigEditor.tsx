@@ -8,7 +8,8 @@ import {
   onUpdateDatasourceJsonDataOptionSelect,
   onUpdateDatasourceSecureJsonDataOption,
 } from '@grafana/data';
-import { DataSourceHttpSettings, FormLabel, Input, SecretFormField, Select } from '@grafana/ui';
+import { DataSourceHttpSettings, InlineFormLabel, LegacyForms } from '@grafana/ui';
+const { Select, Input, SecretFormField } = LegacyForms;
 import { InfluxOptions, InfluxSecureJsonData } from '../types';
 
 const httpModes = [
@@ -21,6 +22,21 @@ export type Props = DataSourcePluginOptionsEditorProps<InfluxOptions>;
 export class ConfigEditor extends PureComponent<Props> {
   onResetPassword = () => {
     updateDatasourcePluginResetOption(this.props, 'password');
+  };
+
+  onResetToken = () => {
+    updateDatasourcePluginResetOption(this.props, 'token');
+  };
+
+  onToggleFlux = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    const { options, onOptionsChange } = this.props;
+    onOptionsChange({
+      ...options,
+      jsonData: {
+        ...options.jsonData,
+        enableFlux: !options.jsonData.enableFlux,
+      },
+    });
   };
 
   render() {
@@ -39,8 +55,52 @@ export class ConfigEditor extends PureComponent<Props> {
         <h3 className="page-heading">InfluxDB Details</h3>
         <div className="gf-form-group">
           <div className="gf-form-inline">
+            <LegacyForms.Switch
+              label="Enable flux"
+              labelClass="width-10"
+              checked={options.jsonData.enableFlux || false}
+              onChange={this.onToggleFlux}
+              tooltip="Suport flux query endpoint"
+            />
+          </div>
+
+          {options.jsonData.enableFlux && (
+            <>
+              <div className="gf-form-inline">
+                <div className="gf-form">
+                  <InlineFormLabel className="width-10">Organization</InlineFormLabel>
+                  <div className="width-10">
+                    <Input
+                      className="width-10"
+                      placeholder="enter organization"
+                      value={options.jsonData.organization || ''}
+                      onChange={onUpdateDatasourceJsonDataOption(this.props, 'organization')}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="gf-form-inline">
+                <div className="gf-form">
+                  <InlineFormLabel className="width-10">Default Bucket</InlineFormLabel>
+                  <div className="width-10">
+                    <Input
+                      className="width-10"
+                      placeholder="default bucket"
+                      value={options.jsonData.defaultBucket || ''}
+                      onChange={onUpdateDatasourceJsonDataOption(this.props, 'defaultBucket')}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <br />
+              <br />
+            </>
+          )}
+
+          <div className="gf-form-inline">
             <div className="gf-form">
-              <FormLabel className="width-10">Database</FormLabel>
+              <InlineFormLabel className="width-10">Database</InlineFormLabel>
               <div className="width-20">
                 <Input
                   className="width-20"
@@ -52,7 +112,7 @@ export class ConfigEditor extends PureComponent<Props> {
           </div>
           <div className="gf-form-inline">
             <div className="gf-form">
-              <FormLabel className="width-10">User</FormLabel>
+              <InlineFormLabel className="width-10">User</InlineFormLabel>
               <div className="width-10">
                 <Input
                   className="width-20"
@@ -77,14 +137,27 @@ export class ConfigEditor extends PureComponent<Props> {
           </div>
           <div className="gf-form-inline">
             <div className="gf-form">
-              <FormLabel
+              <SecretFormField
+                isConfigured={(secureJsonFields && secureJsonFields.token) as boolean}
+                value={secureJsonData.token || ''}
+                label="Token"
+                labelWidth={10}
+                inputWidth={20}
+                onReset={this.onResetPassword}
+                onChange={onUpdateDatasourceSecureJsonDataOption(this.props, 'token')}
+              />
+            </div>
+          </div>
+          <div className="gf-form-inline">
+            <div className="gf-form">
+              <InlineFormLabel
                 className="width-10"
                 tooltip="You can use either GET or POST HTTP method to query your InfluxDB database. The POST
           method allows you to perform heavy requests (with a lots of WHERE clause) while the GET method
           will restrict you and return an error if the query is too large."
               >
                 HTTP Method
-              </FormLabel>
+              </InlineFormLabel>
               <Select
                 className="width-10"
                 value={httpModes.find(httpMode => httpMode.value === options.jsonData.httpMode)}
@@ -111,13 +184,13 @@ export class ConfigEditor extends PureComponent<Props> {
         <div className="gf-form-group">
           <div className="gf-form-inline">
             <div className="gf-form">
-              <FormLabel
+              <InlineFormLabel
                 className="width-10"
                 tooltip="A lower limit for the auto group by time interval. Recommended to be set to write frequency,
 				for example 1m if your data is written every minute."
               >
                 Min time interval
-              </FormLabel>
+              </InlineFormLabel>
               <div className="width-10">
                 <Input
                   className="width-10"

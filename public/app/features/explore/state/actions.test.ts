@@ -1,8 +1,15 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { DataQuery, DefaultTimeZone, LogsDedupStrategy, RawTimeRange, toUtc, ExploreMode } from '@grafana/data';
+import { DataQuery, DefaultTimeZone, ExploreMode, LogsDedupStrategy, RawTimeRange, toUtc } from '@grafana/data';
 
 import * as Actions from './actions';
-import { changeDatasource, loadDatasource, navigateToExplore, refreshExplore } from './actions';
+import {
+  changeDatasource,
+  loadDatasource,
+  navigateToExplore,
+  refreshExplore,
+  cancelQueries,
+  changeMode,
+} from './actions';
 import { ExploreId, ExploreUpdateState, ExploreUrlState } from 'app/types';
 import { thunkTester } from 'test/core/thunk/thunkTester';
 import {
@@ -13,6 +20,9 @@ import {
   setQueriesAction,
   updateDatasourceInstanceAction,
   updateUIStateAction,
+  cancelQueriesAction,
+  scanStopAction,
+  changeModeAction,
 } from './actionTypes';
 import { Emitter } from 'app/core/core';
 import { makeInitialUpdateState } from './reducers';
@@ -20,6 +30,7 @@ import { PanelModel } from 'app/features/dashboard/state';
 import { updateLocation } from '../../../core/actions';
 import { MockDataSourceApi } from '../../../../test/mocks/datasource_srv';
 import * as DatasourceSrv from 'app/features/plugins/datasource_srv';
+import { interval } from 'rxjs';
 
 jest.mock('app/features/plugins/datasource_srv');
 const getDatasourceSrvMock = (DatasourceSrv.getDatasourceSrv as any) as jest.Mock<DatasourceSrv.DatasourceSrv>;
@@ -174,6 +185,40 @@ describe('refreshExplore', () => {
   });
 });
 
+describe('running queries', () => {
+  it('should cancel running query when cancelQueries is dispatched', async () => {
+    const unsubscribable = interval(1000);
+    unsubscribable.subscribe();
+    const exploreId = ExploreId.left;
+    const initialState = {
+      explore: {
+        [exploreId]: {
+          datasourceInstance: 'test-datasource',
+          initialized: true,
+          loading: true,
+          querySubscription: unsubscribable,
+          queries: ['A'],
+          range: testRange,
+        },
+      },
+
+      user: {
+        orgId: 'A',
+      },
+    };
+
+    const dispatchedActions = await thunkTester(initialState)
+      .givenThunk(cancelQueries)
+      .whenThunkIsDispatched(exploreId);
+
+    expect(dispatchedActions).toEqual([
+      scanStopAction({ exploreId }),
+      cancelQueriesAction({ exploreId }),
+      expect.anything(),
+    ]);
+  });
+});
+
 describe('changing datasource', () => {
   it('should switch to logs mode when changing from prometheus to loki', async () => {
     const lokiMock = {
@@ -289,7 +334,29 @@ describe('loading datasource', () => {
   });
 });
 
-const getNavigateToExploreContext = async (openInNewWindow: (url: string) => void = undefined) => {
+describe('changing mode', () => {
+  it('should trigger changeModeAction and updateLocation', async () => {
+    const { exploreId, initialState, range } = setup();
+    const dispatchedActions = await thunkTester(initialState)
+      .givenThunk(changeMode)
+      .whenThunkIsDispatched(exploreId, ExploreMode.Logs);
+    const rawTimeRange = Actions.toRawTimeRange(range);
+    const leftQuery = JSON.stringify([
+      rawTimeRange.from,
+      rawTimeRange.to,
+      initialState.explore.left.datasourceInstance.name,
+      {},
+      { ui: [false, true, false, null] },
+    ]);
+
+    expect(dispatchedActions).toEqual([
+      changeModeAction({ exploreId, mode: ExploreMode.Logs }),
+      updateLocation({ query: { left: leftQuery, orgId: '1' }, replace: false }),
+    ]);
+  });
+});
+
+const getNavigateToExploreContext = async (openInNewWindow?: (url: string) => void) => {
   const url = 'http://www.someurl.com';
   const panel: Partial<PanelModel> = {
     datasource: 'mocked datasource',
@@ -320,7 +387,7 @@ const getNavigateToExploreContext = async (openInNewWindow: (url: string) => voi
 describe('navigateToExplore', () => {
   describe('when navigateToExplore thunk is dispatched', () => {
     describe('and openInNewWindow is undefined', () => {
-      const openInNewWindow: (url: string) => void = undefined;
+      const openInNewWindow: (url: string) => void = (undefined as unknown) as (url: string) => void;
       it('then it should dispatch correct actions', async () => {
         const { dispatchedActions, url } = await getNavigateToExploreContext(openInNewWindow);
 

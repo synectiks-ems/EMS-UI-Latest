@@ -3,23 +3,35 @@ import config from 'app/core/config';
 import { DashboardExporter } from './DashboardExporter';
 import { DashboardModel } from '../../state/DashboardModel';
 import { PanelPluginMeta } from '@grafana/data';
+import { variableAdapters } from '../../../variables/adapters';
+import { createConstantVariableAdapter } from '../../../variables/constant/adapter';
+import { createQueryVariableAdapter } from '../../../variables/query/adapter';
+import { createDataSourceVariableAdapter } from '../../../variables/datasource/adapter';
 
 jest.mock('app/core/store', () => {
   return {
     getBool: jest.fn(),
+    getObject: jest.fn(),
   };
 });
 
 jest.mock('@grafana/runtime', () => ({
+  ...jest.requireActual('@grafana/runtime'),
   getDataSourceSrv: () => ({
     get: jest.fn(arg => getStub(arg)),
   }),
   config: {
     buildInfo: {},
     panels: {},
+    featureToggles: {
+      newVariables: false,
+    },
   },
-  DataSourceWithBackend: jest.fn(),
 }));
+
+variableAdapters.register(createQueryVariableAdapter());
+variableAdapters.register(createConstantVariableAdapter());
+variableAdapters.register(createDataSourceVariableAdapter());
 
 describe('given dashboard with repeated panels', () => {
   let dash: any, exported: any;
@@ -118,7 +130,7 @@ describe('given dashboard with repeated panels', () => {
       info: { version: '1.1.2' },
     } as PanelPluginMeta;
 
-    dash = new DashboardModel(dash, {});
+    dash = new DashboardModel(dash, {}, () => dash.templating.list);
     const exporter = new DashboardExporter();
     exporter.makeExportable(dash).then(clean => {
       exported = clean;

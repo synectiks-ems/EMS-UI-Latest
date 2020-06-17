@@ -1,34 +1,47 @@
 // Libaries
-import React, { PureComponent } from 'react';
+import React, { PureComponent, FC, ReactNode } from 'react';
 import { connect } from 'react-redux';
-import { e2e } from '@grafana/e2e';
+import { css } from 'emotion';
 // Utils & Services
 import { appEvents } from 'app/core/app_events';
 import { PlaylistSrv } from 'app/features/playlist/playlist_srv';
 // Components
-// import { DashNavButton } from './DashNavButton';
-// import { DashNavTimeControls } from './DashNavTimeControls';
-// import { ModalsController } from '@grafana/ui';
+import { DashNavButton } from './DashNavButton';
+import { DashNavTimeControls } from './DashNavTimeControls';
+import { Icon, ModalsController } from '@grafana/ui';
+import { textUtil } from '@grafana/data';
 import { BackButton } from 'app/core/components/BackButton/BackButton';
 // State
 import { updateLocation } from 'app/core/actions';
 // Types
 import { DashboardModel } from '../../state';
 import { CoreEvents, StoreState } from 'app/types';
-// import { ShareModal } from 'app/features/dashboard/components/ShareModal';
-// import { SaveDashboardModalProxy } from 'app/features/dashboard/components/SaveDashboard/SaveDashboardModalProxy';
-
-// import BottomSection from '../../../../core/components/sidemenu/BottomSection';
+import { ShareModal } from 'app/features/dashboard/components/ShareModal';
+import { SaveDashboardModalProxy } from 'app/features/dashboard/components/SaveDashboard/SaveDashboardModalProxy';
 
 export interface OwnProps {
   dashboard: DashboardModel;
-  editview: string;
-  isEditing: boolean;
   isFullscreen: boolean;
   $injector: any;
   updateLocation: typeof updateLocation;
   onAddPanel: () => void;
-  dontRenderTitle?: boolean;
+}
+
+interface DashNavButtonModel {
+  show: (props: Props) => boolean;
+  component: FC<Partial<Props>>;
+  index?: number | 'end';
+}
+
+const customLeftActions: DashNavButtonModel[] = [];
+const customRightActions: DashNavButtonModel[] = [];
+
+export function addCustomLeftAction(content: DashNavButtonModel) {
+  customLeftActions.push(content);
+}
+
+export function addCustomRightAction(content: DashNavButtonModel) {
+  customRightActions.push(content);
 }
 
 export interface StateProps {
@@ -37,7 +50,7 @@ export interface StateProps {
 
 type Props = StateProps & OwnProps;
 
-export class DashNav extends PureComponent<Props> {
+class DashNav extends PureComponent<Props> {
   playlistSrv: PlaylistSrv;
 
   constructor(props: Props) {
@@ -45,28 +58,18 @@ export class DashNav extends PureComponent<Props> {
     this.playlistSrv = this.props.$injector.get('playlistSrv');
   }
 
-  onDahboardNameClick = () => {
-    appEvents.emit(CoreEvents.showDashSearch);
-  };
-
   onFolderNameClick = () => {
-    appEvents.emit(CoreEvents.showDashSearch, {
-      query: 'folder:current',
+    this.props.updateLocation({
+      query: { search: 'open', folder: 'current' },
+      partial: true,
     });
   };
 
   onClose = () => {
-    if (this.props.editview) {
-      this.props.updateLocation({
-        query: { editview: null },
-        partial: true,
-      });
-    } else {
-      this.props.updateLocation({
-        query: { panelId: null, edit: null, fullscreen: null, tab: null },
-        partial: true,
-      });
-    }
+    this.props.updateLocation({
+      query: { viewPanel: null },
+      partial: true,
+    });
   };
 
   onToggleTVMode = () => {
@@ -103,253 +106,221 @@ export class DashNav extends PureComponent<Props> {
     this.forceUpdate();
   };
 
-  renderDashboardTitleSearchButton() {
-    // const { dashboard } = this.props;
+  onDashboardNameClick = () => {
+    this.props.updateLocation({
+      query: { search: 'open' },
+      partial: true,
+    });
+  };
 
-    // const folderTitle = dashboard.meta.folderTitle;
-    // const haveFolder = dashboard.meta.folderId > 0;
+  addCustomContent(actions: DashNavButtonModel[], buttons: ReactNode[]) {
+    actions.map((action, index) => {
+      const Component = action.component;
+      const element = <Component {...this.props} key={`button-custom-${index}`} />;
+      typeof action.index === 'number' ? buttons.splice(action.index, 0, element) : buttons.push(element);
+    });
+  }
+
+  renderLeftActionsButton() {
+    const { dashboard } = this.props;
+    const { canStar, canShare, isStarred } = dashboard.meta;
+
+    const buttons: ReactNode[] = [];
+    if (canStar) {
+      buttons.push(
+        <DashNavButton
+          tooltip="Mark as favorite"
+          classSuffix="star"
+          icon={isStarred ? 'favorite' : 'star'}
+          iconType={isStarred ? 'mono' : 'default'}
+          iconSize="lg"
+          noBorder={true}
+          onClick={this.onStarDashboard}
+          key="button-star"
+        />
+      );
+    }
+
+    if (canShare) {
+      buttons.push(
+        <ModalsController key="button-share">
+          {({ showModal, hideModal }) => (
+            <DashNavButton
+              tooltip="Share dashboard"
+              classSuffix="share"
+              icon="share-alt"
+              iconSize="lg"
+              noBorder={true}
+              onClick={() => {
+                showModal(ShareModal, {
+                  dashboard,
+                  onDismiss: hideModal,
+                });
+              }}
+            />
+          )}
+        </ModalsController>
+      );
+    }
+
+    this.addCustomContent(customLeftActions, buttons);
+    return buttons;
+  }
+
+  renderDashboardTitleSearchButton() {
+    const { dashboard, isFullscreen } = this.props;
+
+    const folderSymbol = css`
+      margin-right: 0 4px;
+    `;
+    const mainIconClassName = css`
+      margin-right: 8px;
+      margin-bottom: 3px;
+    `;
+
+    const folderTitle = dashboard.meta.folderTitle;
+    const haveFolder = dashboard.meta.folderId > 0;
 
     return (
       <>
-        {/* <div>
-        </div> */}
-        {this.isSettings && <span className="navbar-settings-title">&nbsp;/ Settings</span>}
+        <div>
+          <div className="navbar-page-btn">
+            {!isFullscreen && <Icon name="apps" size="lg" className={mainIconClassName} />}
+            {haveFolder && (
+              <>
+                <a className="navbar-page-btn__folder" onClick={this.onFolderNameClick}>
+                  {folderTitle} <span className={folderSymbol}>/</span>
+                </a>
+              </>
+            )}
+            <a onClick={this.onDashboardNameClick}>{dashboard.title}</a>
+          </div>
+        </div>
+        <div className="navbar-buttons navbar-buttons--actions">{this.renderLeftActionsButton()}</div>
         <div className="navbar__spacer" />
       </>
     );
   }
 
-  get isInFullscreenOrSettings() {
-    return this.props.editview || this.props.isFullscreen;
-  }
-
-  get isSettings() {
-    return this.props.editview;
-  }
-
   renderBackButton() {
     return (
       <div className="navbar-edit">
-        <BackButton onClick={this.onClose} aria-label={e2e.pages.Dashboard.Toolbar.selectors.backArrow} />
+        <BackButton surface="dashboard" onClick={this.onClose} />
       </div>
     );
+  }
+
+  renderRightActionsButton() {
+    const { dashboard, onAddPanel } = this.props;
+    const { canSave, showSettings } = dashboard.meta;
+    const { snapshot } = dashboard;
+    const snapshotUrl = snapshot && snapshot.originalUrl;
+
+    const buttons: ReactNode[] = [];
+    if (canSave) {
+      buttons.push(
+        <DashNavButton
+          classSuffix="save"
+          tooltip="Add panel"
+          icon="panel-add"
+          onClick={onAddPanel}
+          iconType="mono"
+          iconSize="xl"
+          key="button-panel-add"
+        />
+      );
+      buttons.push(
+        <ModalsController key="button-save">
+          {({ showModal, hideModal }) => (
+            <DashNavButton
+              tooltip="Save dashboard"
+              classSuffix="save"
+              icon="save"
+              onClick={() => {
+                showModal(SaveDashboardModalProxy, {
+                  dashboard,
+                  onDismiss: hideModal,
+                });
+              }}
+            />
+          )}
+        </ModalsController>
+      );
+    }
+
+    if (snapshotUrl) {
+      buttons.push(
+        <DashNavButton
+          tooltip="Open original dashboard"
+          classSuffix="snapshot-origin"
+          href={textUtil.sanitizeUrl(snapshotUrl)}
+          icon="link"
+          key="button-snapshot"
+        />
+      );
+    }
+
+    if (showSettings) {
+      buttons.push(
+        <DashNavButton
+          tooltip="Dashboard settings"
+          classSuffix="settings"
+          icon="cog"
+          onClick={this.onOpenSettings}
+          key="button-settings"
+        />
+      );
+    }
+
+    this.addCustomContent(customRightActions, buttons);
+    return buttons;
   }
 
   render() {
+    const { dashboard, location, isFullscreen } = this.props;
+
     return (
-      <div className="top-nav-bar">
-        <div className="logo-container">
-          <div className="logo"></div>
-        </div>
-        <div className="search-box-container">
-          <label className="gf-form--has-input-icon mr-auto">
-            <input
-              type="text"
-              placeholder="Search resources, services, and docs"
-              className="gf-form-input search-box"
+      <div className="navbar">
+        {isFullscreen && this.renderBackButton()}
+        {this.renderDashboardTitleSearchButton()}
+
+        {this.playlistSrv.isPlaying && (
+          <div className="navbar-buttons navbar-buttons--playlist">
+            <DashNavButton
+              tooltip="Go to previous dashboard"
+              classSuffix="tight"
+              icon="step-backward"
+              onClick={this.onPlaylistPrev}
             />
-            <i className="gf-form-input-icon fa fa-search"></i>
-          </label>
+            <DashNavButton
+              tooltip="Stop playlist"
+              classSuffix="tight"
+              icon="square-shape"
+              onClick={this.onPlaylistStop}
+            />
+            <DashNavButton
+              tooltip="Go to next dashboard"
+              classSuffix="tight"
+              icon="forward"
+              onClick={this.onPlaylistNext}
+            />
+          </div>
+        )}
+
+        <div className="navbar-buttons navbar-buttons--actions">{this.renderRightActionsButton()}</div>
+
+        <div className="navbar-buttons navbar-buttons--tv">
+          <DashNavButton tooltip="Cycle view mode" classSuffix="tv" icon="monitor" onClick={this.onToggleTVMode} />
         </div>
-        <div className="icon-container">
-          <div className="icon">
-            <i className="fa fa-terminal"></i>
+
+        {!dashboard.timepicker.hidden && (
+          <div className="navbar-buttons">
+            <DashNavTimeControls dashboard={dashboard} location={location} updateLocation={updateLocation} />
           </div>
-          <div className="icon">
-            <i className="fa fa-folder"></i>
-          </div>
-          <div className="icon">
-            <i className="fa fa-cog"></i>
-          </div>
-          <div className="icon">
-            <i className="fa fa-bell"></i>
-          </div>
-          <div className="icon">
-            <i className="fa fa-user-circle"></i>
-          </div>
-        </div>
+        )}
       </div>
     );
   }
-
-  // render() {
-  //   const { dashboard, onAddPanel, location, dontRenderTitle } = this.props;
-  //   const { canStar, canSave, canShare, showSettings, isStarred } = dashboard.meta;
-  //   const { snapshot } = dashboard;
-  //   const snapshotUrl = snapshot && snapshot.originalUrl;
-  //   return (
-  //     <div>
-  //       <div className="page-nav" style={{ width: '100%', background: 'white', height: '51px', marginBottom: '5px' }}>
-  //         <div className="dash-nav" style={{ display: 'flex', justifyContent: 'space-between' }}>
-  //           <div></div>
-  //           <div className="search-name p-1 text-center" style={{ paddingTop: '10px' }}>
-  //             <label className="gf-form--has-input-icon mr-auto">
-  //               <input
-  //                 type="text"
-  //                 placeholder="Search"
-  //                 className="gf-form-input"
-  //                 onClick={this.onDahboardNameClick}
-  //                 style={{
-  //                   width: '30vw',
-  //                   height: '30px',
-  //                   backgroundColor: '#edebe9',
-  //                   borderRadius: '5px',
-  //                 }}
-  //               />
-  //               {/* <input type="text" className="gf-form-input search-width" placeholder="Search"> */}
-  //               <i className="gf-form-input-icon fa fa-search"></i>
-  //             </label>
-  //           </div>
-  //           <div className="white-color p-r-1" style={{ display: 'flex', alignItems: 'center' }}>
-  //             <div
-  //               className="navbar"
-  //               style={{ paddingLeft: '10px', height: '51px', background: 'white', boxShadow: 'none', border: 'none' }}
-  //             >
-  //               {this.isInFullscreenOrSettings && this.renderBackButton()}
-  //               {!dontRenderTitle && this.renderDashboardTitleSearchButton()}
-
-  //               {this.playlistSrv.isPlaying && (
-  //                 <div className="navbar-buttons navbar-buttons--playlist">
-  //                   <DashNavButton
-  //                     tooltip="Go to previous dashboard"
-  //                     classSuffix="tight"
-  //                     icon="fa fa-step-backward"
-  //                     onClick={this.onPlaylistPrev}
-  //                   />
-  //                   <DashNavButton
-  //                     tooltip="Stop playlist"
-  //                     classSuffix="tight"
-  //                     icon="fa fa-stop"
-  //                     onClick={this.onPlaylistStop}
-  //                   />
-  //                   <DashNavButton
-  //                     tooltip="Go to next dashboard"
-  //                     classSuffix="tight"
-  //                     icon="fa fa-forward"
-  //                     onClick={this.onPlaylistNext}
-  //                   />
-  //                 </div>
-  //               )}
-
-  //               <div id="chge_icon-color" className="navbar-buttons navbar-buttons--actions">
-  //                 {canSave && (
-  //                   <DashNavButton
-  //                     tooltip="Add panel"
-  //                     classSuffix="add-panel"
-  //                     icon="gicon gicon-add-panel"
-  //                     onClick={onAddPanel}
-  //                   />
-  //                 )}
-
-  //                 {canStar && (
-  //                   <DashNavButton
-  //                     tooltip="Mark as favorite"
-  //                     classSuffix="star"
-  //                     icon={`${isStarred ? 'fa fa-star' : 'fa fa-star-o'}`}
-  //                     onClick={this.onStarDashboard}
-  //                   />
-  //                 )}
-
-  //                 {canShare && (
-  //                   <ModalsController>
-  //                     {({ showModal, hideModal }) => (
-  //                       <DashNavButton
-  //                         tooltip="Share dashboard"
-  //                         classSuffix="share"
-  //                         icon="fa fa-share-square-o"
-  //                         onClick={() => {
-  //                           showModal(ShareModal, {
-  //                             dashboard,
-  //                             onDismiss: hideModal,
-  //                           });
-  //                         }}
-  //                       />
-  //                     )}
-  //                   </ModalsController>
-  //                 )}
-
-  //                 {canSave && (
-  //                   <ModalsController>
-  //                     {({ showModal, hideModal }) => (
-  //                       <DashNavButton
-  //                         tooltip="Save dashboard"
-  //                         classSuffix="save"
-  //                         icon="fa fa-save"
-  //                         onClick={() => {
-  //                           showModal(SaveDashboardModalProxy, {
-  //                             dashboard,
-  //                             onDismiss: hideModal,
-  //                           });
-  //                         }}
-  //                       />
-  //                     )}
-  //                   </ModalsController>
-  //                 )}
-
-  //                 {snapshotUrl && (
-  //                   <DashNavButton
-  //                     tooltip="Open original dashboard"
-  //                     classSuffix="snapshot-origin"
-  //                     icon="gicon gicon-link"
-  //                     href={snapshotUrl}
-  //                   />
-  //                 )}
-
-  //                 {showSettings && (
-  //                   <DashNavButton
-  //                     tooltip="Dashboard settings"
-  //                     classSuffix="settings"
-  //                     icon="gicon gicon-cog"
-  //                     onClick={this.onOpenSettings}
-  //                   />
-  //                 )}
-  //               </div>
-
-  //               {/* <div className="navbar-buttons navbar-buttons--tv">
-  //           <DashNavButton
-  //             tooltip="Cycle view mode"
-  //             classSuffix="tv"
-  //             icon="fa fa-desktop"
-  //             onClick={this.onToggleTVMode}
-  //           />
-  //         </div> */}
-
-  //               {!dashboard.timepicker.hidden && (
-  //                 <div className="navbar-buttons">
-  //                   <DashNavTimeControls dashboard={dashboard} location={location} updateLocation={updateLocation} />
-  //                 </div>
-  //               )}
-  //             </div>
-  //             {/* <div id="chge_icon-color">
-  //               {showSettings && (
-  //                 <DashNavButton
-  //                   tooltip="Dashboard settings"
-  //                   classSuffix="settings"
-  //                   icon="gicon gicon-cog"
-  //                   onClick={this.onOpenSettings}
-  //                 />
-  //               )}
-  //             </div> */}
-  //             {/* <div id="chge_icon-color">
-  //               <DashNavButton
-  //                 tooltip="Cycle view mode"
-  //                 classSuffix="tv"
-  //                 icon="fa fa-desktop"
-  //                 onClick={this.onToggleTVMode}
-  //               />
-  //             </div> */}
-  //             <a href="/profile" className="sidemenu-link">
-  //               <span className="icon-circle sidemenu-icon">
-  //                 <img src="/public/img/user_profile.png" />
-  //               </span>
-  //             </a>
-  //             {/* <i className="gf-form-input-icon fa fa-cog" style={{ fontSize: '20px', marginRight: '10px' }}></i> */}
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 }
 
 const mapStateToProps = (state: StoreState) => ({

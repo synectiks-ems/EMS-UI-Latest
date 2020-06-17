@@ -1,9 +1,8 @@
 import { thunkTester } from '../../../../../../test/core/thunk/thunkTester';
-import { initialState } from './reducers';
+import { closeCompleted, initialState, PanelEditorState } from './reducers';
 import { initPanelEditor, panelEditorCleanUp } from './actions';
-import { PanelEditorStateNew, closeCompleted } from './reducers';
 import { cleanUpEditPanel, panelModelAndPluginReady } from '../../../state/reducers';
-import { PanelModel, DashboardModel } from '../../../state';
+import { DashboardModel, PanelModel } from '../../../state';
 import { getPanelPlugin } from 'app/features/plugins/__mocks__/pluginMocks';
 
 describe('panelEditor actions', () => {
@@ -34,18 +33,17 @@ describe('panelEditor actions', () => {
         panels: [{ id: 12, type: 'graph' }],
       });
 
-      const panel = sourcePanel.getEditClone();
+      const panel = dashboard.initEditPanel(sourcePanel);
       panel.updateOptions({ prop: true });
 
-      const state: PanelEditorStateNew = {
-        ...initialState,
+      const state: PanelEditorState = {
+        ...initialState(),
         getPanel: () => panel,
         getSourcePanel: () => sourcePanel,
-        querySubscription: { unsubscribe: jest.fn() },
       };
 
       const dispatchedActions = await thunkTester({
-        panelEditorNew: state,
+        panelEditor: state,
         dashboard: {
           getModel: () => dashboard,
         },
@@ -66,20 +64,21 @@ describe('panelEditor actions', () => {
         panels: [{ id: 12, type: 'graph' }],
       });
 
-      const panel = sourcePanel.getEditClone();
+      const panel = dashboard.initEditPanel(sourcePanel);
       panel.type = 'table';
       panel.plugin = getPanelPlugin({ id: 'table' });
       panel.updateOptions({ prop: true });
 
-      const state: PanelEditorStateNew = {
-        ...initialState,
+      const state: PanelEditorState = {
+        ...initialState(),
         getPanel: () => panel,
         getSourcePanel: () => sourcePanel,
-        querySubscription: { unsubscribe: jest.fn() },
       };
 
+      const panelDestroy = (panel.destroy = jest.fn());
+
       const dispatchedActions = await thunkTester({
-        panelEditorNew: state,
+        panelEditor: state,
         dashboard: {
           getModel: () => dashboard,
         },
@@ -89,27 +88,32 @@ describe('panelEditor actions', () => {
 
       expect(dispatchedActions.length).toBe(3);
       expect(dispatchedActions[0].type).toBe(panelModelAndPluginReady.type);
+      expect(sourcePanel.plugin).toEqual(panel.plugin);
+      expect(panelDestroy.mock.calls.length).toEqual(1);
     });
 
     it('should discard changes when shouldDiscardChanges is true', async () => {
       const sourcePanel = new PanelModel({ id: 12, type: 'graph' });
+      sourcePanel.plugin = {
+        customFieldConfigs: {},
+      } as any;
+
       const dashboard = new DashboardModel({
         panels: [{ id: 12, type: 'graph' }],
       });
 
-      const panel = sourcePanel.getEditClone();
+      const panel = dashboard.initEditPanel(sourcePanel);
       panel.updateOptions({ prop: true });
 
-      const state: PanelEditorStateNew = {
-        ...initialState,
+      const state: PanelEditorState = {
+        ...initialState(),
         shouldDiscardChanges: true,
         getPanel: () => panel,
         getSourcePanel: () => sourcePanel,
-        querySubscription: { unsubscribe: jest.fn() },
       };
 
       const dispatchedActions = await thunkTester({
-        panelEditorNew: state,
+        panelEditor: state,
         dashboard: {
           getModel: () => dashboard,
         },
