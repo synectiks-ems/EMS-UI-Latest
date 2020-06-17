@@ -1,288 +1,125 @@
 // Libaries
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { e2e } from '@grafana/e2e';
-// Utils & Services
-import { appEvents } from 'app/core/app_events';
-import { PlaylistSrv } from 'app/features/playlist/playlist_srv';
-// Components
-import { DashNavButton } from './DashNavButton';
-import { DashNavTimeControls } from './DashNavTimeControls';
-import { ModalsController } from '@grafana/ui';
-import { BackButton } from 'app/core/components/BackButton/BackButton';
-// State
-import { updateLocation } from 'app/core/actions';
+import React, { Component } from 'react';
+import { dateMath, GrafanaTheme } from '@grafana/data';
+import { css } from 'emotion';
+
 // Types
 import { DashboardModel } from '../../state';
-import { CoreEvents, StoreState } from 'app/types';
-import { ShareModal } from 'app/features/dashboard/components/ShareModal';
-import { SaveDashboardModalProxy } from 'app/features/dashboard/components/SaveDashboard/SaveDashboardModalProxy';
+import { LocationState, CoreEvents } from 'app/types';
+import { TimeRange } from '@grafana/data';
 
-// import BottomSection from '../../../../core/components/sidemenu/BottomSection';
+// State
+import { updateLocation } from 'app/core/actions';
 
-export interface OwnProps {
+// Components
+import { RefreshPicker, withTheme, stylesFactory, Themeable } from '@grafana/ui';
+import { TimePickerWithHistory } from 'app/core/components/TimePicker/TimePickerWithHistory';
+
+// Utils & Services
+import { getTimeSrv } from 'app/features/dashboard/services/TimeSrv';
+import { defaultIntervals } from '@grafana/ui/src/components/RefreshPicker/RefreshPicker';
+import { appEvents } from 'app/core/core';
+
+const getStyles = stylesFactory((theme: GrafanaTheme) => {
+  return {
+    container: css`
+      position: relative;
+      display: flex;
+    `,
+  };
+});
+
+export interface Props extends Themeable {
   dashboard: DashboardModel;
-  editview: string;
-  isEditing: boolean;
-  isFullscreen: boolean;
-  $injector: any;
   updateLocation: typeof updateLocation;
-  onAddPanel: () => void;
-  dontRenderTitle?: boolean;
+  location: LocationState;
 }
-
-export interface StateProps {
-  location: any;
-}
-
-type Props = StateProps & OwnProps;
-
-export class DashNavNew extends PureComponent<Props> {
-  playlistSrv: PlaylistSrv;
-
-  constructor(props: Props) {
-    super(props);
-    this.playlistSrv = this.props.$injector.get('playlistSrv');
+class UnthemedDashNavTimeControls extends Component<Props> {
+  componentDidMount() {
+    // Only reason for this is that sometimes time updates can happen via redux location changes
+    // and this happens before timeSrv has had chance to update state (as it listens to angular route-updated)
+    // This can be removed after timeSrv listens redux location
+    this.props.dashboard.on(CoreEvents.timeRangeUpdated, this.triggerForceUpdate);
   }
 
-  onDahboardNameClick = () => {
-    appEvents.emit(CoreEvents.showDashSearch);
-  };
+  componentWillUnmount() {
+    this.props.dashboard.off(CoreEvents.timeRangeUpdated, this.triggerForceUpdate);
+  }
 
-  onFolderNameClick = () => {
-    appEvents.emit(CoreEvents.showDashSearch, {
-      query: 'folder:current',
-    });
-  };
-
-  onClose = () => {
-    if (this.props.editview) {
-      this.props.updateLocation({
-        query: { editview: null },
-        partial: true,
-      });
-    } else {
-      this.props.updateLocation({
-        query: { panelId: null, edit: null, fullscreen: null, tab: null },
-        partial: true,
-      });
-    }
-  };
-
-  onToggleTVMode = () => {
-    appEvents.emit(CoreEvents.toggleKioskMode);
-  };
-
-  onOpenSettings = () => {
-    this.props.updateLocation({
-      query: { editview: 'settings' },
-      partial: true,
-    });
-  };
-
-  onStarDashboard = () => {
-    const { dashboard, $injector } = this.props;
-    const dashboardSrv = $injector.get('dashboardSrv');
-
-    dashboardSrv.starDashboard(dashboard.id, dashboard.meta.isStarred).then((newState: any) => {
-      dashboard.meta.isStarred = newState;
-      this.forceUpdate();
-    });
-  };
-
-  onPlaylistPrev = () => {
-    this.playlistSrv.prev();
-  };
-
-  onPlaylistNext = () => {
-    this.playlistSrv.next();
-  };
-
-  onPlaylistStop = () => {
-    this.playlistSrv.stop();
+  triggerForceUpdate = () => {
     this.forceUpdate();
   };
 
-  renderDashboardTitleSearchButton() {
+  get refreshParamInUrl(): string {
+    return this.props.location.query.refresh as string;
+  }
+
+  onChangeRefreshInterval = (interval: string) => {
+    getTimeSrv().setAutoRefresh(interval);
+    this.forceUpdate();
+  };
+
+  onRefresh = () => {
+    getTimeSrv().refreshDashboard();
+    return Promise.resolve();
+  };
+
+  onMoveBack = () => {
+    appEvents.emit(CoreEvents.shiftTime, -1);
+  };
+
+  onMoveForward = () => {
+    appEvents.emit(CoreEvents.shiftTime, 1);
+  };
+
+  onChangeTimePicker = (timeRange: TimeRange) => {
     const { dashboard } = this.props;
+    const panel = dashboard.timepicker;
+    const hasDelay = panel.nowDelay && timeRange.raw.to === 'now';
 
-    const folderTitle = dashboard.meta.folderTitle;
-    const haveFolder = dashboard.meta.folderId > 0;
+    const adjustedFrom = dateMath.isMathString(timeRange.raw.from) ? timeRange.raw.from : timeRange.from;
+    const adjustedTo = dateMath.isMathString(timeRange.raw.to) ? timeRange.raw.to : timeRange.to;
+    const nextRange = {
+      from: adjustedFrom,
+      to: hasDelay ? 'now-' + panel.nowDelay : adjustedTo,
+    };
 
-    return (
-      <>
-        <div>
-          <div className="navbar-page-btn">
-            {!this.isInFullscreenOrSettings && <i className="gicon gicon-dashboard" />}
-            {haveFolder && (
-              <>
-                <a className="navbar-page-btn__folder" onClick={this.onFolderNameClick}>
-                  {folderTitle}
-                </a>
-                <i className="fa fa-chevron-right navbar-page-btn__folder-icon" />
-              </>
-            )}
-            <a onClick={this.onDahboardNameClick}>
-              {dashboard.title} <i className="fa fa-caret-down navbar-page-btn__search" />
-            </a>
-          </div>
-        </div>
-        {this.isSettings && <span className="navbar-settings-title">&nbsp;/ Settings</span>}
-        <div className="navbar__spacer" />
-      </>
-    );
-  }
+    getTimeSrv().setTime(nextRange);
+  };
 
-  get isInFullscreenOrSettings() {
-    return this.props.editview || this.props.isFullscreen;
-  }
-
-  get isSettings() {
-    return this.props.editview;
-  }
-
-  renderBackButton() {
-    return (
-      <div className="navbar-edit">
-        <BackButton onClick={this.onClose} aria-label={e2e.pages.Dashboard.Toolbar.selectors.backArrow} />
-      </div>
-    );
-  }
+  onZoom = () => {
+    appEvents.emit(CoreEvents.zoomOut, 2);
+  };
 
   render() {
-    const { dashboard, onAddPanel, location, dontRenderTitle } = this.props;
-    const { canStar, canSave, canShare, showSettings, isStarred } = dashboard.meta;
-    const { snapshot } = dashboard;
-    const snapshotUrl = snapshot && snapshot.originalUrl;
+    const { dashboard, theme } = this.props;
+    const { refresh_intervals } = dashboard.timepicker;
+    const intervals = getTimeSrv().getValidIntervals(refresh_intervals || defaultIntervals);
+
+    const timePickerValue = getTimeSrv().timeRange();
+    const timeZone = dashboard.getTimezone();
+    const styles = getStyles(theme);
+
     return (
-      <div>
-        <div className="navbar" style={{ paddingLeft: '10px', height: '50px' }}>
-          {this.isInFullscreenOrSettings && this.renderBackButton()}
-          {!dontRenderTitle && this.renderDashboardTitleSearchButton()}
-
-          {this.playlistSrv.isPlaying && (
-            <div className="navbar-buttons navbar-buttons--playlist">
-              <DashNavButton
-                tooltip="Go to previous dashboard"
-                classSuffix="tight"
-                icon="fa fa-step-backward"
-                onClick={this.onPlaylistPrev}
-              />
-              <DashNavButton
-                tooltip="Stop playlist"
-                classSuffix="tight"
-                icon="fa fa-stop"
-                onClick={this.onPlaylistStop}
-              />
-              <DashNavButton
-                tooltip="Go to next dashboard"
-                classSuffix="tight"
-                icon="fa fa-forward"
-                onClick={this.onPlaylistNext}
-              />
-            </div>
-          )}
-
-          <div className="navbar-buttons navbar-buttons--actions">
-            {canSave && (
-              <DashNavButton
-                tooltip="Add panel"
-                classSuffix="add-panel"
-                icon="gicon gicon-add-panel"
-                onClick={onAddPanel}
-              />
-            )}
-
-            {canStar && (
-              <DashNavButton
-                tooltip="Mark as favorite"
-                classSuffix="star"
-                icon={`${isStarred ? 'fa fa-star' : 'fa fa-star-o'}`}
-                onClick={this.onStarDashboard}
-              />
-            )}
-
-            {canShare && (
-              <ModalsController>
-                {({ showModal, hideModal }) => (
-                  <DashNavButton
-                    tooltip="Share dashboard"
-                    classSuffix="share"
-                    icon="fa fa-share-square-o"
-                    onClick={() => {
-                      showModal(ShareModal, {
-                        dashboard,
-                        onDismiss: hideModal,
-                      });
-                    }}
-                  />
-                )}
-              </ModalsController>
-            )}
-
-            {canSave && (
-              <ModalsController>
-                {({ showModal, hideModal }) => (
-                  <DashNavButton
-                    tooltip="Save dashboard"
-                    classSuffix="save"
-                    icon="fa fa-save"
-                    onClick={() => {
-                      showModal(SaveDashboardModalProxy, {
-                        dashboard,
-                        onDismiss: hideModal,
-                      });
-                    }}
-                  />
-                )}
-              </ModalsController>
-            )}
-
-            {snapshotUrl && (
-              <DashNavButton
-                tooltip="Open original dashboard"
-                classSuffix="snapshot-origin"
-                icon="gicon gicon-link"
-                href={snapshotUrl}
-              />
-            )}
-
-            {showSettings && (
-              <DashNavButton
-                tooltip="Dashboard settings"
-                classSuffix="settings"
-                icon="gicon gicon-cog"
-                onClick={this.onOpenSettings}
-              />
-            )}
-          </div>
-
-          <div className="navbar-buttons navbar-buttons--tv">
-            <DashNavButton
-              tooltip="Cycle view mode"
-              classSuffix="tv"
-              icon="fa fa-desktop"
-              onClick={this.onToggleTVMode}
-            />
-          </div>
-
-          {!dashboard.timepicker.hidden && (
-            <div className="navbar-buttons">
-              <DashNavTimeControls dashboard={dashboard} location={location} updateLocation={updateLocation} />
-            </div>
-          )}
-        </div>
+      <div className={styles.container}>
+        <TimePickerWithHistory
+          value={timePickerValue}
+          onChange={this.onChangeTimePicker}
+          timeZone={timeZone}
+          onMoveBackward={this.onMoveBack}
+          onMoveForward={this.onMoveForward}
+          onZoom={this.onZoom}
+        />
+        <RefreshPicker
+          onIntervalChanged={this.onChangeRefreshInterval}
+          onRefresh={this.onRefresh}
+          value={dashboard.refresh}
+          intervals={intervals}
+          tooltip="Refresh dashboard"
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state: StoreState) => ({
-  location: state.location,
-});
-
-const mapDispatchToProps = {
-  updateLocation,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DashNavNew);
+export const DashNavTimeControls = withTheme(UnthemedDashNavTimeControls);
