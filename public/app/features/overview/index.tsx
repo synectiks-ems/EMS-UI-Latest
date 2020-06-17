@@ -47,7 +47,7 @@ class Overview extends React.Component<any, any> {
               })}
             </div>
           </div>
-          <div className="container overview-container">
+          <div className="overview-container">
             <div className="overview-header">Monitor your applications and infrastructure</div>
             <div className="overview-description">
               Get full stack visibility, find and fix problems, optimize your performance, and understand customer

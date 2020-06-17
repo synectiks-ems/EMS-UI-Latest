@@ -13,6 +13,8 @@ import { ILocationProvider, route } from 'angular';
 import { DashboardRouteInfo } from 'app/types';
 import { SafeDynamicImport } from '../core/components/DynamicImports/SafeDynamicImport';
 
+const overviewPage = () => SafeDynamicImport(import(/* webpackChunkName: "DashboardPage" */ '../features/overview'));
+
 /** @ngInject */
 export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locationProvider: ILocationProvider) {
   $locationProvider.html5Mode(true);
@@ -28,10 +30,9 @@ export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locati
       template: '<react-container />',
       //@ts-ignore
       pageClass: 'page-dashboard',
-      routeInfo: DashboardRouteInfo.Home,
       reloadOnSearch: false,
       resolve: {
-        component: importDashboardPage,
+        component: overviewPage,
       },
     })
     .when('/d/:uid/:slug', {
