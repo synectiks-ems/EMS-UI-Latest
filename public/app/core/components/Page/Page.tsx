@@ -4,6 +4,7 @@ import { getTitleFromNavModel } from 'app/core/selectors/navModel';
 
 // Components
 import PageHeader from '../PageHeader/PageHeader';
+import { CustomNavigationBar } from 'app/core/components/CustomNav';
 import { Footer } from '../Footer/Footer';
 import PageContents from './PageContents';
 import { CustomScrollbar } from '@grafana/ui';
@@ -46,15 +47,18 @@ class Page extends Component<Props> {
   render() {
     const { navModel } = this.props;
     return (
-      <div className="page-scrollbar-wrapper">
-        <CustomScrollbar autoHeightMin={'100%'} className="custom-scrollbar--page">
-          <div className="page-scrollbar-content">
-            <PageHeader model={navModel} />
-            {this.props.children}
-            <Footer />
-          </div>
-        </CustomScrollbar>
-      </div>
+      <React.Fragment>
+        <CustomNavigationBar />
+        <div className="scroll-canvas--dashboard monitor-main-body">
+          <CustomScrollbar autoHeightMin={'100%'} className="custom-scrollbar--page">
+            <div className="page-scrollbar-content">
+              <PageHeader model={navModel} />
+              {this.props.children}
+              <Footer />
+            </div>
+          </CustomScrollbar>
+        </div>
+      </React.Fragment>
     );
   }
 }

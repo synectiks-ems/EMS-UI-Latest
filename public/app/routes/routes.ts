@@ -35,6 +35,15 @@ export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locati
         component: overviewPage,
       },
     })
+    .when('/dashboardlist', {
+      template: '<react-container />',
+      pageClass: 'page-dashboard',
+      reloadOnSearch: false,
+      resolve: {
+        component: () =>
+          SafeDynamicImport(import(/* webpackChunkName: "DataSourcesListPage"*/ 'app/features/custom-dashboard-list')),
+      },
+    })
     .when('/d/:uid/:slug', {
       template: '<react-container />',
       pageClass: 'page-dashboard',

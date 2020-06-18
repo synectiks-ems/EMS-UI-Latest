@@ -9,13 +9,13 @@ import { createErrorNotification } from 'app/core/copy/appNotification';
 import { getMessageFromError } from 'app/core/utils/errors';
 import { Branding } from 'app/core/components/Branding/Branding';
 // Components
-import { DashboardGrid } from '../dashgrid/DashboardGrid';
-import { DashNav } from '../components/DashNav';
-import { DashboardSettings } from '../components/DashboardSettings';
-import { PanelEditor } from '../components/PanelEditor/PanelEditor';
+import { DashboardGrid } from '../dashboard/dashgrid/DashboardGrid';
+import { DashNav } from '../dashboard/components/DashNav';
+import { DashboardSettings } from '../dashboard/components/DashboardSettings';
+import { PanelEditor } from '../dashboard/components/PanelEditor/PanelEditor';
 import { Alert, Button, CustomScrollbar, HorizontalGroup, Icon, VerticalGroup } from '@grafana/ui';
 // Redux
-import { initDashboard } from '../state/initDashboard';
+import { initDashboard } from '../dashboard/state/initDashboard';
 import { notifyApp, updateLocation } from 'app/core/actions';
 // Types
 import {
@@ -27,14 +27,13 @@ import {
 } from 'app/types';
 
 import { DashboardModel, PanelModel } from 'app/features/dashboard/state';
-import { InspectTab, PanelInspector } from '../components/Inspector/PanelInspector';
-import { SubMenu } from '../components/SubMenu/SubMenu';
-import { cleanUpDashboardAndVariables } from '../state/actions';
-import { cancelVariables } from '../../variables/state/actions';
-import { CustomNavigationBar } from 'app/core/components/CustomNav';
+import { InspectTab, PanelInspector } from '../dashboard/components/Inspector/PanelInspector';
+import { SubMenu } from '../dashboard/components/SubMenu/SubMenu';
+import { cleanUpDashboardAndVariables } from '../dashboard/state/actions';
+import { cancelVariables } from '../variables/state/actions';
 
 export interface Props {
-  urlUid?: string;
+  urlUid?: any;
   urlSlug?: string;
   urlType?: string;
   editview?: string;
@@ -68,7 +67,7 @@ export interface State {
   showLoadingState: boolean;
 }
 
-export class DashboardPage extends PureComponent<Props, State> {
+export class CustomDashboardLoader extends PureComponent<any, State> {
   state: State = {
     editPanel: null,
     viewPanel: null,
@@ -85,8 +84,8 @@ export class DashboardPage extends PureComponent<Props, State> {
       urlUid: this.props.urlUid,
       urlType: this.props.urlType,
       urlFolderId: this.props.urlFolderId,
-      routeInfo: this.props.routeInfo,
-      fixUrl: true,
+      routeInfo: DashboardRouteInfo.Normal,
+      fixUrl: false,
     });
   }
 
@@ -289,7 +288,6 @@ export class DashboardPage extends PureComponent<Props, State> {
 
     return (
       <React.Fragment>
-        <CustomNavigationBar />
         <div className="scroll-canvas--dashboard monitor-main-body">
           <DashNav
             dashboard={dashboard}
@@ -331,8 +329,6 @@ export class DashboardPage extends PureComponent<Props, State> {
 }
 
 export const mapStateToProps = (state: StoreState) => ({
-  urlUid: state.location.routeParams.uid,
-  urlSlug: state.location.routeParams.slug,
   urlType: state.location.routeParams.type,
   editview: state.location.query.editview,
   urlPanelId: state.location.query.panelId,
@@ -356,4 +352,4 @@ const mapDispatchToProps = {
   cancelVariables,
 };
 
-export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(DashboardPage));
+export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(CustomDashboardLoader));

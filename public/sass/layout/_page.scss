@@ -150,10 +150,12 @@
 
 .page-sidebar {
   color: $text-color-weak;
+
   h4 {
     font-size: $font-size-base;
     font-weight: $font-weight-semi-bold;
   }
+
   h5 {
     font-size: $font-size-base;
     font-weight: $font-weight-semi-bold;
@@ -166,14 +168,14 @@
 
 /********************************** New look css **********************************/
 
-.wide-side-menu{
-  .monitor-main-body{
+.wide-side-menu {
+  .monitor-main-body {
     margin-left: 240px;
     width: calc(100% - 240px);
   }
 }
 
-.monitor-main-body{
+.monitor-main-body {
   margin-left: 60px;
   width: calc(100% - 60px);
   transition: width 0.3s, margin 0.3s;
