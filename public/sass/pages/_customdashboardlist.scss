@@ -73,8 +73,8 @@
 }
 
 .nav-link.active {
-  border-bottom: 2px solid #ffffff;
-  color: #ffffff;
+  border-bottom: 2px solid $dashboard-nav-link-active-border-color;
+  color: $dashboard-nav-link-active-text-color;
   border-left: 0;
   border-right: 0;
   border-top: 0;
@@ -95,7 +95,7 @@
       margin-top: 0;
       padding: 8px 15px;
       width: 100%;
-      background-color: #000000;
+      background-color: $dashboard-aside-collapse-button-background-color;
     }
   }
 }

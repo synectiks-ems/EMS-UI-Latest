@@ -119,19 +119,19 @@ textarea {
         left: 100%;
         top: 0px;
         background-color: $sidemenu-submenu-background-color;
-        padding: 10px 0;
+        padding: 0;
         width: 170px;
         list-style: none;
 
         li {
           display: block;
-          padding: 0 0 5px 0;
+          padding: 0;
 
           a {
             display: block;
             color: #3b4859;
             font-size: 13px;
-            padding: 5px 15px;
+            padding: 10px 15px;
 
             i {
               color: #3b7cff;
@@ -254,19 +254,19 @@ textarea {
           left: 100%;
           top: 0px;
           background-color: $sidemenu-submenu-background-color;
-          padding: 10px 0;
+          padding: 0;
           width: 170px;
           list-style: none;
-
+          box-shadow: rgb(59, 72, 89) 2px 0px 6px -2px;
           li {
             display: block;
-            padding: 0 0 5px 0;
+            padding: 0;
 
             a {
               display: block;
               color: #3b4859;
               font-size: 13px;
-              padding: 5px 15px;
+              padding: 10px 15px;
 
               i {
                 color: #3b7cff;
