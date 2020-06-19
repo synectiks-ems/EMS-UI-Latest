@@ -1,12 +1,12 @@
 body,
 .main-view {
-  background: #f9fafc;
+  background: $overview-container-background-color;
 }
 
 .overview-container {
-  color: #3b4859;
+  color: $overview-container-text-color;
   padding: 36px 50px;
-  background-color: #f9fafc !important;
+  background-color: $overview-container-background-color;
   .overview-item-container {
     margin-bottom: 30px;
     .item-image {
@@ -22,11 +22,11 @@ body,
       font-size: 15px;
       font-weight: bold;
       margin: 15px 0px;
-      color: #3b4859;
+      color: $overview-container-text-color;
     }
     .item-description {
       font-size: 12px;
-      color: #8998ac;
+      color: $overview-container-description-color;
     }
   }
   .overview-header {
@@ -57,23 +57,23 @@ body,
 }
 
 .breadcrumbs-container {
-  background-color: #eff2f7;
+  background-color: $overview-breadcrumbs-background-color;
   padding: 10px 20px;
   .page-title {
-    color: #3b4859;
+    color: $overview-page-title-color;
     display: inline-block;
   }
   .breadcrumbs {
     float: right;
   }
   a.breadcrumbs-link {
-    color: #89898a !important;
+    color: $overview-breadcrumbs-link-color;
   }
   .current-page {
-    color: #2a9ce7 !important;
+    color: $overview-breadcrumbs-link-current-page-color;
   }
   .separator {
-    color: #89898a;
+    color: $overview-breadcrumbs-link-color;
     display: inline-block;
     padding: 0 10px;
   }

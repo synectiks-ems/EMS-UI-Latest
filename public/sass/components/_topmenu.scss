@@ -2,7 +2,7 @@
 
 .top-nav-bar {
   width: 100%;
-  background: white;
+  background: $top-nav-background-color;
   height: 51px;
   display: flex;
 
@@ -47,11 +47,11 @@
     .icon {
       cursor: pointer;
       font-size: 20px !important;
-      color: #8392a7;
+      color: $top-nav-icons-color;
       margin-left: 15px;
 
       &:hover {
-        color: #606977;
+        color: $top-nav-icons-hover-color;
       }
     }
   }
