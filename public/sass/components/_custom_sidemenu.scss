@@ -12,7 +12,7 @@ textarea {
 }
 
 .sidemenu {
-  background-color: #f5f8fc !important;
+  background-color: $sidemenu-background-color !important;
   box-shadow: -4px 6px 8px 0px #3b4859;
   position: absolute !important;
   top: 51px !important;
@@ -67,7 +67,7 @@ textarea {
     transition: width 0.3s, opacity 0.3s;
     position: absolute;
     top: 0px;
-    background: #f5f8fc !important;
+    background: $sidemenu-background-color !important;
   }
 
   .open-menu {
