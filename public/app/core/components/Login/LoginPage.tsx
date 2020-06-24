@@ -16,7 +16,7 @@ export const LoginPage: FC = () => {
   document.title = Branding.AppTitle;
   const loginStyles = useStyles(getLoginStyles);
   return (
-    <Branding.LoginBackground className={loginStyles.container}>
+    <div className="login-background">
       <div className={cx(loginStyles.loginContent, Branding.LoginBoxBackground())}>
         <div className={loginStyles.loginLogoWrapper}>
           <Branding.LoginLogo className={loginStyles.loginLogo} />
@@ -68,7 +68,7 @@ export const LoginPage: FC = () => {
 
         <div className="clearfix" />
       </div>
-    </Branding.LoginBackground>
+    </div>
   );
 };
 

@@ -3,3 +3,16 @@
   margin-bottom: $space-md;
   width: 100%;
 }
+
+.login-background {
+  background-image: url('../img/monitor-icons/login-background.jpg');
+  background-size: cover;
+  min-height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 100%;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
