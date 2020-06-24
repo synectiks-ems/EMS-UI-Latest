@@ -35,11 +35,11 @@ export const LoginForm: FC<Props> = ({ displayForgotPassword, onSubmit, isLoggin
       <Form onSubmit={onSubmit} validateOn="onChange">
         {({ register, errors }) => (
           <>
-            <Field label="Email or username" invalid={!!errors.user} error={errors.user?.message}>
+            <Field label="E-mail Address" invalid={!!errors.user} error={errors.user?.message}>
               <Input
                 autoFocus
                 name="user"
-                ref={register({ required: 'Email or username is required' })}
+                ref={register({ required: 'Email is required' })}
                 placeholder={loginHint}
                 aria-label={selectors.pages.Login.username}
               />
@@ -54,7 +54,7 @@ export const LoginForm: FC<Props> = ({ displayForgotPassword, onSubmit, isLoggin
               />
             </Field>
             <Button aria-label={selectors.pages.Login.submit} className={submitButton} disabled={isLoggingIn}>
-              {isLoggingIn ? 'Logging in...' : 'Log in'}
+              {isLoggingIn ? 'Logging in...' : 'Login'}
             </Button>
             {displayForgotPassword && (
               <a className={forgottenPasswordStyles} href="user/password/send-reset-email">

@@ -16,57 +16,57 @@ export const LoginPage: FC = () => {
   document.title = Branding.AppTitle;
   const loginStyles = useStyles(getLoginStyles);
   return (
-    <div className="login-background">
-      <div className={cx(loginStyles.loginContent, Branding.LoginBoxBackground())}>
-        <div className={loginStyles.loginLogoWrapper}>
+    <div className="login-background login-container">
+      <div className="login-dialog-container">
+        <div className="login-logo">
           <Branding.LoginLogo className={loginStyles.loginLogo} />
+        </div>
+        <div className="login-dialog-box">
           <div className={loginStyles.titleWrapper}>
             <h1 className={loginStyles.mainTitle}>{Branding.LoginTitle}</h1>
             <h3 className={loginStyles.subTitle}>{Branding.GetLoginSubTitle()}</h3>
           </div>
+          <LoginCtrl>
+            {({
+              loginHint,
+              passwordHint,
+              ldapEnabled,
+              authProxyEnabled,
+              disableLoginForm,
+              disableUserSignUp,
+              login,
+              isLoggingIn,
+              changePassword,
+              skipPasswordChange,
+              isChangingPassword,
+            }) => (
+              <div className={loginStyles.loginOuterBox}>
+                {!isChangingPassword && (
+                  <div className={`${loginStyles.loginInnerBox} ${isChangingPassword ? 'hidden' : ''}`} id="login-view">
+                    {!disableLoginForm && (
+                      <LoginForm
+                        displayForgotPassword={!(ldapEnabled || authProxyEnabled)}
+                        onSubmit={login}
+                        loginHint={loginHint}
+                        passwordHint={passwordHint}
+                        isLoggingIn={isLoggingIn}
+                      />
+                    )}
+
+                    <LoginServiceButtons />
+                    {!disableUserSignUp && <UserSignup />}
+                  </div>
+                )}
+
+                {isChangingPassword && (
+                  <div className={cx(loginStyles.loginInnerBox, loginStyles.enterAnimation)}>
+                    <ChangePassword onSubmit={changePassword} onSkip={skipPasswordChange as any} />
+                  </div>
+                )}
+              </div>
+            )}
+          </LoginCtrl>
         </div>
-        <LoginCtrl>
-          {({
-            loginHint,
-            passwordHint,
-            ldapEnabled,
-            authProxyEnabled,
-            disableLoginForm,
-            disableUserSignUp,
-            login,
-            isLoggingIn,
-            changePassword,
-            skipPasswordChange,
-            isChangingPassword,
-          }) => (
-            <div className={loginStyles.loginOuterBox}>
-              {!isChangingPassword && (
-                <div className={`${loginStyles.loginInnerBox} ${isChangingPassword ? 'hidden' : ''}`} id="login-view">
-                  {!disableLoginForm && (
-                    <LoginForm
-                      displayForgotPassword={!(ldapEnabled || authProxyEnabled)}
-                      onSubmit={login}
-                      loginHint={loginHint}
-                      passwordHint={passwordHint}
-                      isLoggingIn={isLoggingIn}
-                    />
-                  )}
-
-                  <LoginServiceButtons />
-                  {!disableUserSignUp && <UserSignup />}
-                </div>
-              )}
-
-              {isChangingPassword && (
-                <div className={cx(loginStyles.loginInnerBox, loginStyles.enterAnimation)}>
-                  <ChangePassword onSubmit={changePassword} onSkip={skipPasswordChange as any} />
-                </div>
-              )}
-            </div>
-          )}
-        </LoginCtrl>
-
-        <div className="clearfix" />
       </div>
     </div>
   );
