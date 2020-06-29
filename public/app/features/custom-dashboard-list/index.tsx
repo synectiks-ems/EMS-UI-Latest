@@ -72,14 +72,15 @@ class DashboardList extends React.Component<Props, State> {
     return retData;
   }
 
-  createDashboard = (dashboardList: any[], activeDash: any) => {
+  createDashboard = (dashboardList: any[], activeDash: any, dashboardNumber: any) => {
+    const { activeTab } = this.state;
     let retData = [];
     for (let i = 0; i < dashboardList.length; i++) {
       const dashboard = dashboardList[i];
       if (dashboard.type === 'dash-db') {
         retData.push(
           <div key={dashboard.id}>
-            {activeDash === i && (
+            {activeDash === i && activeTab === dashboardNumber && (
               <CustomDashboardLoader
                 $scope={this.props.$scope}
                 $injector={this.props.$injector}
@@ -170,7 +171,7 @@ class DashboardList extends React.Component<Props, State> {
     for (let i = 0; i < keys.length; i++) {
       const folder = list[keys[i]];
       const aside = this.createAside(folder, keys[i]);
-      const dashboardContent = this.createDashboard(folder.dashboards, folder.activeDash);
+      const dashboardContent = this.createDashboard(folder.dashboards, folder.activeDash, i);
       retData.push(
         <TabPane tabId={i}>
           <div className="dashboard-list-container">
