@@ -62,12 +62,9 @@ class Overview extends React.Component<any, any> {
                   Metrics are numerical values available from Azure Resources helping you understand the health,
                   operation &amp; performance of your system.
                 </div>
-                <a
-                  className="alert-blue-button m-t-2"
-                  href="/plugins/xformation-perfmanager-ui-plugin/page/dashboard"
-                >
-                  Manage Alert
-                  </a>
+                <a className="alert-blue-button m-t-2" href="/plugins/xformation-perfmanager-ui-plugin/page/dashboard">
+                  Explore Metrics
+                </a>
               </div>
               <div className="col-md-4 overview-item-container">
                 <img src="/public/img/monitor-icons/query_analyze.png" className="item-image" />
