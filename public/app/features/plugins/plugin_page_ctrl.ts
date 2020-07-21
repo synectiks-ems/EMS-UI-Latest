@@ -24,7 +24,7 @@ export class AppPageCtrl {
           this.initPage(settings);
         })
         .catch(err => {
-          this.$rootScope.appEvent(AppEvents.alertError, ['Unknown Plugin']);
+          // this.$rootScope.appEvent(AppEvents.alertError, ['Unknown Plugin']);
           this.navModel = this.navModelSrv.getNotFoundNav();
         })
     );
