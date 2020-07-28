@@ -105,9 +105,10 @@ export class CustomSideMenu extends PureComponent<any, any> {
       ],
     },
     {
-      link: '',
+      link: 'plugins/xformation-perfmanager-ui-plugin/page/managedashboard',
       text: 'Metrics',
       cssClass: 'metrics',
+      activeLink: 'plugins/xformation-perfmanager-ui-plugin',
     },
     {
       link: '',
@@ -123,6 +124,63 @@ export class CustomSideMenu extends PureComponent<any, any> {
       link: '',
       text: 'Workbooks',
       cssClass: 'workbooks',
+    },
+    {
+      link: 'plugins/xformation-compliancemanager-ui-plugin/page/dashboard',
+      text: 'Compliance',
+      cssClass: 'compliance',
+      activeLink: 'plugins/xformation-compliancemanager-ui-plugin',
+      subMenu: [
+        {
+          link: 'plugins/xformation-compliancemanager-ui-plugin/page/dashboard',
+          text: 'Dashboard',
+          cssClass: 'compliance-dashboard',
+          activeSLink: 'plugins/xformation-compliancemanager-ui-plugin/page/dashboard',
+          activeLink: 'plugins/xformation-compliancemanager-ui-plugin',
+        },
+        {
+          link: '',
+          text: 'Compliance Rulesets',
+          cssClass: 'compliance-rulesets',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
+        },
+        {
+          link: '',
+          text: 'GSL Builder',
+          cssClass: 'compliance-builder',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
+        },
+        {
+          link: '',
+          text: 'Remediation',
+          cssClass: 'compliance-remediation',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
+        },
+        {
+          link: '',
+          text: 'Assessment History',
+          cssClass: 'compliance-assessment',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
+        },
+        {
+          link: '',
+          text: 'Exclusions',
+          cssClass: 'compliance-exclusions',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
+        },
+        {
+          link: '',
+          text: 'Compliance Policies',
+          cssClass: 'compliance-exclusions',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
+        },
+      ],
     },
   ];
   insights: any = [

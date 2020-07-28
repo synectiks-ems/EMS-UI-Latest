@@ -120,7 +120,7 @@ textarea {
         top: 0px;
         background-color: $sidemenu-submenu-background-color;
         padding: 0;
-        width: 170px;
+        width: 220px;
         list-style: none;
 
         li {
@@ -228,6 +228,39 @@ textarea {
     .new-alert-rule {
       background-image: url('../img/monitor-icons/menu-new-alert-rule.svg');
     }
+
+    .compliance{
+      background-image: url('../img/monitor-icons/dashboard.svg');
+    }
+
+    .compliance-dashboard {
+      background-image: url('../img/monitor-icons/dashboard.svg');
+    }
+
+    .compliance-rulesets {
+      background-image: url('../img/monitor-icons/dashboard.svg');
+    }
+
+    .compliance-builder {
+      background-image: url('../img/monitor-icons/dashboard.svg');
+    }
+
+    .compliance-remediation {
+      background-image: url('../img/monitor-icons/dashboard.svg');
+    }
+
+    .compliance-assessment {
+      background-image: url('../img/monitor-icons/dashboard.svg');
+    }
+
+    .compliance-exclusions {
+      background-image: url('../img/monitor-icons/dashboard.svg');
+    }
+
+    .compliance-exclusions {
+      background-image: url('../img/monitor-icons/dashboard.svg');
+    }
+
   }
 }
 
@@ -263,7 +296,7 @@ textarea {
           top: 0px;
           background-color: $sidemenu-submenu-background-color;
           padding: 0;
-          width: 170px;
+          width: 220px;
           list-style: none;
           box-shadow: rgb(59, 72, 89) 2px 0px 6px -2px;
           li {
