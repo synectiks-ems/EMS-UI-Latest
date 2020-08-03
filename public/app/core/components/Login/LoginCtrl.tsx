@@ -75,11 +75,25 @@ export class LoginCtrl extends PureComponent<Props, State> {
     this.setState({
       isLoggingIn: true,
     });
-
+    let isExSec = false;
+    console.log(`calling login API from UI..................`);
+    getBackendSrv()
+      .get('/external_security_enable')
+      .then((res: any) => {
+        console.log(`external_security_enable flag: `, res);
+        isExSec = res;
+        localStorage.setItem(`external_security_enable`, isExSec === true ? `true` : `false`);
+      });
     getBackendSrv()
       .post('/login', formModel)
       .then((result: any) => {
         this.result = result;
+        if (isExSec === true) {
+          localStorage.setItem(`userInfo`, JSON.stringify(result.userInfo));
+        } else {
+          localStorage.setItem(`userInfo`, '');
+        }
+
         if (formModel.password !== 'admin' || config.ldapEnabled || config.authProxyEnabled) {
           this.toGrafana();
           return;

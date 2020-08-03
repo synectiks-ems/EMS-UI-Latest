@@ -92,6 +92,10 @@ var (
 	EnableGzip         bool
 	EnforceDomain      bool
 
+	//externalsecurity
+	ExternalSecurityUrl    string
+	ExternalSecurityEnable bool
+
 	// Security settings.
 	SecretKey                         string
 	DisableGravatar                   bool
@@ -719,6 +723,10 @@ func (cfg *Cfg) Load(args *CommandLineArgs) error {
 	DisableGravatar = security.Key("disable_gravatar").MustBool(true)
 	cfg.DisableBruteForceLoginProtection = security.Key("disable_brute_force_login_protection").MustBool(false)
 	DisableBruteForceLoginProtection = cfg.DisableBruteForceLoginProtection
+
+	externalsecurity := iniFile.Section("externalsecurity")
+	ExternalSecurityUrl = externalsecurity.Key("external_security_url").String()
+	ExternalSecurityEnable = externalsecurity.Key("external_security_enable").MustBool(false)
 
 	CookieSecure = security.Key("cookie_secure").MustBool(false)
 	cfg.CookieSecure = CookieSecure

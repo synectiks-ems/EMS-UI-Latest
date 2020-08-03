@@ -539,3 +539,42 @@ func GetDashboardTags(c *models.ReqContext) {
 
 	c.JSON(200, query.Result)
 }
+
+func getCustomDashboardHelper(slug string, orgID int64, folderId int64) (*models.Dashboard, Response) {
+	var query models.CustomGetDashboardQuery
+
+	query = models.CustomGetDashboardQuery{Slug: slug, OrgId: orgID, FolderId: folderId}
+
+	if err := bus.Dispatch(&query); err != nil {
+		return nil, Error(404, "Dashboard not found", err)
+	}
+
+	return query.Result, nil
+}
+
+func (hs *HTTPServer) CustomDeleteDashboard(c *models.ReqContext, cmd models.CustomDashboardCommand) Response {
+	dash, rsp := getCustomDashboardHelper(cmd.Slug, cmd.OrgId, cmd.FolderId)
+	if rsp != nil {
+		return JSON(199, util.DynMap{
+			"title":   "No Dashboard found",
+			"message": "No Dashboard found for deletion",
+		})
+	}
+	log.Info(fmt.Sprintf("Deleting the existing dashboard. Dashboard %s ", dash.Title))
+	//guardian := guardian.New(dash.Id, c.OrgId, c.SignedInUser)
+	//if canSave, err := guardian.CanSave(); err != nil || !canSave {
+	//	return dashboardGuardianResponse(err)
+	//}
+
+	err := dashboards.NewService().DeleteDashboard(dash.Id, c.OrgId)
+	if err == models.ErrDashboardCannotDeleteProvisionedDashboard {
+		return Error(400, "Dashboard cannot be deleted because it was provisioned", err)
+	} else if err != nil {
+		return Error(500, "Failed to delete dashboard", err)
+	}
+	log.Info(fmt.Sprintf("Dashboard %s deleted", dash.Title))
+	return JSON(200, util.DynMap{
+		"title":   dash.Title,
+		"message": fmt.Sprintf("Dashboard %s deleted", dash.Title),
+	})
+}

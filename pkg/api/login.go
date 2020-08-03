@@ -2,8 +2,12 @@ package api
 
 import (
 	"encoding/hex"
+	"encoding/json"
 	"errors"
+	"io/ioutil"
+	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 
 	"github.com/grafana/grafana/pkg/api/dtos"
@@ -27,6 +31,10 @@ var setIndexViewData = (*HTTPServer).setIndexViewData
 
 var getViewIndex = func() string {
 	return ViewIndex
+}
+
+var externalSecurityServiceClient = &http.Client{
+	Transport: &http.Transport{Proxy: http.ProxyFromEnvironment},
 }
 
 func (hs *HTTPServer) ValidateRedirectTo(redirectTo string) error {
@@ -158,43 +166,88 @@ func (hs *HTTPServer) LoginAPIPing(c *models.ReqContext) Response {
 	return Error(401, "Unauthorized", nil)
 }
 
+func (hs *HTTPServer) CheckExternalSecurityFlag(c *models.ReqContext) string {
+	return strconv.FormatBool(setting.ExternalSecurityEnable)
+}
+
 func (hs *HTTPServer) LoginPost(c *models.ReqContext, cmd dtos.LoginCommand) Response {
 	if setting.DisableLoginForm {
 		return Error(401, "Login is disabled", nil)
 	}
 
-	authQuery := &models.LoginUserQuery{
-		ReqContext: c,
-		Username:   cmd.User,
-		Password:   cmd.Password,
-		IpAddress:  c.Req.RemoteAddr,
-	}
-
-	if err := bus.Dispatch(authQuery); err != nil {
-		e401 := Error(401, "Invalid username or password", err)
-		if err == login.ErrInvalidCredentials || err == login.ErrTooManyLoginAttempts {
-			return e401
-		}
-
-		// Do not expose disabled status,
-		// just show incorrect user credentials error (see #17947)
-		if err == login.ErrUserDisabled {
-			hs.log.Warn("User is disabled", "user", cmd.User)
-			return e401
-		}
-
-		return Error(500, "Error while trying to authenticate user", err)
-	}
-
-	user := authQuery.User
-
-	err := hs.loginUserWithUser(user, c)
-	if err != nil {
-		return Error(500, "Error while signing in user", err)
-	}
-
 	result := map[string]interface{}{
 		"message": "Logged in",
+	}
+
+	if setting.ExternalSecurityEnable {
+		log.Info("External security enabled. All the users including admin will be authenticated with security service")
+		response, err := externalSecurityServiceClient.Get(setting.ExternalSecurityUrl + "/security/public/login?username=" + cmd.User + "&password=" + cmd.Password)
+		log.Info("Login response : ", response)
+		if response.StatusCode == 417 {
+			e401 := Error(401, "Username or Password Invalid", err)
+			return e401
+		}
+
+		defer response.Body.Close()
+		bodyBytes, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			log.Error(1, "Invalid security service response", err)
+			return Error(401, "Invalid security service response", err)
+		}
+		bodyString := string(bodyBytes)
+		var userInfo = make(map[string]interface{})
+		errw := json.Unmarshal([]byte(bodyString), &userInfo)
+		if errw != nil {
+			log.Error(1, "User authentication response unmarshalling to JSON failed", errw)
+			return Error(401, "User authentication response unmarshalling to JSON failed", errw)
+		}
+
+		var user = &models.User{
+			Password: cmd.Password,
+			Login:    cmd.User,
+			Name:     cmd.User,
+			OrgId:    1,
+			IsAdmin:  true,
+			Id:       1,
+		}
+
+		errU := hs.loginUserWithUser(user, c)
+		if errU != nil {
+			return Error(500, "Error while signing in user", errU)
+		}
+
+		result["userInfo"] = userInfo
+	} else {
+
+		authQuery := &models.LoginUserQuery{
+			ReqContext: c,
+			Username:   cmd.User,
+			Password:   cmd.Password,
+			IpAddress:  c.Req.RemoteAddr,
+		}
+
+		if err := bus.Dispatch(authQuery); err != nil {
+			e401 := Error(401, "Invalid username or password", err)
+			if err == login.ErrInvalidCredentials || err == login.ErrTooManyLoginAttempts {
+				return e401
+			}
+
+			// Do not expose disabled status,
+			// just show incorrect user credentials error (see #17947)
+			if err == login.ErrUserDisabled {
+				hs.log.Warn("User is disabled", "user", cmd.User)
+				return e401
+			}
+
+			return Error(500, "Error while trying to authenticate user", err)
+		}
+
+		user := authQuery.User
+
+		err := hs.loginUserWithUser(user, c)
+		if err != nil {
+			return Error(500, "Error while signing in user", err)
+		}
 	}
 
 	if redirectTo, _ := url.QueryUnescape(c.GetCookie("redirect_to")); len(redirectTo) > 0 {
