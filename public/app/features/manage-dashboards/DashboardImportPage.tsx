@@ -20,7 +20,7 @@ import { StoreState } from 'app/types';
 import { FolderDTO } from 'app/types';
 // import { DashboardSection} from '../types';
 import ManageDashboards from '../search/components/CustomManageDashboards';
-
+import { config } from '../config';
 interface OwnProps {
   failedDashboards: any;
 }
@@ -30,14 +30,12 @@ interface ConnectedProps {
   isLoaded: boolean;
   folder?: FolderDTO;
 }
-
 interface DispatchProps {
   fetchGcomDashboard: typeof fetchGcomDashboard;
   importDashboardJson: typeof importDashboardJson;
 }
 
 type Props = OwnProps & ConnectedProps & DispatchProps;
-
 class DashboardImportUnConnected extends PureComponent<Props> {
   onFileUpload = (event: FormEvent<HTMLInputElement>) => {
     const { importDashboardJson } = this.props;
@@ -79,7 +77,7 @@ class DashboardImportUnConnected extends PureComponent<Props> {
       let requestOptionsGet: any = {
         method: `GET`,
       };
-      fetch(`http://localhost:4000/api/listDashboard?id=${id}&isFolder=${isFolder}`, requestOptionsGet)
+      fetch(`${config.LIST_DASHBOARD}?id=${id}&isFolder=${isFolder}`, requestOptionsGet)
         .then(response => response.json())
         .then((response: any) => {
           console.log(`List of collector/dashboards: `, response);
@@ -105,7 +103,7 @@ class DashboardImportUnConnected extends PureComponent<Props> {
                 },
                 body: JSON.stringify(DelObj),
               };
-              fetch(`http://localhost:3000/api/dashboards/deleteDashboard`, reqOptDel)
+              fetch(`${config.DELETE_DASHBOARD}`, reqOptDel)
                 .then(rs => rs.json())
                 .then((rs: any) => {
                   console.log(`existing dashboard status : `, rs.message);
@@ -127,7 +125,7 @@ class DashboardImportUnConnected extends PureComponent<Props> {
                 body: JSON.stringify(SaveDashboardCommand),
               };
               console.log(requestOptions);
-              fetch(`http://localhost:3000/api/dashboards/db`, requestOptions)
+              fetch(`${config.IMPORT_DASHBOARD}`, requestOptions)
                 .then(resp => resp.json())
                 .then((resp: any) => {
                   console.log(`Dashboard Import response :::`, resp);
