@@ -153,10 +153,10 @@ export class CustomSideMenu extends PureComponent<any, any> {
           activeLink: 'plugins/xformation-alertmanager-ui-plugin',
         },
         {
-          link: '',
+          link: 'plugins/xformation-compliancemanager-ui-plugin/page/complianceremediation',
           text: 'Remediation',
           cssClass: 'compliance-remediation',
-          activeSLink: '',
+          activeSLink: 'plugins/xformation-compliancemanager-ui-plugin/page/complianceremediation',
           activeLink: 'plugins/xformation-alertmanager-ui-plugin',
         },
         {
@@ -209,11 +209,6 @@ export class CustomSideMenu extends PureComponent<any, any> {
     {
       link: '',
       text: 'Diagnostic Settings',
-      cssClass: 'diagnostic-settings',
-    },
-    {
-      link: '/plugins/xformation-rbac-ui-plugin/page/home',
-      text: 'RBAC Settings',
       cssClass: 'diagnostic-settings',
     },
   ];
