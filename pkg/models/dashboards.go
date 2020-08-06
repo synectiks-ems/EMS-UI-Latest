@@ -373,3 +373,19 @@ type GetDashboardRefByIdQuery struct {
 type UnprovisionDashboardCommand struct {
 	Id int64
 }
+
+type CustomGetDashboardQuery struct {
+	Slug     string // required if no Id or Uid is specified or required with folder id
+	Id       int64  // optional if slug is set
+	Uid      string // optional if slug is set
+	OrgId    int64
+	FolderId int64 // required with slug
+
+	Result *Dashboard
+}
+
+type CustomDashboardCommand struct {
+	OrgId    int64
+	FolderId int64
+	Slug     string
+}

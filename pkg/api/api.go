@@ -24,6 +24,7 @@ func (hs *HTTPServer) registerRoutes() {
 	r := hs.RouteRegister
 
 	// not logged in views
+	r.Get("/external_security_enable", hs.CheckExternalSecurityFlag)
 	r.Get("/logout", hs.Logout)
 	r.Post("/login", quota("session"), bind(dtos.LoginCommand{}), Wrap(hs.LoginPost))
 	r.Get("/login/:name", quota("session"), hs.OAuthLogin)
@@ -290,7 +291,7 @@ func (hs *HTTPServer) registerRoutes() {
 		apiRoute.Group("/dashboards", func(dashboardRoute routing.RouteRegister) {
 			dashboardRoute.Get("/uid/:uid", Wrap(hs.GetDashboard))
 			dashboardRoute.Delete("/uid/:uid", Wrap(DeleteDashboardByUID))
-
+			dashboardRoute.Delete("/deleteDashboard", bind(models.CustomDashboardCommand{}), Wrap(hs.CustomDeleteDashboard))
 			dashboardRoute.Get("/db/:slug", Wrap(hs.GetDashboard))
 			dashboardRoute.Delete("/db/:slug", Wrap(DeleteDashboardBySlug))
 
