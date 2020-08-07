@@ -35,7 +35,7 @@ export class AppPageCtrl {
     this.page = _.find(app.includes, { slug: this.$routeParams.slug });
 
     if (!this.page) {
-      // this.$rootScope.appEvent(AppEvents.alertError, ['App Page Not Found']);
+      this.$rootScope.appEvent(AppEvents.alertError, ['App Page Not Found']);
       this.navModel = this.navModelSrv.getNotFoundNav();
       return;
     }
