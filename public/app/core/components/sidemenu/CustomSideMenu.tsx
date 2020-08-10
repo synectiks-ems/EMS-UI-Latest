@@ -220,6 +220,13 @@ export class CustomSideMenu extends PureComponent<any, any> {
       cssClass: 'diagnostic-settings',
       activeLink: '/diagnostic-settings',
     },
+    {
+      link: '/plugins/xformation-rbac-ui-plugin/page/home',
+      text: 'RBAC Settings',
+      cssClass: 'diagnostic-settings',
+      activeSLink: '/plugins/xformation-rbac-ui-plugin/page/home',
+      activeLink: '/plugins/xformation-rbac-ui-plugin',
+    },
   ];
 
   onClickToggleMenu = (e: any) => {
