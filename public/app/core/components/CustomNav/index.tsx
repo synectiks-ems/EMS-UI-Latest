@@ -5,6 +5,10 @@ export class CustomNavigationBar extends PureComponent<any> {
   constructor(props: any) {
     super(props);
   }
+
+  onClickLogout = (e: any) => {
+    window.location.href = '/logout';
+  };
   render() {
     return (
       <div className="top-nav-bar">
@@ -34,7 +38,7 @@ export class CustomNavigationBar extends PureComponent<any> {
           <div className="icon">
             <i className="fa fa-bell"></i>
           </div>
-          <div className="icon">
+          <div className="icon" onClick={this.onClickLogout}>
             <i className="fa fa-user-circle"></i>
           </div>
         </div>
