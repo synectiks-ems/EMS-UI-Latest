@@ -78,9 +78,10 @@ export class CustomSideMenu extends PureComponent<any, any> {
       activeLink: '/',
     },
     {
-      link: '',
+      link: '/activity-log',
       text: 'Activity Log',
       cssClass: 'activity-log',
+      activeLink: '/activity-log',
     },
     {
       link: '/plugins/xformation-alertmanager-ui-plugin/page/monitoralerts',
@@ -111,19 +112,22 @@ export class CustomSideMenu extends PureComponent<any, any> {
       activeLink: 'plugins/xformation-perfmanager-ui-plugin',
     },
     {
-      link: '',
+      link: '/logs',
       text: 'Logs',
       cssClass: 'logs',
+      activeLink: '/logs',
     },
     {
-      link: '',
+      link: '/service-health',
       text: 'Service Health',
       cssClass: 'service-health',
+      activeLink: '/service-health',
     },
     {
-      link: '',
+      link: '/workbooks',
       text: 'Workbooks',
       cssClass: 'workbooks',
+      activeLink: '/workbooks',
     },
     {
       link: 'plugins/xformation-compliancemanager-ui-plugin/page/dashboard',
@@ -146,7 +150,7 @@ export class CustomSideMenu extends PureComponent<any, any> {
           activeLink: 'plugins/xformation-alertmanager-ui-plugin',
         },
         {
-          link: '',
+          link: '/gsl-builder',
           text: 'GSL Builder',
           cssClass: 'compliance-builder',
           activeSLink: '',
@@ -185,31 +189,36 @@ export class CustomSideMenu extends PureComponent<any, any> {
   ];
   insights: any = [
     {
-      link: '',
+      link: '/applications',
       text: 'Applications',
       cssClass: 'applications',
+      activeLink: '/applications',
     },
     {
-      link: '',
+      link: '/virtual-machines',
       text: 'Virtual Machines',
       cssClass: 'virtual-machines',
+      activeLink: '/virtual-machines',
     },
     {
-      link: '',
+      link: '/networks',
       text: 'Networks (preview)',
       cssClass: 'networks',
+      activeLink: '/networks',
     },
     {
-      link: '',
+      link: '/jobs',
       text: 'Jobs',
       cssClass: 'jobs',
+      activeLink: '/jobs',
     },
   ];
   settings: any = [
     {
-      link: '',
+      link: '/diagnostic-settings',
       text: 'Diagnostic Settings',
       cssClass: 'diagnostic-settings',
+      activeLink: '/diagnostic-settings',
     },
   ];
 
