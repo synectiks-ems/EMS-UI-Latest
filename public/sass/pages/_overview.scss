@@ -7,8 +7,10 @@ body,
   color: $overview-container-text-color;
   padding: 36px 50px;
   background-color: $overview-container-background-color;
+
   .overview-item-container {
     margin-bottom: 30px;
+
     .item-image {
       width: 100%;
       background: white;
@@ -18,28 +20,33 @@ body,
       box-shadow: 0px 0px 6px -4px #3b4859;
       padding: 20px;
     }
+
     .item-header {
       font-size: 15px;
       font-weight: bold;
       margin: 15px 0px;
       color: $overview-container-text-color;
     }
+
     .item-description {
       font-size: 12px;
       color: $overview-container-description-color;
     }
   }
+
   .overview-header {
     font-size: 27px;
     text-align: center;
     font-weight: 500;
   }
+
   .overview-description {
     font-size: 13px;
     text-align: center;
     margin-bottom: 50px;
     color: #97a4b5;
   }
+
   .alert-blue-button {
     background: #3b7cff;
     color: white;
@@ -51,6 +58,7 @@ body,
     min-width: 182px;
     text-align: center;
   }
+
   .alert-blue-button:hover {
     background: #0f5efd !important;
   }
@@ -58,26 +66,33 @@ body,
 
 .breadcrumbs-container {
   background-color: $overview-breadcrumbs-background-color;
-  padding: 10px 20px;
+  padding: 14px 20px 15px;
+  font-size: 13px;
+
   .page-title {
     color: $overview-page-title-color;
     display: inline-block;
   }
+
   .breadcrumbs {
     float: right;
   }
+
   a.breadcrumbs-link {
     color: $overview-breadcrumbs-link-color;
   }
+
   .current-page {
     color: $overview-breadcrumbs-link-current-page-color;
   }
+
   .separator {
     color: $overview-breadcrumbs-link-color;
     display: inline-block;
     padding: 0 10px;
   }
 }
+
 @media (max-width: 767px) {
   .breadcrumbs-container {
     .breadcrumbs {
