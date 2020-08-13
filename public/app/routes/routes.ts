@@ -37,6 +37,7 @@ export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locati
     })
     .when('/dashboardlist', {
       template: '<react-container />',
+      //@ts-ignore
       pageClass: 'page-dashboard',
       reloadOnSearch: false,
       resolve: {

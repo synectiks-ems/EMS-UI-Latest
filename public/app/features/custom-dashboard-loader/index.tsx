@@ -27,13 +27,15 @@ import {
 } from 'app/types';
 
 import { DashboardModel, PanelModel } from 'app/features/dashboard/state';
-import { InspectTab, PanelInspector } from '../dashboard/components/Inspector/PanelInspector';
+import { InspectTab } from '../dashboard/components/Inspector/types';
+import { PanelInspector } from '../dashboard/components/Inspector/PanelInspector';
 import { SubMenu } from '../dashboard/components/SubMenu/SubMenu';
 import { cleanUpDashboardAndVariables } from '../dashboard/state/actions';
 import { cancelVariables } from '../variables/state/actions';
+import { CustomNavigationBar } from 'app/core/components/CustomNav';
 
 export interface Props {
-  urlUid?: any;
+  urlUid?: string;
   urlSlug?: string;
   urlType?: string;
   editview?: string;
@@ -84,8 +86,8 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
       urlUid: this.props.urlUid,
       urlType: this.props.urlType,
       urlFolderId: this.props.urlFolderId,
-      routeInfo: DashboardRouteInfo.Normal,
-      fixUrl: false,
+      routeInfo: this.props.routeInfo,
+      fixUrl: true,
     });
   }
 
@@ -116,6 +118,12 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
     // entering edit mode
     if (!editPanel && urlEditPanelId) {
       this.getPanelByIdFromUrlParam(urlEditPanelId, panel => {
+        // if no edit permission show error
+        if (!dashboard.canEditPanel(panel)) {
+          this.props.notifyApp(createErrorNotification('Permission to edit panel denied'));
+          return;
+        }
+
         this.setState({ editPanel: panel });
       });
     }
@@ -187,11 +195,15 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
 
   setScrollTop = (e: MouseEvent<HTMLElement>): void => {
     const target = e.target as HTMLElement;
-    this.setState({ scrollTop: target.scrollTop, updateScrollTop: null });
+    this.setState({ scrollTop: target.scrollTop, updateScrollTop: undefined });
   };
 
   onAddPanel = () => {
     const { dashboard } = this.props;
+
+    if (!dashboard) {
+      return;
+    }
 
     // Return if the "Add panel" exists already
     if (dashboard.panels.length > 0 && dashboard.panels[0].type === 'add-panel') {
@@ -233,6 +245,10 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
 
   renderInitFailedState() {
     const { initError } = this.props;
+
+    if (!initError) {
+      return null;
+    }
 
     return (
       <div className="dashboard-loading">
@@ -288,6 +304,7 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
 
     return (
       <React.Fragment>
+        <CustomNavigationBar />
         <div className="scroll-canvas--dashboard monitor-main-body">
           <DashNav
             dashboard={dashboard}
@@ -306,7 +323,7 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
             >
               <div className="dashboard-content">
                 {initError && this.renderInitFailedState()}
-                {!editPanel && <SubMenu dashboard={dashboard} />}
+                {!editPanel && <SubMenu dashboard={dashboard} links={dashboard.links} />}
 
                 <DashboardGrid
                   dashboard={dashboard}
@@ -329,6 +346,8 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
 }
 
 export const mapStateToProps = (state: StoreState) => ({
+  urlUid: state.location.routeParams.uid,
+  urlSlug: state.location.routeParams.slug,
   urlType: state.location.routeParams.type,
   editview: state.location.query.editview,
   urlPanelId: state.location.query.panelId,

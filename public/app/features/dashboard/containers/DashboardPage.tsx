@@ -323,7 +323,7 @@ export class DashboardPage extends PureComponent<Props, State> {
             >
               <div className="dashboard-content">
                 {initError && this.renderInitFailedState()}
-                {!editPanel && <SubMenu dashboard={dashboard} links={dashboard.links}/>}
+                {!editPanel && <SubMenu dashboard={dashboard} links={dashboard.links} />}
 
                 <DashboardGrid
                   dashboard={dashboard}
