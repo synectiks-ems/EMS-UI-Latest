@@ -32,7 +32,7 @@ import { PanelInspector } from '../dashboard/components/Inspector/PanelInspector
 import { SubMenu } from '../dashboard/components/SubMenu/SubMenu';
 import { cleanUpDashboardAndVariables } from '../dashboard/state/actions';
 import { cancelVariables } from '../variables/state/actions';
-import { CustomNavigationBar } from 'app/core/components/CustomNav';
+// import { CustomNavigationBar } from 'app/core/components/CustomNav';
 
 export interface Props {
   urlUid?: string;
@@ -86,8 +86,8 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
       urlUid: this.props.urlUid,
       urlType: this.props.urlType,
       urlFolderId: this.props.urlFolderId,
-      routeInfo: this.props.routeInfo,
-      fixUrl: true,
+      routeInfo: DashboardRouteInfo.Normal,
+      fixUrl: false,
     });
   }
 
@@ -304,7 +304,6 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
 
     return (
       <React.Fragment>
-        <CustomNavigationBar />
         <div className="scroll-canvas--dashboard monitor-main-body">
           <DashNav
             dashboard={dashboard}
@@ -346,8 +345,6 @@ export class CustomDashboardLoader extends PureComponent<any, State> {
 }
 
 export const mapStateToProps = (state: StoreState) => ({
-  urlUid: state.location.routeParams.uid,
-  urlSlug: state.location.routeParams.slug,
   urlType: state.location.routeParams.type,
   editview: state.location.query.editview,
   urlPanelId: state.location.query.panelId,
