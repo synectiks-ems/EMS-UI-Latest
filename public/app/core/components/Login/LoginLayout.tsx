@@ -16,19 +16,22 @@ export const InnerBox: FC<InnerBoxProps> = ({ children, enterAnimation = true })
 export const LoginLayout: FC = ({ children }) => {
   const loginStyles = useStyles(getLoginStyles);
   return (
-    <Branding.LoginBackground className={loginStyles.container}>
-      <div className={cx(loginStyles.loginContent, Branding.LoginBoxBackground())}>
+    <div className="login-background login-container">
+      <div className="login-dialog-container">
         <div className={loginStyles.loginLogoWrapper}>
-          <Branding.LoginLogo className={loginStyles.loginLogo} />
-          <div className={loginStyles.titleWrapper}>
-            <h1 className={loginStyles.mainTitle}>{Branding.LoginTitle}</h1>
-            <h3 className={loginStyles.subTitle}>{Branding.GetLoginSubTitle()}</h3>
+          <div className="login-logo">
+            <Branding.LoginLogo className={loginStyles.loginLogo} />
+          </div>
+          <div className="login-dialog-box">
+            <div className={loginStyles.titleWrapper}>
+              <h1 className={loginStyles.mainTitle}>{Branding.LoginTitle}</h1>
+              <h3 className={loginStyles.subTitle}>{Branding.GetLoginSubTitle()}</h3>
+            </div>
+            <div className={loginStyles.loginOuterBox}>{children}</div>
           </div>
         </div>
-        <div className={loginStyles.loginOuterBox}>{children}</div>
       </div>
-      <Footer />
-    </Branding.LoginBackground>
+    </div>
   );
 };
 
