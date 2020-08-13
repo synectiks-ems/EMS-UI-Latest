@@ -124,7 +124,7 @@ interface LegendSeriesLabelProps {
   label: string;
   color: string;
   yaxis?: number;
-  onLabelClick?: (event: any) => void;
+  onLabelClick: (event: any) => void;
 }
 
 class LegendSeriesLabel extends PureComponent<LegendSeriesLabelProps & LegendSeriesIconProps> {
@@ -136,6 +136,8 @@ class LegendSeriesLabel extends PureComponent<LegendSeriesLabelProps & LegendSer
   render() {
     const { label, color, yaxis } = this.props;
     const { onColorChange, onToggleAxis } = this.props;
+    const onLabelClick = this.props.onLabelClick ? this.props.onLabelClick : () => {};
+
     return [
       <LegendSeriesIcon
         key="icon"
@@ -148,7 +150,7 @@ class LegendSeriesLabel extends PureComponent<LegendSeriesLabelProps & LegendSer
         className="graph-legend-alias pointer"
         title={label}
         key="label"
-        onClick={e => this.props.onLabelClick(e)}
+        onClick={onLabelClick}
         aria-label={selectors.components.Panels.Visualization.Graph.Legend.legendItemAlias(label)}
       >
         {label}
@@ -179,12 +181,18 @@ class LegendSeriesIcon extends PureComponent<LegendSeriesIconProps, LegendSeries
     onToggleAxis: () => {},
   };
 
+  onColorChange = (color: string) => {
+    const { onColorChange } = this.props;
+    if (onColorChange) {
+      onColorChange(color);
+    }
+  };
   render() {
     return (
       <SeriesColorPicker
         yaxis={this.props.yaxis}
         color={this.props.color}
-        onChange={this.props.onColorChange}
+        onChange={this.onColorChange}
         onToggleAxis={this.props.onToggleAxis}
         enableNamedColors
       >

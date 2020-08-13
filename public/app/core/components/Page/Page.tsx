@@ -13,7 +13,7 @@ import { isEqual } from 'lodash';
 import { Branding } from '../Branding/Branding';
 
 interface Props {
-  children: JSX.Element[] | JSX.Element;
+  children: React.ReactNode;
   navModel: NavModel;
 }
 
