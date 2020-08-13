@@ -3,7 +3,6 @@ import { cx, css, keyframes } from 'emotion';
 import { useStyles } from '@grafana/ui';
 import { Branding } from '../Branding/Branding';
 import { GrafanaTheme } from '@grafana/data';
-import { Footer } from '../Footer/Footer';
 
 interface InnerBoxProps {
   enterAnimation?: boolean;
