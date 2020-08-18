@@ -180,9 +180,9 @@ func (hs *HTTPServer) LoginPost(c *models.ReqContext, cmd dtos.LoginCommand) Res
 	}
 
 	if setting.ExternalSecurityEnable {
-		log.Info("External security enabled. All the users including admin will be authenticated with security service")
+		//log.Info("External security enabled. All the users including admin will be authenticated with security service")
 		response, err := externalSecurityServiceClient.Get(setting.ExternalSecurityUrl + "/security/public/login?username=" + cmd.User + "&password=" + cmd.Password)
-		log.Info("Login response : ", response)
+		//log.Info("Login response : ", response)
 		if response.StatusCode == 417 {
 			e401 := Error(401, "Username or Password Invalid", err)
 			return e401
@@ -191,14 +191,14 @@ func (hs *HTTPServer) LoginPost(c *models.ReqContext, cmd dtos.LoginCommand) Res
 		defer response.Body.Close()
 		bodyBytes, err := ioutil.ReadAll(response.Body)
 		if err != nil {
-			log.Error(1, "Invalid security service response", err)
+			//log.Error(1, "Invalid security service response", err)
 			return Error(401, "Invalid security service response", err)
 		}
 		bodyString := string(bodyBytes)
 		var userInfo = make(map[string]interface{})
 		errw := json.Unmarshal([]byte(bodyString), &userInfo)
 		if errw != nil {
-			log.Error(1, "User authentication response unmarshalling to JSON failed", errw)
+			//log.Error(1, "User authentication response unmarshalling to JSON failed", errw)
 			return Error(401, "User authentication response unmarshalling to JSON failed", errw)
 		}
 
