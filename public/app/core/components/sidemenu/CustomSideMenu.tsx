@@ -186,6 +186,49 @@ export class CustomSideMenu extends PureComponent<any, any> {
         },
       ],
     },
+    {
+      link: 'plugins/xformation-servicedesk-ui-plugin/page/dashboard',
+      text: 'Tickets',
+      cssClass: 'tickets',
+      activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
+      subMenu: [
+        {
+          link: 'plugins/xformation-servicedesk-ui-plugin/page/dashboard',
+          text: 'Dashboard',
+          cssClass: 'tickets-dashboard',
+          activeSLink: 'plugins/xformation-servicedesk-ui-plugin/page/dashboard',
+          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
+        },
+        {
+          link: '',
+          text: 'Contacts',
+          cssClass: 'tickets-contacts',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
+        },
+        {
+          link: '',
+          text: 'Companies',
+          cssClass: 'tickets-companies',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
+        },
+        {
+          link: '',
+          text: 'Reports',
+          cssClass: 'tickets-reports',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
+        },
+        {
+          link: '',
+          text: 'Preferences',
+          cssClass: 'tickets-preferences',
+          activeSLink: '',
+          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
+        },
+      ],
+    },
   ];
   insights: any = [
     {
