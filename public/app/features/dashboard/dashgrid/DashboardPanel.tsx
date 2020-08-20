@@ -115,7 +115,7 @@ export class DashboardPanelUnconnected extends PureComponent<Props, State> {
 
   render() {
     const { isViewing, plugin } = this.props;
-    const { isLazy } = this.state;
+    // const { isLazy } = this.state;
 
     // if we have not loaded plugin exports yet, wait
     if (!plugin) {
@@ -123,9 +123,10 @@ export class DashboardPanelUnconnected extends PureComponent<Props, State> {
     }
 
     // If we are lazy state don't render anything
-    if (isLazy) {
-      return null;
-    }
+    //Removing lazy to solve issue with not rendering bottom panels when there are many panels.
+    // if (isLazy) {
+    //   return null;
+    // }
 
     const panelWrapperClass = classNames({
       'panel-wrapper': true,
