@@ -1,4 +1,4 @@
-const uiUrl = 'http://100.64.108.25:4000/';
+const uiUrl = 'http://100.64.108.25:3000/';
 const catalogSrvUrl = `http://100.64.108.25:5040/api/`;
 export const config = {
   LIST_DASHBOARD: catalogSrvUrl + 'listDashboard',
