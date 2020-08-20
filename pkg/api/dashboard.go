@@ -16,7 +16,6 @@ import (
 	"github.com/grafana/grafana/pkg/bus"
 	"github.com/grafana/grafana/pkg/components/dashdiffs"
 	"github.com/grafana/grafana/pkg/components/simplejson"
-	//"github.com/grafana/grafana/pkg/infra/log"
 	"github.com/grafana/grafana/pkg/infra/metrics"
 	"github.com/grafana/grafana/pkg/plugins"
 	"github.com/grafana/grafana/pkg/services/guardian"
@@ -322,7 +321,7 @@ func (hs *HTTPServer) GetHomeDashboard(c *models.ReqContext) Response {
 			dashRedirect := dtos.DashboardRedirect{RedirectUri: url}
 			return JSON(200, &dashRedirect)
 		}
-		//log.Warnf("Failed to get slug from database, %s", err.Error())
+		hs.log.Warn("Failed to get slug from database, %s", err.Error())
 	}
 
 	filePath := hs.Cfg.DefaultHomeDashboardPath
@@ -556,7 +555,7 @@ func (hs *HTTPServer) CustomDeleteDashboard(c *models.ReqContext, cmd models.Cus
 			"message": "No Dashboard found for deletion",
 		})
 	}
-	//log.Info(fmt.Sprintf("Deleting the existing dashboard. Dashboard %s ", dash.Title))
+	hs.log.Info(fmt.Sprintf("Deleting the existing dashboard. Dashboard %s ", dash.Title))
 	//guardian := guardian.New(dash.Id, c.OrgId, c.SignedInUser)
 	//if canSave, err := guardian.CanSave(); err != nil || !canSave {
 	//	return dashboardGuardianResponse(err)
@@ -568,7 +567,7 @@ func (hs *HTTPServer) CustomDeleteDashboard(c *models.ReqContext, cmd models.Cus
 	} else if err != nil {
 		return Error(500, "Failed to delete dashboard", err)
 	}
-	//log.Info(fmt.Sprintf("Dashboard %s deleted", dash.Title))
+	hs.log.Info(fmt.Sprintf("Dashboard %s deleted", dash.Title))
 	return JSON(200, util.DynMap{
 		"title":   dash.Title,
 		"message": fmt.Sprintf("Dashboard %s deleted", dash.Title),

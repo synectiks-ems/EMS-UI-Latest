@@ -180,7 +180,7 @@ func (hs *HTTPServer) LoginPost(c *models.ReqContext, cmd dtos.LoginCommand) Res
 	}
 
 	if setting.ExternalSecurityEnable {
-		//log.Info("External security enabled. All the users including admin will be authenticated with security service")
+		hs.log.Info("External security enabled. All the users including admin will be authenticated with security service")
 		response, err := externalSecurityServiceClient.Get(setting.ExternalSecurityUrl + "/security/public/login?username=" + cmd.User + "&password=" + cmd.Password)
 		//log.Info("Login response : ", response)
 		if response.StatusCode == 417 {
@@ -254,7 +254,7 @@ func (hs *HTTPServer) LoginPost(c *models.ReqContext, cmd dtos.LoginCommand) Res
 		if err := hs.ValidateRedirectTo(redirectTo); err == nil {
 			result["redirectUrl"] = redirectTo
 		} else {
-			log.Infof("Ignored invalid redirect_to cookie value: %v", redirectTo)
+			hs.log.Info("Ignored invalid redirect_to cookie value: %v", redirectTo)
 		}
 		middleware.DeleteCookie(c.Resp, "redirect_to", hs.CookieOptionsFromCfg)
 	}
