@@ -35,6 +35,27 @@
       margin-right: 20px;
       border-color: #8392a7;
     }
+
+    .search-backdrop {
+      position: fixed;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      top: 51px;
+      z-index: 1040;
+      background-color: #000;
+      opacity: .75;
+    }
+
+    .search-menu {
+      height: 250px;
+      width: 100%;
+      background: white;
+      z-index: 1111;
+      position: relative;
+      top: 11px;
+      ;
+    }
   }
 
   .icon-container {

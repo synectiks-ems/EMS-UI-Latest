@@ -1,15 +1,32 @@
 // Libaries
 import React, { PureComponent } from 'react';
 
-export class CustomNavigationBar extends PureComponent<any> {
+export class CustomNavigationBar extends PureComponent<any, any> {
   constructor(props: any) {
     super(props);
+    this.state = {
+      showSearch: false,
+    };
   }
 
   onClickLogout = (e: any) => {
     window.location.href = '/logout';
   };
+
+  onClickSearchBox = (e: any) => {
+    this.setState({
+      showSearch: true,
+    });
+  };
+
+  onClickBackdrop = () => {
+    this.setState({
+      showSearch: false,
+    });
+  };
+
   render() {
+    const { showSearch } = this.state;
     return (
       <div className="top-nav-bar">
         <div className="logo-container">
@@ -21,9 +38,16 @@ export class CustomNavigationBar extends PureComponent<any> {
               type="text"
               placeholder="Search resources, services, and docs"
               className="gf-form-input search-box"
+              onClick={this.onClickSearchBox}
             />
             <i className="gf-form-input-icon fa fa-search"></i>
           </label>
+          {showSearch && (
+            <React.Fragment>
+              <div className="search-menu"></div>
+              <div className="search-backdrop" onClick={this.onClickBackdrop}></div>
+            </React.Fragment>
+          )}
         </div>
         <div className="icon-container">
           <a href="/dashboards" className="icon">
