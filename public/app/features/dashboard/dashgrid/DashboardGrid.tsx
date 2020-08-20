@@ -201,6 +201,8 @@ export class DashboardGrid extends PureComponent<Props> {
   };
 
   isInView = (panel: PanelModel): boolean => {
+    //This is patch to render panel no matter what.
+    return true;
     if (panel.isViewing || panel.isEditing) {
       return true;
     }
