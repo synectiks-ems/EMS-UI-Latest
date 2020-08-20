@@ -36,8 +36,11 @@ export const CustomSectionHeader: FC<SectionHeaderProps> = ({
     (e: React.MouseEvent) => {
       // e.preventDefault();
       // e.stopPropagation();
-      // if (onToggleChecked) {
-      onToggleChecked(section);
+      if (onToggleChecked) {
+        onToggleChecked(section);
+      }
+      // if (section !== null && section !== undefined) {
+      //   onToggleChecked(section);
       // }
     },
     [section]
