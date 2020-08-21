@@ -1,11 +1,11 @@
-import React, { FC, useCallback } from 'react';
+// import React, { FC, useCallback } from 'react';
+import React, { FC } from 'react';
 import { css, cx } from 'emotion';
 import { useLocalStorage } from 'react-use';
 import { GrafanaTheme } from '@grafana/data';
-// import { Icon, Spinner, stylesFactory, useTheme } from '@grafana/ui';
-import { Icon, stylesFactory, useTheme } from '@grafana/ui';
+import { Icon, Spinner, stylesFactory, useTheme } from '@grafana/ui';
 import { DashboardSection, OnToggleChecked } from '../types';
-import { SearchCheckbox } from './SearchCheckbox';
+// import { SearchCheckbox } from './SearchCheckbox';
 import { getSectionIcon, getSectionStorageKey } from '../utils';
 
 interface SectionHeaderProps {
@@ -28,27 +28,23 @@ export const CustomSectionHeader: FC<SectionHeaderProps> = ({
   const onSectionExpand = () => {
     setSectionExpanded(!section.expanded);
     onSectionClick(section);
-    // console.log(`CustomSectionHeader -->>>>>>>>>>> `, section);
-    // localStorage.setItem(`selectedSection`, JSON.stringify(section));
+    localStorage.setItem(`selectedSection`, JSON.stringify(section));
   };
 
-  const onSectionChecked = useCallback(
-    (e: React.MouseEvent) => {
-      // e.preventDefault();
-      // e.stopPropagation();
-      if (onToggleChecked) {
-        onToggleChecked(section);
-      }
-      // if (section !== null && section !== undefined) {
-      //   onToggleChecked(section);
-      // }
-    },
-    [section]
-  );
+  // const onSectionChecked = useCallback(
+  //   (e: React.MouseEvent) => {
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //     if (onToggleChecked) {
+  //       onToggleChecked(section);
+  //     }
+  //   },
+  //   [section]
+  // );
 
   return (
     <div className={styles.wrapper} onClick={onSectionExpand}>
-      <SearchCheckbox editable={editable} checked={section.checked} onClick={onSectionChecked} />
+      {/* <SearchCheckbox editable={editable} checked={section.checked} onClick={onSectionChecked} /> */}
 
       <div className={styles.icon}>
         <Icon name={getSectionIcon(section)} />
@@ -59,8 +55,8 @@ export const CustomSectionHeader: FC<SectionHeaderProps> = ({
         <a href={section.url} className={styles.link}>
           <Icon name="cog" />
         </a>
-      )}
-      {section.itemsFetching ? <Spinner /> : <Icon name={section.expanded ? 'angle-down' : 'angle-right'} />} */}
+      )} */}
+      {section.itemsFetching ? <Spinner /> : <Icon name={section.expanded ? 'angle-down' : 'angle-right'} />}
     </div>
   );
 };
