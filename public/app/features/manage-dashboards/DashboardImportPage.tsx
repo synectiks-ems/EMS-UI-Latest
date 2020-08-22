@@ -19,7 +19,8 @@ import { getNavModel } from 'app/core/selectors/navModel';
 import { StoreState } from 'app/types';
 import { FolderDTO } from 'app/types';
 // import { DashboardSection} from '../types';
-import ManageDashboards from '../search/components/CustomManageDashboards';
+// import ManageDashboards from '../search/components/ManageDashboards';
+import ManageDashboards from '../search/components/CustomManageFolder';
 import { config } from '../config';
 interface OwnProps {
   failedDashboards: any;
@@ -72,8 +73,9 @@ class DashboardImportUnConnected extends PureComponent<Props> {
     if (selFol !== null && selFol !== undefined) {
       section = JSON.parse(selFol);
     }
-    if (section.expanded) {
-      console.log(`DashboardImport selectedSection >> `, section);
+    console.log(`1 selected folder >> `, section);
+    if (!section.expanded) {
+      console.log(`2. DashboardImport selectedSection >> `, section);
       let url = new URLSearchParams(location.search);
       let id = url.get(`id`);
       let isFolder = url.get(`isFolder`);

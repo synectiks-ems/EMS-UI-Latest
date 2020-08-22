@@ -6,11 +6,8 @@ import { GrafanaTheme } from '@grafana/data';
 import { stylesFactory, useTheme, Spinner } from '@grafana/ui';
 import { DashboardSection, OnToggleChecked, SearchLayout } from '../types';
 import { SEARCH_ITEM_HEIGHT, SEARCH_ITEM_MARGIN } from '../constants';
-// import { SearchItem } from './SearchItem';
-import { CustomSearchItem } from './CustomSearchItem';
+import { SearchItem } from './SearchItem';
 import { CustomSectionHeader } from './CustomSectionHeader';
-// import { useLocalStorage } from 'react-use';
-// import { getSectionStorageKey } from '../utils';
 
 export interface Props {
   editable?: boolean;
@@ -27,26 +24,13 @@ export const CustomSearchResults: FC<Props> = ({
   loading,
   onTagSelected,
   onToggleChecked,
-  // onToggleSection,
+  onToggleSection,
   results,
   layout,
 }) => {
   const theme = useTheme();
   const styles = getSectionStyles(theme);
   const itemProps = { editable, onToggleChecked, onTagSelected };
-  // const setSectionExpanded = useLocalStorage(getSectionStorageKey(!section ? '' : section.title), true)[1];
-  const onToggleSection = (sec: any) => {
-    sec.expanded = !sec.expanded;
-    localStorage.setItem(`selectedSection`, JSON.stringify(sec));
-    // console.log(`onToggleSection folder selectedSection ---------- `, sec);
-    // for (let i = 0; i < results.length; i++) {
-    //   let item = results[i];
-    //   if (item.title !== sec.title) {
-    //     item.expanded = !item.expanded;
-    //   }
-    // }
-  };
-
   const renderFolders = () => {
     return (
       <div className={styles.wrapper}>
@@ -54,9 +38,9 @@ export const CustomSearchResults: FC<Props> = ({
           return (
             <div aria-label="Search section" className={styles.section} key={section.id || section.title}>
               <CustomSectionHeader onSectionClick={onToggleSection} {...{ onToggleChecked, editable, section }} />
-              {/* <div aria-label="Search items" className={styles.sectionItems}>
-                {section.expanded && section.items.map(item => <CustomSearchItem key={item.id} {...itemProps} item={item} />)}
-              </div> */}
+              <div aria-label="Search items" className={styles.sectionItems}>
+                {section.expanded && section.items.map(item => <SearchItem key={item.id} {...itemProps} item={item} />)}
+              </div>
             </div>
           );
         })}
@@ -84,7 +68,7 @@ export const CustomSearchResults: FC<Props> = ({
                 // And without this wrapper there is no room for that margin
                 return (
                   <div style={style}>
-                    <CustomSearchItem key={item.id} {...itemProps} item={item} />
+                    <SearchItem key={item.id} {...itemProps} item={item} />
                   </div>
                 );
               }}
