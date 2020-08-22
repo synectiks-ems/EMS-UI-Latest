@@ -110,6 +110,43 @@ export class CustomSideMenu extends PureComponent<any, any> {
       text: 'Metrics',
       cssClass: 'metrics',
       activeLink: 'plugins/xformation-perfmanager-ui-plugin',
+      subMenu: [
+        {
+          link: 'plugins/xformation-perfmanager-ui-plugin/page/catalog',
+          text: 'Catalog',
+          cssClass: 'metrics-catalog',
+          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/catalog',
+          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
+        },
+        {
+          link: 'plugins/xformation-perfmanager-ui-plugin/page/library',
+          text: 'Library',
+          cssClass: 'metrics-library',
+          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/library',
+          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
+        },
+        {
+          link: 'plugins/xformation-perfmanager-ui-plugin/page/collection',
+          text: 'Collection',
+          cssClass: 'metrics-collection',
+          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/collection',
+          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
+        },
+        {
+          link: 'plugins/xformation-alertmanager-ui-plugin/page/managealertrule',
+          text: 'Rule',
+          cssClass: 'metrics-rule',
+          activeSLink: 'plugins/xformation-alertmanager-ui-plugin/page/managealertrule',
+          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
+        },
+        {
+          link: 'plugins/xformation-perfmanager-ui-plugin/page/preferences',
+          text: 'Preferences',
+          cssClass: 'metrics-preferences',
+          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/preferences',
+          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
+        },
+      ],
     },
     {
       link: '/logs',
