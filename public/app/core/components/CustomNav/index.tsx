@@ -44,7 +44,14 @@ export class CustomNavigationBar extends PureComponent<any, any> {
           </label>
           {showSearch && (
             <React.Fragment>
-              <div className="search-menu"></div>
+              <div className="search-menu">
+                <ul>
+                  <li>
+                    <i className="fa fa-search"></i>
+                    <a href="/plugins/xformation-alertmanager-ui-plugin/page/monitoralerts">Monitor alerts</a>
+                  </li>
+                </ul>
+              </div>
               <div className="search-backdrop" onClick={this.onClickBackdrop}></div>
             </React.Fragment>
           )}
