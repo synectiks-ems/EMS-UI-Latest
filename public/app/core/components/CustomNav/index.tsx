@@ -48,7 +48,7 @@ export class CustomNavigationBar extends PureComponent<any, any> {
                 <ul>
                   <li>
                     <i className="fa fa-search"></i>
-                    <a href="/plugins/xformation-alertmanager-ui-plugin/page/monitoralerts">Monitor alerts</a>
+                    <a href="/plugins/xformation-alertmanager-ui-plugin/page/searchalert">Monitor alerts</a>
                   </li>
                 </ul>
               </div>
