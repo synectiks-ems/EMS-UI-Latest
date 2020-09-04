@@ -126,10 +126,10 @@ export class CustomSideMenu extends PureComponent<any, any> {
           activeLink: 'plugins/xformation-perfmanager-ui-plugin',
         },
         {
-          link: 'plugins/xformation-perfmanager-ui-plugin/page/collection',
+          link: 'plugins/xformation-perfmanager-ui-plugin/page/collectionview',
           text: 'Collection',
           cssClass: 'metrics-collection',
-          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/collection',
+          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/collectionview',
           activeLink: 'plugins/xformation-perfmanager-ui-plugin',
         },
         {
