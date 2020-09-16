@@ -63,8 +63,15 @@ type Props = OwnProps & ConnectedProps & DispatchProps;
 export class PanelEditorUnconnected extends PureComponent<Props> {
   querySubscription: Unsubscribable;
 
+  showOptions = true;
   componentDidMount() {
     this.props.initPanelEditor(this.props.sourcePanel, this.props.dashboard);
+    let removeOptions: any = this.props.location.query.removeOptions;
+    if (parseInt(removeOptions, 10) === 1) {
+      this.showOptions = false;
+      const { updatePanelEditorUIState } = this.props;
+      updatePanelEditorUIState({ isPanelOptionsVisible: false });
+    }
   }
 
   componentWillUnmount() {
@@ -235,7 +242,7 @@ export class PanelEditorUnconnected extends PureComponent<Props> {
               location={location}
               onChangeTimeZone={updateTimeZoneForSession}
             />
-            {!uiState.isPanelOptionsVisible && (
+            {!uiState.isPanelOptionsVisible && this.showOptions && (
               <DashNavButton
                 onClick={this.onTogglePanelOptions}
                 tooltip="Open options pane"
@@ -338,7 +345,7 @@ export class PanelEditorUnconnected extends PureComponent<Props> {
 
     return (
       <div className={styles.wrapper} aria-label={selectors.components.PanelEditor.General.content}>
-        {this.editorToolbar(styles)}
+        {this.showOptions ? this.editorToolbar(styles) : ''}
         <div className={styles.verticalSplitPanesWrapper}>
           {uiState.isPanelOptionsVisible ? this.renderWithOptionsPane(styles) : this.renderHorizontalSplit(styles)}
         </div>
