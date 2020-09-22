@@ -192,7 +192,7 @@ export class PanelEditorUnconnected extends PureComponent<Props> {
   };
   renderHorizontalSplit(styles: EditorStyles) {
     const { dashboard, panel, tabs, uiState } = this.props;
-    return tabs.length > 0 ? (
+    return tabs.length > 0 && this.showOptions ? (
       <SplitPane
         split="horizontal"
         minSize={200}
