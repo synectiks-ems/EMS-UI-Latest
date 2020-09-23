@@ -2,6 +2,7 @@ package notifiers
 
 import (
 	"strconv"
+	"time"
 
 	"fmt"
 
@@ -95,12 +96,21 @@ func (kn *KafkaNotifier) Notify(evalContext *alerting.EvalContext) error {
 
 	bodyJSON := simplejson.New()
 	//get alert state in the kafka output issue #11401
-	bodyJSON.Set("alert_state", state)
+	//bodyJSON.Set("alert_state", state)
+	bodyJSON.Set("alert_state", "New")
 	bodyJSON.Set("description", evalContext.Rule.Name+" - "+evalContext.Rule.Message)
 	bodyJSON.Set("client", "Grafana")
 	bodyJSON.Set("details", customData)
 	bodyJSON.Set("incident_key", "alertId-"+strconv.FormatInt(evalContext.Rule.ID, 10))
-
+	tags := evalContext.Rule.AlertRuleTags
+	if tags != nil {
+		for _, tag := range tags {
+			kn.log.Info("tag : ", tag)
+			bodyJSON.Set(tag.Key, tag.Value)
+		}
+	}
+	a, _ := evalContext.GetDashboardUID()
+	bodyJSON.Set("guid", a.Uid+fmt.Sprint(time.Now()))
 	ruleURL, err := evalContext.GetRuleURL()
 	if err != nil {
 		kn.log.Error("Failed get rule link", "error", err)
