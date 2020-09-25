@@ -58,6 +58,8 @@ import * as homeLinksPanel from 'app/plugins/panel/homelinks/module';
 import * as welcomeBanner from 'app/plugins/panel/welcome/module';
 import * as analytics from 'app/plugins/panel/analytics/module';
 import * as BadgeDataSourcPanel from 'app/plugins/panel/badge-data-source/module';
+import * as AnalyticsDataSourcePanel from 'app/plugins/panel/analytics-data-source/module';
+import * as PieChartDataSource from 'app/plugins/panel/pie-chart-data-source/module';
 
 const builtInPlugins: any = {
   'app/plugins/datasource/graphite/module': graphitePlugin,
@@ -101,6 +103,8 @@ const builtInPlugins: any = {
   'app/plugins/panel/welcome/module': welcomeBanner,
   'app/plugins/panel/analytics/module': analytics,
   'app/plugins/panel/badge-data-source/module': BadgeDataSourcPanel,
+  'app/plugins/panel/analytics-data-source/module': AnalyticsDataSourcePanel,
+  'app/plugins/panel/pie-chart-data-source/module': PieChartDataSource,
 };
 
 export default builtInPlugins;

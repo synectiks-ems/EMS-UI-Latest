@@ -1,0 +1,36 @@
+<div class="gf-form-group" style="margin-bottom: 10px;">
+	<div class="gf-form-inline">
+		<div class="gf-form">
+			<span class="gf-form-label width-10">Label</span>
+			<input class="gf-form-input" type="text" ng-model="editor.label" ng-change="editor.onChangeLabel()" />
+		</div>
+	</div>
+	<div class="gf-form-inline">
+		<div class="gf-form">
+			<span class="gf-form-label width-10">Label Regex: </span>
+			<input class="gf-form-input" type="text" ng-model="editor.regex" ng-change="editor.onChangeRegex()" />
+		</div>
+	</div>
+	<gf-form-switch class="gf-form" label="Case Sensitive" tooltip="" checked="editor.caseSensitive" label-class="width-12"
+		on-change="editor.onChangeCaseSensitive()">
+	</gf-form-switch>
+	<gf-form-switch class="gf-form" label="Global" tooltip="" checked="editor.global" label-class="width-12"
+		on-change="editor.onChangeGlobal()">
+	</gf-form-switch>
+	<div class="gf-form-inline">
+		<div class="gf-form">
+			<span class="gf-form-label width-10">Key Regex: </span>
+			<input class="gf-form-input" type="text" ng-model="editor.keyRegex" ng-change="editor.onChangeKeyRegex()" />
+		</div>
+	</div>
+</div>
+
+
+
+<div class="editor-row">
+	<div class="gf-form">
+		<button class="btn btn-success" ng-click="editor.render()">
+			Render
+		</button>
+	</div>
+</div>

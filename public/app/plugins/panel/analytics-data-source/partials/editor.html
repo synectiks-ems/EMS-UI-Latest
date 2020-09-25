@@ -1,0 +1,103 @@
+<div class="gf-form-group">
+	<div class="gf-form-inline">
+		<div class="gf-form">
+			<span class="gf-form-label width-10">Title</span>
+			<input class="gf-form-input" type="text" ng-model="editor.chartTitle"
+				ng-change="editor.onChangeChartTitle()" />
+		</div>
+	</div>
+	<div class="gf-form-inline">
+		<div class="gf-form">
+			<span class="gf-form-label width-10">X-Axis Label</span>
+			<input class="gf-form-input" type="text" ng-model="editor.xAxisLabel"
+				ng-change="editor.onChangeXAxisLabel()" />
+		</div>
+	</div>
+	<div class="gf-form-inline">
+		<div class="gf-form">
+			<span class="gf-form-label width-10">Y-Axis Label</span>
+			<input class="gf-form-input" type="text" ng-model="editor.yAxisLabel"
+				ng-change="editor.onChangeYAxisLabel()" />
+		</div>
+	</div>
+</div>
+
+<div class="editor-row">
+	<div class="section gf-form-group">
+		<h5 class="section-heading">Line data set info:</h5>
+		<div class="gf-form">
+			<label class="gf-form-label width-12">Label</label>
+			<input type="text" class="gf-form-input max-width-20" bs-tooltip="" ng-model="editor.lineDataSetInfo.label"
+				ng-change="editor.onChangeLineDataSetInfo()" />
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-12">Border Color:</label>
+			<input type="text" class="gf-form-input max-width-20" bs-tooltip="" ng-model="editor.lineDataSetInfo.borderColor"
+				ng-change="editor.onChangeLineDataSetInfo()" />
+		</div>
+		<gf-form-switch class="gf-form" label="Show Line"
+			tooltip=""
+			checked="editor.lineDataSetInfo.showLine" label-class="width-12" on-change="editor.onChangeLineDataSetInfo()">
+		</gf-form-switch>
+	</div>
+	<div class="section gf-form-group">
+		<h5 class="section-heading">Bar data set info:</h5>
+		<div class="gf-form">
+			<label class="gf-form-label width-12">Label</label>
+			<input type="text" class="gf-form-input max-width-20" bs-tooltip="" ng-model="editor.dataSetInfo.label"
+				ng-change="editor.onChangeDataSetInfo()" />
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-12">Background Color:</label>
+			<input type="text" class="gf-form-input max-width-20" bs-tooltip="" ng-model="editor.dataSetInfo.backgroundColor"
+				ng-change="editor.onChangeDataSetInfo()" />
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-12">Border Color:</label>
+			<input type="text" class="gf-form-input max-width-20" bs-tooltip="" ng-model="editor.dataSetInfo.borderColor"
+				ng-change="editor.onChangeDataSetInfo()" />
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-12">Y axis Min:</label>
+			<input type="text" class="gf-form-input max-width-20" bs-tooltip="" ng-model="editor.dataSetInfo.minY"
+				ng-change="editor.onChangeDataSetInfo()" />
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-12">Y axis Max:</label>
+			<input type="text" class="gf-form-input max-width-20" bs-tooltip="" ng-model="editor.dataSetInfo.maxY"
+				ng-change="editor.onChangeDataSetInfo()" />
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-12">Step Size:</label>
+			<input type="text" class="gf-form-input max-width-20" bs-tooltip="" ng-model="editor.dataSetInfo.stepSize"
+				ng-change="editor.onChangeDataSetInfo()" />
+		</div>
+		<gf-form-switch class="gf-form" label="Fill"
+			tooltip=""
+			checked="editor.dataSetInfo.fill" label-class="width-12" on-change="editor.onChangeDataSetInfo()">
+		</gf-form-switch>
+		<div class="gf-form-inline">
+			<div class="gf-form">
+				<span class="gf-form-label width-10">Label Regex: </span>
+				<input class="gf-form-input" type="text" ng-model="editor.dataSetInfo.regex" ng-change="editor.onChangeDataSetInfo()" />
+			</div>
+		</div>
+		<div class="gf-form-inline">
+			<div class="gf-form">
+				<span class="gf-form-label width-10">Maximum Label Length: </span>
+				<input class="gf-form-input" type="text" ng-model="editor.dataSetInfo.maxLength" ng-change="editor.onChangeDataSetInfo()" />
+			</div>
+		</div>
+		<gf-form-switch class="gf-form" label="Case Sensitive" tooltip="" checked="editor.dataSetInfo.caseSensitive" label-class="width-12"
+			on-change="editor.onChangeDataSetInfo()">
+		</gf-form-switch>
+		<gf-form-switch class="gf-form" label="Global" tooltip="" checked="editor.dataSetInfo.global" label-class="width-12"
+			on-change="editor.onChangeDataSetInfo()">
+		</gf-form-switch>
+	</div>
+	<div class="gf-form">
+		<button class="btn btn-success" ng-click="editor.render()">
+			Render
+		</button>
+	</div>
+</div>

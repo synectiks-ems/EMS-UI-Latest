@@ -1,0 +1,18 @@
+{
+  "type": "panel",
+  "name": "Pie Data Source",
+  "id": "pie-chart-data-source",
+
+  "info": {
+    "description": "Pie Data Source",
+    "author": {
+      "name": "Pie Data Source",
+      "url": "https://grafana.com"
+    },
+    "logos": {
+      "small": "img/icn-singlestat-panel.svg",
+      "large": "img/icn-singlestat-panel.svg"
+    },
+    "version": "5.0.0"
+  }
+}

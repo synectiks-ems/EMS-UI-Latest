@@ -1,0 +1,18 @@
+{
+  "type": "panel",
+  "name": "Analytics Data Source Panel",
+  "id": "analytics-data-source",
+
+  "info": {
+    "description": "Analytics of given data source",
+    "author": {
+      "name": "Grafana Project",
+      "url": "https://grafana.com"
+    },
+    "logos": {
+      "small": "img/icn-graph-panel.svg",
+      "large": "img/icn-graph-panel.svg"
+    },
+    "version": "5.0.0"
+  }
+}
