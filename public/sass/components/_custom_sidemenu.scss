@@ -249,7 +249,7 @@ textarea {
       background-image: url('../img/monitor-icons/menu-new-alert-rule.svg');
     }
 
-    .compliance{
+    .compliance {
       background-image: url('../img/monitor-icons/dashboard.svg');
     }
 
@@ -281,7 +281,7 @@ textarea {
       background-image: url('../img/monitor-icons/dashboard.svg');
     }
 
-    .tickets{
+    .tickets {
       background-image: url('../img/monitor-icons/ticket.svg');
       height: 15px;
       margin-top: 2px;
@@ -316,9 +316,6 @@ textarea {
       height: 15px;
       margin-top: 2px;
     }
-
-
-
   }
 }
 
@@ -357,6 +354,7 @@ textarea {
           width: 220px;
           list-style: none;
           box-shadow: rgb(59, 72, 89) 2px 0px 6px -2px;
+
           li {
             display: block;
             padding: 0;

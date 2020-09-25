@@ -1,0 +1,20 @@
+<div class="gf-form-group" style="margin-bottom: 10px;">
+	<div class="gf-form">
+		<span class="gf-form-label width-10">Label Regex</span>
+		<input class="gf-form-input" type="text" ng-model="editor.labelRegex"
+			ng-change="editor.onChangeLabelRegex()" />
+	</div>
+	<div class="gf-form">
+		<span class="gf-form-label width-10">Key Regex</span>
+		<input class="gf-form-input" type="text" ng-model="editor.keyRegex"
+			ng-change="editor.onChangeKeyRegex()" />
+	</div>
+</div>
+
+<div class="editor-row">
+	<div class="gf-form">
+		<button class="btn btn-success" ng-click="editor.render()">
+			Render
+		</button>
+	</div>
+</div>

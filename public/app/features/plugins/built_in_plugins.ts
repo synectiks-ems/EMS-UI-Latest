@@ -57,6 +57,7 @@ import * as newsPanel from 'app/plugins/panel/news/module';
 import * as homeLinksPanel from 'app/plugins/panel/homelinks/module';
 import * as welcomeBanner from 'app/plugins/panel/welcome/module';
 import * as analytics from 'app/plugins/panel/analytics/module';
+import * as BadgeDataSourcPanel from 'app/plugins/panel/badge-data-source/module';
 
 const builtInPlugins: any = {
   'app/plugins/datasource/graphite/module': graphitePlugin,
@@ -99,6 +100,7 @@ const builtInPlugins: any = {
   'app/plugins/panel/homelinks/module': homeLinksPanel,
   'app/plugins/panel/welcome/module': welcomeBanner,
   'app/plugins/panel/analytics/module': analytics,
+  'app/plugins/panel/badge-data-source/module': BadgeDataSourcPanel,
 };
 
 export default builtInPlugins;
