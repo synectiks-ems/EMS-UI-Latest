@@ -73,239 +73,97 @@ export class CustomSideMenu extends PureComponent<any, any> {
   mainMenu: any = [
     {
       link: '/',
-      text: 'Overview',
-      cssClass: 'overview',
+      text: 'Dashboard',
+      cssClass: 'dashboard',
       activeLink: '/',
     },
     {
-      link: '/activity-log',
-      text: 'Activity Log',
-      cssClass: 'activity-log',
-      activeLink: '/activity-log',
+      link: '/',
+      text: 'Preference',
+      cssClass: 'preference',
+      activeLink: '/',
     },
     {
-      link: '/plugins/xformation-alertmanager-ui-plugin/page/monitoralerts',
-      text: 'Alerts',
-      cssClass: 'alerts',
-      activeLink: 'plugins/xformation-alertmanager-ui-plugin',
-      subMenu: [
-        {
-          link: '/plugins/xformation-alertmanager-ui-plugin/page/monitoralerts',
-          text: 'Dashboard',
-          cssClass: 'dashboard',
-          activeSLink: 'plugins/xformation-alertmanager-ui-plugin/page/monitoralerts',
-          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
-        },
-        {
-          link: '/plugins/xformation-alertmanager-ui-plugin/page/alertrulebuilder',
-          text: 'New Alert Rule',
-          cssClass: 'new-alert-rule',
-          activeSLink: 'plugins/xformation-alertmanager-ui-plugin/page/alertrulebuilder',
-          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
-        },
-      ],
+      link: '/',
+      text: 'Admission',
+      cssClass: 'admission',
+      activeLink: '/',
     },
     {
-      link: 'plugins/xformation-perfmanager-ui-plugin/page/managedashboard',
-      text: 'Metrics',
-      cssClass: 'metrics',
-      activeLink: 'plugins/xformation-perfmanager-ui-plugin',
-      subMenu: [
-        {
-          link: 'plugins/xformation-perfmanager-ui-plugin/page/catalog',
-          text: 'Catalog',
-          cssClass: 'metrics-catalog',
-          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/catalog',
-          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
-        },
-        {
-          link: 'plugins/xformation-perfmanager-ui-plugin/page/library',
-          text: 'Library',
-          cssClass: 'metrics-library',
-          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/library',
-          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
-        },
-        {
-          link: 'plugins/xformation-perfmanager-ui-plugin/page/collectionview',
-          text: 'Collection',
-          cssClass: 'metrics-collection',
-          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/collectionview',
-          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
-        },
-        {
-          link: 'plugins/xformation-alertmanager-ui-plugin/page/managealertrule',
-          text: 'Rule',
-          cssClass: 'metrics-rule',
-          activeSLink: 'plugins/xformation-alertmanager-ui-plugin/page/managealertrule',
-          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
-        },
-        {
-          link: 'plugins/xformation-perfmanager-ui-plugin/page/preferences',
-          text: 'Preferences',
-          cssClass: 'metrics-preferences',
-          activeSLink: 'plugins/xformation-perfmanager-ui-plugin/page/preferences',
-          activeLink: 'plugins/xformation-perfmanager-ui-plugin',
-        },
-      ],
+      link: '/',
+      text: 'Attendance',
+      cssClass: 'attendance',
+      activeLink: '/',
     },
     {
-      link: '/logs',
-      text: 'Logs',
-      cssClass: 'logs',
-      activeLink: '/logs',
+      link: '/',
+      text: 'Exam',
+      cssClass: 'exam',
+      activeLink: '/',
     },
     {
-      link: '/service-health',
-      text: 'Service Health',
-      cssClass: 'service-health',
-      activeLink: '/service-health',
+      link: '/',
+      text: 'Fee',
+      cssClass: 'fee',
+      activeLink: '/',
     },
     {
-      link: '/workbooks',
-      text: 'Workbooks',
-      cssClass: 'workbooks',
-      activeLink: '/workbooks',
+      link: '/',
+      text: 'Library',
+      cssClass: 'library',
+      activeLink: '/',
     },
     {
-      link: 'plugins/xformation-compliancemanager-ui-plugin/page/dashboard',
-      text: 'Compliance',
-      cssClass: 'compliance',
-      activeLink: 'plugins/xformation-compliancemanager-ui-plugin',
-      subMenu: [
-        {
-          link: 'plugins/xformation-compliancemanager-ui-plugin/page/dashboard',
-          text: 'Dashboard',
-          cssClass: 'compliance-dashboard',
-          activeSLink: 'plugins/xformation-compliancemanager-ui-plugin/page/dashboard',
-          activeLink: 'plugins/xformation-compliancemanager-ui-plugin',
-        },
-        {
-          link: 'plugins/xformation-compliancemanager-ui-plugin/page/compliancerulesets',
-          text: 'Compliance Rulesets',
-          cssClass: 'compliance-rulesets',
-          activeSLink: 'plugins/xformation-compliancemanager-ui-plugin/page/compliancerulesets',
-          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
-        },
-        {
-          link: '/gsl-builder',
-          text: 'GSL Builder',
-          cssClass: 'compliance-builder',
-          activeSLink: '',
-          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
-        },
-        {
-          link: 'plugins/xformation-compliancemanager-ui-plugin/page/complianceremediation',
-          text: 'Remediation',
-          cssClass: 'compliance-remediation',
-          activeSLink: 'plugins/xformation-compliancemanager-ui-plugin/page/complianceremediation',
-          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
-        },
-        {
-          link: 'plugins/xformation-compliancemanager-ui-plugin/page/complianceassessmenthistory',
-          text: 'Assessment History',
-          cssClass: 'compliance-assessment',
-          activeSLink: 'plugins/xformation-compliancemanager-ui-plugin/page/complianceassessmenthistory',
-          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
-        },
-        {
-          link: 'plugins/xformation-compliancemanager-ui-plugin/page/complianceexclusions',
-          text: 'Exclusions',
-          cssClass: 'compliance-exclusions',
-          activeSLink: 'plugins/xformation-compliancemanager-ui-plugin/page/complianceexclusions',
-          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
-        },
-        {
-          link: 'plugins/xformation-compliancemanager-ui-plugin/page/compliancepolicy',
-          text: 'Compliance Policies',
-          cssClass: 'compliance-exclusions',
-          activeSLink: 'plugins/xformation-compliancemanager-ui-plugin/page/compliancepolicy',
-          activeLink: 'plugins/xformation-alertmanager-ui-plugin',
-        },
-      ],
+      link: '/',
+      text: 'Transport',
+      cssClass: 'transport',
+      activeLink: '/',
     },
     {
-      link: 'plugins/xformation-servicedesk-ui-plugin/page/dashboard',
-      text: 'Tickets',
-      cssClass: 'tickets',
-      activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
-      subMenu: [
-        {
-          link: 'plugins/xformation-servicedesk-ui-plugin/page/dashboard',
-          text: 'Dashboard',
-          cssClass: 'tickets-dashboard',
-          activeSLink: 'plugins/xformation-servicedesk-ui-plugin/page/dashboard',
-          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
-        },
-        {
-          link: 'plugins/xformation-servicedesk-ui-plugin/page/allcontacts',
-          text: 'Contacts',
-          cssClass: 'tickets-contacts',
-          activeSLink: 'plugins/xformation-servicedesk-ui-plugin/page/allcontacts',
-          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
-        },
-        {
-          link: 'plugins/xformation-servicedesk-ui-plugin/page/allcompanies',
-          text: 'Companies',
-          cssClass: 'tickets-companies',
-          activeSLink: 'plugins/xformation-servicedesk-ui-plugin/page/allcompanies',
-          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
-        },
-        {
-          link: 'plugins/xformation-servicedesk-ui-plugin/page/tickets',
-          text: 'Reports',
-          cssClass: 'tickets-reports',
-          activeSLink: 'plugins/xformation-servicedesk-ui-plugin/page/tickets',
-          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
-        },
-        {
-          link: 'plugins/xformation-servicedesk-ui-plugin/page/opentickets',
-          text: 'Preferences',
-          cssClass: 'tickets-preferences',
-          activeSLink: 'plugins/xformation-servicedesk-ui-plugin/page/opentickets',
-          activeLink: 'plugins/xformation-servicedesk-ui-plugin/',
-        },
-      ],
-    },
-  ];
-  insights: any = [
-    {
-      link: '/applications',
-      text: 'Applications',
-      cssClass: 'applications',
-      activeLink: '/applications',
+      link: '/',
+      text: 'Student',
+      cssClass: 'student',
+      activeLink: '/',
     },
     {
-      link: '/virtual-machines',
-      text: 'Virtual Machines',
-      cssClass: 'virtual-machines',
-      activeLink: '/virtual-machines',
-    },
-    {
-      link: '/networks',
-      text: 'Networks (preview)',
+      link: '/',
+      text: 'Networks(Preview)',
       cssClass: 'networks',
-      activeLink: '/networks',
-    },
-    {
-      link: '/jobs',
-      text: 'Jobs',
-      cssClass: 'jobs',
-      activeLink: '/jobs',
+      activeLink: '/',
     },
   ];
+  // insights: any = [
+  //   {
+  //     link: '/applications',
+  //     text: 'Applications',
+  //     cssClass: 'applications',
+  //     activeLink: '/applications',
+  //   },
+  //   {
+  //     link: '/virtual-machines',
+  //     text: 'Virtual Machines',
+  //     cssClass: 'virtual-machines',
+  //     activeLink: '/virtual-machines',
+  //   },
+  //   {
+  //     link: '/networks',
+  //     text: 'Networks (preview)',
+  //     cssClass: 'networks',
+  //     activeLink: '/networks',
+  //   },
+  //   {
+  //     link: '/jobs',
+  //     text: 'Jobs',
+  //     cssClass: 'jobs',
+  //     activeLink: '/jobs',
+  //   },
+  // ];
   settings: any = [
     {
-      link: '/diagnostic-settings',
-      text: 'Diagnostic Settings',
-      cssClass: 'diagnostic-settings',
-      activeLink: '/diagnostic-settings',
-    },
-    {
-      link: '/plugins/xformation-rbac-ui-plugin/page/home',
-      text: 'RBAC Settings',
-      cssClass: 'diagnostic-settings',
-      activeSLink: '/plugins/xformation-rbac-ui-plugin/page/home',
-      activeLink: '/plugins/xformation-rbac-ui-plugin',
+      link: '/',
+      text: 'Preference',
+      cssClass: 'preference',
+      activeLink: '/',
     },
   ];
 
@@ -431,8 +289,8 @@ export class CustomSideMenu extends PureComponent<any, any> {
             </div>
           </div>
           <ul>{this.createOpenMenu(this.mainMenu)}</ul>
-          <div className="menu-item-header">INSIGHTS</div>
-          <ul>{this.createOpenMenu(this.insights)}</ul>
+          {/* <div className="menu-item-header">INSIGHTS</div>
+          <ul>{this.createOpenMenu(this.insights)}</ul> */}
           <div className="menu-item-header">SETTINGS</div>
           <ul>{this.createOpenMenu(this.settings)}</ul>
         </div>
@@ -444,8 +302,8 @@ export class CustomSideMenu extends PureComponent<any, any> {
           </div>
           <ul>{this.createCloseMenu(this.mainMenu)}</ul>
           <div className="menu-item-header"></div>
-          <ul>{this.createCloseMenu(this.insights)}</ul>
-          <div className="menu-item-header"></div>
+          {/* <ul>{this.createCloseMenu(this.insights)}</ul> */}
+          {/* <div className="menu-item-header"></div> */}
           <ul>{this.createCloseMenu(this.settings)}</ul>
         </div>
       </div>,
