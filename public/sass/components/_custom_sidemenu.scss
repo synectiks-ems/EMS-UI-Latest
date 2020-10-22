@@ -163,6 +163,8 @@ textarea {
       width: 20px;
       height: 20px;
       background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left center;
       vertical-align: top;
     }
 
@@ -173,148 +175,44 @@ textarea {
       vertical-align: top;
     }
 
-    .overview {
-      background-image: url('../img/monitor-icons/overview.svg');
+    .dashboard {
+      background-image: url('../img/monitor-icons/Dashboard.svg');
     }
 
-    .activity-log {
-      background-image: url('../img/monitor-icons/activity-log.svg');
+    .preference {
+      background-image: url('../img/monitor-icons/Preference.svg');
     }
 
-    .alerts {
-      background-image: url('../img/monitor-icons/alerts.svg');
+    .admission {
+      background-image: url('../img/monitor-icons/Admission.svg');
     }
 
-    .metrics {
-      background-image: url('../img/monitor-icons/metrics.svg');
+    .attendance {
+      background-image: url('../img/monitor-icons/Attendance.svg');
     }
 
-    .metrics-catalog {
-      background-image: url('../img/monitor-icons/metrics.svg');
+    .exam {
+      background-image: url('../img/monitor-icons/Exam.svg');
     }
 
-    .metrics-library {
-      background-image: url('../img/monitor-icons/metrics.svg');
+    .fee {
+      background-image: url('../img/monitor-icons/Fee.svg');
     }
 
-    .metrics-collection {
-      background-image: url('../img/monitor-icons/metrics.svg');
+    .library {
+      background-image: url('../img/monitor-icons/Library.svg');
     }
 
-    .metrics-rule {
-      background-image: url('../img/monitor-icons/metrics.svg');
+    .transport {
+      background-image: url('../img/monitor-icons/Transport.svg');
     }
 
-    .metrics-preferences {
-      background-image: url('../img/monitor-icons/metrics.svg');
-    }
-
-    .logs {
-      background-image: url('../img/monitor-icons/logs.svg');
-    }
-
-    .service-health {
-      background-image: url('../img/monitor-icons/service-health.svg');
-    }
-
-    .workbooks {
-      background-image: url('../img/monitor-icons/workbooks.svg');
-    }
-
-    .applications {
-      background-image: url('../img/monitor-icons/applications.svg');
-    }
-
-    .virtual-machines {
-      background-image: url('../img/monitor-icons/virtual-machines.svg');
+    .student {
+      background-image: url('../img/monitor-icons/Student.svg');
     }
 
     .networks {
       background-image: url('../img/monitor-icons/networks.svg');
-    }
-
-    .jobs {
-      background-image: url('../img/monitor-icons/jobs.svg');
-    }
-
-    .diagnostic-settings {
-      background-image: url('../img/monitor-icons/diagnostic-settings.svg');
-    }
-
-    .dashboard {
-      background-image: url('../img/monitor-icons/dashboard.svg');
-    }
-
-    .new-alert-rule {
-      background-image: url('../img/monitor-icons/menu-new-alert-rule.svg');
-    }
-
-    .compliance {
-      background-image: url('../img/monitor-icons/dashboard.svg');
-    }
-
-    .compliance-dashboard {
-      background-image: url('../img/monitor-icons/dashboard.svg');
-    }
-
-    .compliance-rulesets {
-      background-image: url('../img/monitor-icons/dashboard.svg');
-    }
-
-    .compliance-builder {
-      background-image: url('../img/monitor-icons/dashboard.svg');
-    }
-
-    .compliance-remediation {
-      background-image: url('../img/monitor-icons/dashboard.svg');
-    }
-
-    .compliance-assessment {
-      background-image: url('../img/monitor-icons/dashboard.svg');
-    }
-
-    .compliance-exclusions {
-      background-image: url('../img/monitor-icons/dashboard.svg');
-    }
-
-    .compliance-exclusions {
-      background-image: url('../img/monitor-icons/dashboard.svg');
-    }
-
-    .tickets {
-      background-image: url('../img/monitor-icons/ticket.svg');
-      height: 15px;
-      margin-top: 2px;
-    }
-
-    .tickets-dashboard {
-      background-image: url('../img/monitor-icons/ticket.svg');
-      height: 15px;
-      margin-top: 2px;
-    }
-
-    .tickets-contacts {
-      background-image: url('../img/monitor-icons/ticket.svg');
-      height: 15px;
-      margin-top: 2px;
-    }
-
-    .tickets-companies {
-      background-image: url('../img/monitor-icons/ticket.svg');
-      height: 15px;
-      margin-top: 2px;
-    }
-
-    .tickets-reports {
-      background-image: url('../img/monitor-icons/ticket.svg');
-      height: 15px;
-      margin-top: 2px;
-    }
-
-    .tickets-preferences {
-      background-image: url('../img/monitor-icons/ticket.svg');
-      height: 15px;
-      margin-top: 2px;
     }
   }
 }
