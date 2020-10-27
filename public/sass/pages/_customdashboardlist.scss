@@ -71,7 +71,7 @@
     margin: 0 0 10px 0;
   }
   .nav-link {
-    color: #d8d9da;
+    color: $gray-1;
     &.active {
       border-bottom: 2px solid $dashboard-nav-link-active-border-color;
       color: $dashboard-nav-link-active-text-color;
@@ -83,6 +83,13 @@
       &:hover {
         border-bottom: 2px solid $dashboard-nav-link-active-border-color;
       }
+    }
+  }
+}
+.theme-dark {
+  .monitor-main-body {
+    .nav-link {
+      color: $gray-6;
     }
   }
 }
