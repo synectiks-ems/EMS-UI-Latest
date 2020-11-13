@@ -13,7 +13,8 @@ import { ILocationProvider, route } from 'angular';
 import { DashboardRouteInfo } from 'app/types';
 import { SafeDynamicImport } from '../core/components/DynamicImports/SafeDynamicImport';
 
-const overviewPage = () => SafeDynamicImport(import(/* webpackChunkName: "DashboardPage" */ '../features/overview'));
+const overviewPage = () =>
+  SafeDynamicImport(import(/* webpackChunkName: "DashboardPage" */ '../features/dashboard-landing-page'));
 
 /** @ngInject */
 export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locationProvider: ILocationProvider) {
