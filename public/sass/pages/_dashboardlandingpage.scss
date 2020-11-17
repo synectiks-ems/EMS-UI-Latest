@@ -1,3 +1,45 @@
 .dashboard-landing-page {
-    width: 100%; //This is just temp. remove widht: 100%
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #ffffff;
+    border-top: 2px solid #f9fafc;
+    .nav-tabs{
+        border-bottom: none;
+        margin-left: 30px;
+        margin-bottom: 0px;
+        > li{
+            margin-right: 5px;
+            margin-bottom: 5px;
+            > a{
+                background-color: #f1f5f9;
+                border: 1px solid #f1f5f9;
+                left: 0;
+                margin: 0;
+                padding: 5px 15px;
+                font-size: 12px;
+                font-weight: 500;
+                color: #464c54;
+                line-height: 18px;
+                border-radius: 2px;
+                &:hover{
+                    color: #f1f5f9;
+                    border: 1px solid #3274d9;
+                    background: linear-gradient(180deg,#3274d9 0%,#1f60c4 100%);
+                }
+                &.active{
+                    color: #f1f5f9;
+                    border: 1px solid #3274d9;
+                    background: linear-gradient(180deg,#3274d9 0%,#1f60c4 100%);
+                }
+                i{
+                    display: inline-block;
+                    margin-right: 7px;
+                }
+            }
+        }
+    }
 }

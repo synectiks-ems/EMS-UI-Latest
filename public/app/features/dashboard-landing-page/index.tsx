@@ -76,6 +76,7 @@ class DashboardList extends React.Component<Props, State> {
               this.toggleTab(i);
             }}
           >
+            <i className="fa fa-cog"></i>
             {dash.title}
           </NavLink>
         </NavItem>
